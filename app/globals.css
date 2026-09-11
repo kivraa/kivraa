@@ -1,0 +1,330 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+/* ============================================================================
+   KIVRAA — MOBILE ONLY (max-width 1023px)
+   Desktop (>=1024px) is untouched: everything below is inert there.
+   ========================================================================== */
+@media (max-width: 1023px) {
+  /* ---- mobile notes presentation ---- */
+  #generated-notes {
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 20px;
+    padding-bottom: 28px;
+    overflow-x: clip;
+  }
+
+  #generated-notes .kivraa-page-body {
+    padding: 26px 18px 30px;
+  }
+
+  #generated-notes .kivraa-note-title {
+    font-family: var(--font-kivraa-hand), var(--font-geist-sans), sans-serif;
+    font-size: 26px;
+    line-height: 1.08;
+  }
+
+  #generated-notes button.rounded-xl {
+    min-height: 44px;
+    touch-action: manipulation;
+  }
+
+  /* ---- mobile note typography & compactness ---- */
+  .mk-note-body {
+    font-family: var(--font-kivraa-hand), var(--font-geist-sans), sans-serif;
+    font-size: 16.5px;
+    line-height: 1.6;
+    color: #26384b;
+  }
+
+  .mk-table {
+    font-family: var(--font-geist-sans), system-ui, sans-serif;
+  }
+
+  #generated-notes .mk-note-body h1 {
+    font-size: 23px;
+  }
+
+  #generated-notes .mk-note-body h2 {
+    font-size: 19px;
+  }
+
+  #generated-notes .mk-note-body h3 {
+    font-size: 16.5px;
+  }
+
+  #generated-notes .katex {
+    font-size: 1em;
+  }
+
+  /* ---- mobile visual-card presentation (components untouched) ---- */
+
+  #generated-notes > .overflow-hidden.rounded-\[18px\] > div:last-child,
+  #generated-notes .my-5.overflow-hidden.rounded-\[18px\] > div:last-child {
+    padding: 0.65rem 0.55rem;
+  }
+
+  #generated-notes .rounded-\[18px\] .text-2xl {
+    font-size: 20px;
+  }
+
+  #generated-notes .rounded-\[18px\] .max-w-\[680px\] p {
+    font-family: var(--font-geist-sans), system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  #generated-notes .rounded-\[16px\] {
+    padding: 0.65rem 0.7rem;
+    font-size: 13px;
+    line-height: 1.25rem;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  #generated-notes .rounded-\[16px\] + div.flex {
+    height: 1.75rem;
+  }
+
+  #generated-notes .rounded-\[14px\] {
+    padding: 0.55rem 0.6rem;
+  }
+
+  #generated-notes .rounded-\[12px\] {
+    font-family: var(--font-geist-sans), system-ui, sans-serif;
+    font-size: 12px;
+  }
+
+  /* formula card scrolls inside only — never the page */
+  #generated-notes .my-5.overflow-hidden.rounded-\[18px\] {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* diagram / small node labels wrap */
+  #generated-notes .rounded-\[14px\] {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  /* reliable touch targets across all generated-note controls */
+  #generated-notes button {
+    touch-action: manipulation;
+  }
+
+  /* ---- mobile hero atmosphere ---- */
+  .kivraa-mobile-hero {
+    background:
+      radial-gradient(120% 55% at 50% -8%, rgba(245, 183, 0, 0.08), rgba(245, 183, 0, 0) 62%),
+      radial-gradient(95% 55% at 108% 110%, rgba(99, 102, 241, 0.09), rgba(99, 102, 241, 0) 60%),
+      radial-gradient(85% 60% at -4% 104%, rgba(147, 51, 234, 0.07), rgba(147, 51, 234, 0) 55%);
+  }
+
+  .kivraa-atmos {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+    user-select: none;
+    animation: kivraaHeroBreath 9s ease-in-out infinite;
+  }
+
+  .kivraa-atmos-orb {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(34px);
+    will-change: transform;
+  }
+
+  .kivraa-atmos-orb-glow {
+    width: 250px;
+    height: 250px;
+    top: -72px;
+    right: -74px;
+    background: radial-gradient(closest-side, rgba(245, 183, 0, 0.3), rgba(245, 183, 0, 0));
+    animation: kivraaDriftY 16s ease-in-out infinite alternate;
+  }
+
+  .kivraa-atmos-orb-blue {
+    width: 240px;
+    height: 240px;
+    bottom: -64px;
+    left: -84px;
+    background: radial-gradient(closest-side, rgba(99, 102, 241, 0.28), rgba(139, 92, 246, 0.12), rgba(139, 92, 246, 0));
+    animation: kivraaDriftX 19s ease-in-out infinite alternate;
+  }
+
+  .kivraa-atmos-orb-violet {
+    width: 140px;
+    height: 140px;
+    top: 46%;
+    right: 6%;
+    background: radial-gradient(closest-side, rgba(167, 139, 250, 0.2), rgba(167, 139, 250, 0));
+    animation: kivraaDriftY 22s ease-in-out infinite alternate-reverse;
+  }
+
+  .kivraa-atmos-ring {
+    position: absolute;
+    left: 50%;
+    top: -52px;
+    width: 220px;
+    height: 220px;
+    margin-left: -110px;
+    border-radius: 50%;
+    border: 1px solid rgba(245, 183, 0, 0.1);
+    transform: rotateX(72deg);
+    animation: kivraaSpin 34s linear infinite;
+  }
+
+  .kivraa-atmos-ring-2 {
+    top: -64px;
+    width: 268px;
+    height: 268px;
+    margin-left: -134px;
+    border: 1px solid rgba(139, 92, 246, 0.1);
+    animation-duration: 44s;
+    animation-direction: reverse;
+  }
+
+  .kivraa-atmos-crystal {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.55), rgba(245, 183, 0, 0.28));
+    filter: drop-shadow(0 0 10px rgba(245, 183, 0, 0.3));
+    animation: kivraaCrystal 11s ease-in-out infinite;
+  }
+
+  .kivraa-atmos-crystal-2 {
+    width: 14px;
+    height: 14px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.45), rgba(139, 92, 246, 0.35));
+    filter: drop-shadow(0 0 9px rgba(139, 92, 246, 0.32));
+    animation-duration: 13s;
+    animation-delay: -3s;
+  }
+
+  .kivraa-atmos-crystal-3 {
+    width: 12px;
+    height: 12px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.38), rgba(96, 165, 250, 0.3));
+    filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.28));
+    animation-duration: 9s;
+    animation-delay: -6s;
+  }
+
+  .kivraa-atmos-dust {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 9999px;
+    background: rgba(245, 183, 0, 0.55);
+    animation: kivraaDust 7s ease-in-out infinite alternate;
+  }
+
+  .kivraa-atmos-dust.kivraa-dust-blue {
+    background: rgba(148, 163, 255, 0.5);
+    animation-duration: 9s;
+  }
+
+  .kivraa-atmos-dust.kivraa-dust-white {
+    background: rgba(255, 255, 255, 0.42);
+    animation-duration: 8s;
+  }
+
+  .kivraa-atmos-dust.kivraa-dust-big {
+    width: 4px;
+    height: 4px;
+  }
+
+  @keyframes kivraaDriftY {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(10px, 16px, 0); }
+  }
+
+  @keyframes kivraaDriftX {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(-14px, -8px, 0); }
+  }
+
+  @keyframes kivraaSpin {
+    from { transform: rotateX(72deg) rotateZ(0deg); }
+    to { transform: rotateX(72deg) rotateZ(360deg); }
+  }
+
+  @keyframes kivraaCrystal {
+    0%, 100% {
+      transform: translate3d(0, 0, 0) rotate(0deg);
+      opacity: 0.8;
+    }
+    50% {
+      transform: translate3d(0, -9px, 0) rotate(14deg);
+      opacity: 1;
+    }
+  }
+
+  @keyframes kivraaDust {
+    from { transform: translate3d(0, 8px, 0); opacity: 0.25; }
+    to { transform: translate3d(0, -12px, 0); opacity: 0.8; }
+  }
+
+  @keyframes kivraaHeroBreath {
+    0%, 100% { transform: scale(1); filter: brightness(1); }
+    50% { transform: scale(1.03); filter: brightness(1.07); }
+  }
+
+  /* hero controls — never block taps, never select */
+  .kivraa-mobile-hero button,
+  .kivraa-mobile-hero input,
+  .kivraa-mobile-hero label {
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* notebook width safety net */
+  #generated-notes .mk-notes,
+  #generated-notes .mk-page-body {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kivraa-mobile-hero,
+    .kivraa-atmos,
+    .kivraa-atmos-orb,
+    .kivraa-atmos-ring,
+    .kivraa-atmos-crystal,
+    .kivraa-atmos-dust {
+      animation: none !important;
+    }
+  }
+}
