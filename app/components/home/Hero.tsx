@@ -431,7 +431,10 @@ function NotesLoading() {
   }, []);
 
   return (
-    <section className="border-t border-white/[0.05] bg-[#09090B] px-5 py-16 sm:px-8">
+    <section
+      id="loading-notes"
+      className="scroll-mt-16 border-t border-white/[0.05] bg-[#09090B] px-5 py-16 sm:px-8"
+    >
       <div className="mx-auto max-w-[760px]">
 
         <div className="relative overflow-hidden rounded-[28px] border border-[#F5B700]/15 bg-[#101014] px-6 py-12 shadow-[0_30px_100px_rgba(0,0,0,.5)] sm:px-12">
@@ -935,6 +938,12 @@ export default function Hero() {
     setError("");
     setPages([]);
     setCurrentPage(0);
+
+    setTimeout(() => {
+      document
+        .getElementById("loading-notes")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 90);
 
     try {
       const response = await fetch(

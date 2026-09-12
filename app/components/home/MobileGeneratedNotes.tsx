@@ -37,11 +37,11 @@ export default function MobileGeneratedNotes({
   return (
     <section
       id="generated-notes"
-      className="mk-notes relative overflow-x-clip border-t border-white/[0.05] bg-[#09090B] pb-10 pt-6"
+      className="mk-notes relative overflow-x-clip border-t border-white/[0.05] bg-[#09090B] pb-9 pt-5"
     >
       <div className="mx-auto w-full">
         {/* top label */}
-        <div className="mb-3 flex items-end justify-between px-4">
+        <div className="mb-2.5 flex items-end justify-between px-4">
           <div>
             <div className="text-[9px] font-black uppercase tracking-[0.3em] text-[#F5B700]">
               Your Kivraa notes
@@ -68,9 +68,12 @@ export default function MobileGeneratedNotes({
           <div className="relative">
             <div className="pointer-events-none absolute inset-x-5 bottom-[-8px] h-6 rounded-full bg-black/60 blur-2xl" />
 
-            <div className="relative overflow-hidden rounded-[18px] border border-[#D8CFAE] bg-[#F8F1DE] shadow-[0_16px_48px_rgba(0,0,0,.44)]">
+            <div key={index} className="mk-note-card relative overflow-hidden rounded-[18px] border border-[#D8CFAE] bg-[#F8F1DE] shadow-[0_16px_48px_rgba(0,0,0,.44)]">
               {/* paper top */}
               <div className="absolute left-0 right-0 top-0 h-1.5 bg-[#F5B700]" />
+
+              {/* paper grain — pure CSS texture */}
+              <div aria-hidden="true" className="mk-paper-grain pointer-events-none absolute inset-0" />
 
               {/* red margin */}
               <div className="pointer-events-none absolute bottom-0 left-[24px] top-0 w-px bg-red-300/45" />
@@ -85,7 +88,7 @@ export default function MobileGeneratedNotes({
               />
 
               {/* page */}
-              <div className="mk-page-body relative px-4 pb-5 pt-4">
+              <div className="mk-page-body relative px-4 pb-4 pt-3.5">
                 {/* corner dots */}
                 <div className="absolute right-4 top-4 flex gap-1.5">
                   <span className="h-1.5 w-1.5 rounded-full bg-[#F5B700]/70" />
@@ -94,7 +97,7 @@ export default function MobileGeneratedNotes({
                 </div>
 
                 {/* compact header */}
-                <div className="mb-4 flex items-start gap-3">
+                <div className="mb-3 flex items-start gap-3">
                   <div className="flex h-9 w-9 shrink-0 rotate-[-2deg] items-center justify-center rounded-[10px] bg-[#F5B700] text-base font-black text-black shadow-[2px_3px_0_rgba(0,0,0,.10)]">
                     K
                   </div>
@@ -124,7 +127,7 @@ export default function MobileGeneratedNotes({
                     rehypePlugins={[rehypeKatex]}
                     components={{
                       h1: ({ children }) => (
-                        <div className="mb-4 mt-0 inline-block rotate-[-1deg] rounded-[9px] bg-[#F5D85B] px-3 py-1.5 shadow-[2px_3px_0_rgba(0,0,0,.08)]">
+                        <div className="mb-3.5 mt-0 inline-block rotate-[-1deg] rounded-[9px] bg-[#F5D85B] px-3 py-1.5 shadow-[2px_3px_0_rgba(0,0,0,.08)]">
                           <h1
                             className="text-[23px] font-bold leading-[1.12] text-[#172D48]"
                             style={{ fontFamily: hand }}
@@ -135,7 +138,7 @@ export default function MobileGeneratedNotes({
                       ),
 
                       h2: ({ children }) => (
-                        <div className="mb-2.5 mt-4">
+                        <div className="mb-2 mt-3.5">
                           <div className="flex items-center gap-2.5">
                             <span className="flex h-7 w-7 shrink-0 rotate-[-2deg] items-center justify-center rounded-[9px] bg-[#F5D85B]/80 text-[#172D48] shadow-[2px_3px_0_rgba(0,0,0,.07)]">
                               ✦
@@ -153,7 +156,7 @@ export default function MobileGeneratedNotes({
 
                       h3: ({ children }) => (
                         <h3
-                          className="mb-1.5 mt-3.5 text-[16.5px] font-bold text-[#17314F]"
+                          className="mb-1 mt-3 text-[16.5px] font-bold text-[#17314F]"
                           style={{ fontFamily: hand }}
                         >
                           {children}
@@ -161,19 +164,19 @@ export default function MobileGeneratedNotes({
                       ),
 
                       p: ({ children }) => (
-                        <p className="mb-2.5 text-[16.5px] font-medium leading-[1.6] text-[#26384B]">
+                        <p className="mb-2 text-[16.5px] font-medium leading-[1.6] text-[#26384B]">
                           {children}
                         </p>
                       ),
 
                       ul: ({ children }) => (
-                        <ul className="mb-3.5 ml-5 list-disc space-y-1 text-[16px] leading-[1.65] text-[#26384B] marker:text-[#E7A900]">
+                        <ul className="mb-3 ml-5 list-disc space-y-0.5 text-[16px] leading-[1.65] text-[#26384B] marker:text-[#E7A900]">
                           {children}
                         </ul>
                       ),
 
                       ol: ({ children }) => (
-                        <ol className="mb-3.5 ml-5 list-decimal space-y-1 text-[16px] leading-[1.65] text-[#26384B] marker:font-bold marker:text-[#E7A900]">
+                        <ol className="mb-3 ml-5 list-decimal space-y-0.5 text-[16px] leading-[1.65] text-[#26384B] marker:font-bold marker:text-[#E7A900]">
                           {children}
                         </ol>
                       ),
@@ -196,14 +199,14 @@ export default function MobileGeneratedNotes({
                       ),
 
                       blockquote: ({ children }) => (
-                        <blockquote className="relative my-3.5 rounded-[15px] border border-[#E8C84C] bg-[#FFF0A8]/75 px-4 py-2.5 shadow-[2px_3px_0_rgba(0,0,0,.06)]">
+                        <blockquote className="relative my-3 rounded-[15px] border border-[#E8C84C] bg-[#FFF0A8]/75 px-3.5 py-2 shadow-[2px_3px_0_rgba(0,0,0,.06)]">
                           <div
-                            className="mb-1 text-[12px] font-bold text-[#A27600]"
+                            className="mb-0.5 text-[12px] font-bold text-[#A27600]"
                             style={{ fontFamily: hand }}
                           >
                             💡 Think of it like this
                           </div>
-                          <div className="text-[16px] font-medium leading-[1.6] text-[#26384B]">
+                          <div className="text-[15.5px] font-medium leading-[1.55] text-[#26384B]">
                             {children}
                           </div>
                         </blockquote>
@@ -275,7 +278,7 @@ export default function MobileGeneratedNotes({
                       },
 
                       hr: () => (
-                        <div className="my-4 flex items-center gap-3">
+                        <div className="my-3 flex items-center gap-3">
                           <div className="h-px flex-1 bg-[#D7CEB3]" />
                           <span className="text-[#D1A900]">✦</span>
                           <div className="h-px flex-1 bg-[#D7CEB3]" />
@@ -283,7 +286,7 @@ export default function MobileGeneratedNotes({
                       ),
 
                       table: ({ children }) => (
-                        <div className="my-4 overflow-x-auto rounded-[13px] border border-[#DDD2AE] bg-white/45">
+                        <div className="my-3 overflow-x-auto rounded-[13px] border border-[#DDD2AE] bg-white/45">
                           <table className="mk-table w-full min-w-[300px] border-collapse text-[13.5px]">
                             {children}
                           </table>
@@ -303,7 +306,7 @@ export default function MobileGeneratedNotes({
                       ),
 
                       img: ({ src, alt }) => (
-                        <div className="my-4 overflow-hidden rounded-[16px] border border-[#D8CFAE] bg-white/40 p-2">
+                        <div className="my-3 overflow-hidden rounded-[16px] border border-[#D8CFAE] bg-white/40 p-2">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={src || ""}
@@ -319,7 +322,7 @@ export default function MobileGeneratedNotes({
                 </div>
 
                 {/* page footer */}
-                <div className="mt-5 flex items-center justify-between border-t border-[#D7CEB3] pt-3">
+                <div className="mt-4 flex items-center justify-between border-t border-[#D7CEB3] pt-2.5">
                   <span className="text-[11px] italic text-[#9D947D]">
                     Kivraa · make the idea click
                   </span>
@@ -335,7 +338,7 @@ export default function MobileGeneratedNotes({
 
         {/* pagination — hidden for One Page */}
         {pageCount > 1 && (
-          <div className="px-3 pt-4">
+          <div className="px-3 pt-3">
             <div className="flex items-center justify-between gap-3">
               <button
                 type="button"
@@ -346,11 +349,21 @@ export default function MobileGeneratedNotes({
                 ← Prev
               </button>
 
-              <div
-                aria-hidden="true"
-                className="text-[13px] font-black tracking-[-0.02em] text-slate-400"
-              >
-                {index + 1} / {pageCount}
+              <div className="flex flex-col items-center gap-1.5">
+                <div className="flex items-center gap-1" aria-label={`Page ${index + 1} of ${pageCount}`}>
+                  {Array.from({ length: pageCount }).map((_, i) => (
+                    <span
+                      key={i}
+                      className={[
+                        "h-1.5 rounded-full transition-all duration-300",
+                        i === index ? "w-5 bg-[#F5B700]" : "w-1.5 bg-white/[0.18]",
+                      ].join(" ")}
+                    />
+                  ))}
+                </div>
+                <span className="text-[11px] font-bold tracking-wide text-slate-400">
+                  {index + 1} / {pageCount}
+                </span>
               </div>
 
               <button
@@ -366,6 +379,11 @@ export default function MobileGeneratedNotes({
             </div>
           </div>
         )}
+
+        {/* Kivraa signature mark — once per section */}
+        <p className="mk-kivraa-mark px-4 pb-1 pt-5 text-center text-[10px] font-medium tracking-[0.22em] text-[#F5B700]/60">
+          ✎ KIVRAA · SMART NOTES
+        </p>
       </div>
 
       <style jsx global>{`

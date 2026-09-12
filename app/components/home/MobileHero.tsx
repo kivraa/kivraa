@@ -126,6 +126,12 @@ export default function MobileHero() {
     setPages([]);
     setCurrentPage(0);
 
+    setTimeout(() => {
+      document
+        .getElementById("mk-loading")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 90);
+
     try {
       const response = await fetch("/api/ai/summarize", {
         method: "POST",
@@ -202,28 +208,30 @@ export default function MobileHero() {
         <div className="kivraa-atmos-crystal kivraa-atmos-crystal-2" style={{ top: "52%", left: "10%" }} />
       </div>
 
-      <div className="relative z-[1] px-4 pb-12 pt-6">
+      <div className="kivraa-hero-stage relative z-[1] px-4 pb-10 pt-7">
         {/* badge */}
-        <div className="inline-flex items-center gap-2 rounded-full border border-[#F5B700]/25 bg-[#F5B700]/[0.04] px-3 py-1.5">
-          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#F5B700]" />
-          <span className="text-[9px] font-black uppercase tracking-[0.22em] text-[#F5B700]">
-            AI-powered study notes
-          </span>
+        <div className="flex justify-center">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#F5B700]/25 bg-[#F5B700]/[0.04] px-3 py-1.5">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#F5B700]" />
+            <span className="text-[9px] font-black uppercase tracking-[0.22em] text-[#F5B700]">
+              AI-powered study notes
+            </span>
+          </div>
         </div>
 
         {/* headline */}
-        <h1 className="mt-4 text-[36px] font-black leading-[0.98] tracking-[-0.05em]">
+        <h1 className="mt-5 text-center text-[36px] font-black leading-[0.98] tracking-[-0.05em]">
           <span className="block text-white">Know more.</span>
           <span className="block text-[#F5B700]">See what&apos;s hidden.</span>
         </h1>
 
-        <p className="mt-3 max-w-[330px] text-[13px] leading-[1.65] text-slate-500">
+        <p className="mx-auto mt-3 max-w-[330px] text-center text-[13px] leading-[1.65] text-slate-500">
           Turn difficult topics into visual, memorable notes — so you actually
           understand the idea instead of just memorizing the words.
         </p>
 
         {/* floating knowledge object */}
-        <div className="mt-2">
+        <div className="mt-3">
           <MobileKnowledgeOrb />
         </div>
 
@@ -443,7 +451,11 @@ export default function MobileHero() {
       </div>
 
       {/* mobile loading */}
-      {loading && <div className="px-4"><MobileLoading /></div>}
+      {loading && (
+        <div id="mk-loading" className="scroll-mt-4 px-4">
+          <MobileLoading />
+        </div>
+      )}
 
       {/* mobile notes */}
       {!loading && pages.length > 0 && (

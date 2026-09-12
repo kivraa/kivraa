@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import Hero from "./components/home/Hero";
 import Features from "./components/home/Features";
 import Categories from "./components/home/Categories";
@@ -7,6 +8,39 @@ import Categories from "./components/home/Categories";
 export default function HomePage() {
   return (
     <main className="min-h-screen bg-[#0B0B0F] text-white">
+
+      {/* AUTH NAV — slim static top bar (only addition to homepage) */}
+      <header className="border-b border-white/[0.06] bg-[#0B0B0F]/95">
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-2.5 sm:px-6 lg:px-8">
+          <button
+            type="button"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="flex items-center gap-2.5"
+          >
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#F5B700] text-base font-black text-black">
+              K
+            </div>
+            <span className="hidden text-base font-black tracking-[-0.04em] text-white sm:inline">
+              kivraa
+            </span>
+          </button>
+
+          <div className="flex items-center gap-2">
+            <Link
+              href="/auth/login"
+              className="flex min-h-[44px] items-center rounded-xl px-3.5 text-xs font-bold text-white/90 transition hover:bg-white/[0.06] hover:text-white"
+            >
+              Log in
+            </Link>
+            <Link
+              href="/auth/signup"
+              className="flex min-h-[44px] items-center rounded-xl bg-[#F5B700] px-4 text-xs font-black text-black shadow-[0_4px_14px_rgba(245,183,0,.25)] transition hover:bg-[#FFD23F]"
+            >
+              Get Started
+            </Link>
+          </div>
+        </div>
+      </header>
 
       <Hero />
 
