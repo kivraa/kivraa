@@ -26,6 +26,88 @@ body {
 }
 
 /* ============================================================================
+   KIVRAA — COMPARISON TABLE + FORMULA INK (applies on all viewports)
+   Scoped to #generated-notes so desktop layout outside notes is untouched.
+   ========================================================================== */
+
+#generated-notes .katex {
+  color: #142c49;
+}
+
+#generated-notes .katex-error,
+#generated-notes .katex-error * {
+  color: #142c49 !important;
+}
+
+#generated-notes .formula-plain {
+  color: #142c49;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* ---- comparison table (raw pipes → responsive blocks) ---- */
+
+#generated-notes .cmp-card {
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 14px;
+  background: #fcfbf7;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+  margin: 1.25rem 0;
+}
+
+#generated-notes .cmp-head {
+  display: grid;
+  background: #fff3c0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+#generated-notes .cmp-head-cell {
+  padding: 0.55rem 0.9rem;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #302700;
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+#generated-notes .cmp-head-cell:last-child {
+  border-right: none;
+}
+
+#generated-notes .cmp-row {
+  display: grid;
+}
+
+#generated-notes .cmp-row + .cmp-row {
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+#generated-notes .cmp-cell {
+  padding: 0.6rem 0.9rem;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #3f4650;
+  border-right: 1px solid rgba(0, 0, 0, 0.04);
+  overflow-wrap: anywhere;
+}
+
+#generated-notes .cmp-cell:last-child {
+  border-right: none;
+}
+
+#generated-notes .cmp-cell-label {
+  font-weight: 800;
+  color: #172d48;
+  background: rgba(245, 216, 91, 0.14);
+}
+
+#generated-notes .cmp-celabel {
+  display: none;
+}
+
+/* ============================================================================
    KIVRAA — MOBILE ONLY (max-width 1023px)
    Desktop (>=1024px) is untouched: everything below is inert there.
    ========================================================================== */
@@ -489,6 +571,75 @@ body {
       rgba(245, 183, 0, 0.55) 70%,
       rgba(245, 183, 0, 0) 100%
     );
+  }
+
+  /* ============================================================ */
+  /* MOBILE — comparison table becomes stacked notebook cards     */
+  /* ============================================================ */
+
+  #generated-notes .cmp-card {
+    margin: 0.85rem 0;
+    border-radius: 16px;
+    border-color: #e6dec7;
+    background: rgba(255, 255, 255, 0.55);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  }
+
+  #generated-notes .cmp-head {
+    display: none;
+  }
+
+  #generated-notes .cmp-row {
+    display: block;
+    padding: 0.4rem 0;
+  }
+
+  #generated-notes .cmp-row + .cmp-row {
+    border-top: none;
+  }
+
+  #generated-notes .cmp-cell {
+    display: block;
+    padding: 0.22rem 0.85rem;
+    border: none;
+    font-size: 15.5px;
+    line-height: 1.55;
+    color: #26384b;
+  }
+
+  #generated-notes .cmp-cell + .cmp-cell {
+    margin-top: 0.15rem;
+  }
+
+  #generated-notes .cmp-cell-label {
+    background: linear-gradient(
+      transparent 62%,
+      rgba(245, 183, 0, 0.32) 62%,
+      rgba(245, 183, 0, 0.32) 97%,
+      transparent 97%
+    );
+    color: #142c49;
+    font-size: 15px;
+    font-weight: 800;
+    padding: 0.15rem 0.55rem 0.2rem;
+    border-radius: 0.2em;
+  }
+
+  #generated-notes .cmp-celabel {
+    display: block;
+    font-size: 9.5px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #8a7a45;
+    margin-bottom: 2px;
+    opacity: 0.95;
+  }
+
+  /* keep the formula block ink-dark (never red) */
+  #generated-notes .rounded-\[18px\] .katex,
+  #generated-notes .rounded-\[18px\] .formula-plain {
+    color: #142c49;
   }
 
   @media (prefers-reduced-motion: reduce) {

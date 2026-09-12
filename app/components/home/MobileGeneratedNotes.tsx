@@ -7,6 +7,8 @@ import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
 import { asStringArray, type VisualKind } from "../notes/types";
 import VisualBlock from "../notes/VisualBlock";
+import ComparisonTable from "../notes/visual/ComparisonTable";
+import { prepareNotePage } from "../notes/prepareNotePage";
 import {
   type Style,
   readableVisualText,
@@ -229,6 +231,17 @@ export default function MobileGeneratedNotes({
                           "example",
                         ];
 
+                        if (lang === "comparison") {
+                          const rows = text
+                            .split("\n")
+                            .map((row) => row.trim())
+                            .filter(Boolean);
+
+                          if (!rows.length) return null;
+
+                          return <ComparisonTable rows={rows} />;
+                        }
+
                         if (lang && visualKinds.includes(lang)) {
                           const lines = asStringArray(text.split("\n"));
                           let title: string | undefined;
@@ -317,7 +330,7 @@ export default function MobileGeneratedNotes({
                       ),
                     }}
                   >
-                    {page}
+                    {prepareNotePage(page)}
                   </ReactMarkdown>
                 </div>
 

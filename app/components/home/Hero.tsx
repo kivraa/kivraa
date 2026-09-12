@@ -8,6 +8,8 @@ import "katex/dist/katex.min.css";
 import { CLASS_LEVELS, asStringArray, type ClassLevel, type VisualKind } from "../notes/types";
 import VisualBlock from "../notes/VisualBlock";
 import MobileHero from "./MobileHero";
+import ComparisonTable from "../notes/visual/ComparisonTable";
+import { prepareNotePage } from "../notes/prepareNotePage";
 
 type Style = "Colorful" | "Simple" | "One Page";
 type Language = "English" | "Hinglish" | "Hindi";
@@ -697,6 +699,17 @@ function GeneratedNotes({
                       "example",
                     ];
 
+                    if (lang === "comparison") {
+                      const rows = text
+                        .split("\n")
+                        .map((row) => row.trim())
+                        .filter(Boolean);
+
+                      if (!rows.length) return null;
+
+                      return <ComparisonTable rows={rows} />;
+                    }
+
                     if (lang && visualKinds.includes(lang)) {
                       const lines = asStringArray(text.split("\n"));
                       let title: string | undefined;
@@ -790,7 +803,7 @@ function GeneratedNotes({
                   ),
                 }}
               >
-                {pages[currentPage]}
+                {prepareNotePage(pages[currentPage])}
               </ReactMarkdown>
 
               {/* handwritten page footer */}
