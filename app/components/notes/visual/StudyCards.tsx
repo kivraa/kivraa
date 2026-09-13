@@ -23,6 +23,7 @@ function Card({
   return (
     <div
       className={[
+        "mk-study mk-study-" + label.toLowerCase(),
         "my-5 overflow-hidden rounded-[18px] border",
         background,
         "shadow-[0_7px_20px_rgba(17,24,39,.06)]",

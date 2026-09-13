@@ -107,6 +107,21 @@ export default function MobileHero() {
   const [error, setError] = useState("");
   const [pages, setPages] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
+  const [compact, setCompact] = useState(false);
+  const [premiumNotice, setPremiumNotice] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 1023px)");
+    const update = () => setCompact(media.matches);
+    update();
+    media.addEventListener?.("change", update);
+    return () => media.removeEventListener?.("change", update);
+  }, []);
+
+  const notifyPremium = () => {
+    setPremiumNotice(true);
+    window.setTimeout(() => setPremiumNotice(false), 2600);
+  };
 
   const generateNotes = async (selectedTopic?: string) => {
     const finalTopic = (selectedTopic ?? topic).trim();
@@ -158,7 +173,11 @@ export default function MobileHero() {
         throw new Error("AI ne empty notes return kiye.");
       }
 
-      const generatedPages = splitNotesIntoPages(cleaned, style ?? "Colorful");
+      const generatedPages = splitNotesIntoPages(
+        cleaned,
+        style ?? "Colorful",
+        compact
+      );
 
       if (!generatedPages.length) {
         throw new Error("Notes pages create nahi ho paaye.");
@@ -359,32 +378,62 @@ export default function MobileHero() {
             <div className="mb-2 px-1 text-[8px] font-black uppercase tracking-[0.25em] text-slate-600">
               Notes style
             </div>
-            <div className="grid grid-cols-3 gap-2">
-              {STYLE_OPTIONS.map(({ icon, name, desc }) => {
+
+            <div className="mb-2 flex flex-wrap gap-1.5">
+              {[
+                ["✦", "Simple", "Focused"],
+                ["▤", "One Page", "Quick"],
+              ].map(([icon, name, desc]) => {
                 const active = style === name;
                 return (
                   <button
                     key={name}
                     type="button"
                     aria-pressed={active}
-                    onClick={() => setStyle(name)}
+                    onClick={() => setStyle(name as Style)}
                     className={[
                       chipBase,
-                      "min-h-[64px] flex-col justify-center gap-1 p-2",
+                      "min-h-[44px] gap-1.5 px-3",
                       active ? activeChip : idleChip,
                     ].join(" ")}
                   >
-                    <span className="text-base leading-none">{icon}</span>
+                    <span className="text-sm leading-none">{icon}</span>
                     <span className="text-[11px] font-black leading-none">
                       {name}
                     </span>
-                    <span className="text-[9px] leading-none opacity-60">
+                    <span className="text-[8px] leading-none opacity-55">
                       {desc}
                     </span>
                   </button>
                 );
               })}
+
+              <button
+                type="button"
+                aria-label="Colorful — Premium feature (locked)"
+                onClick={notifyPremium}
+                className={[
+                  chipBase,
+                  "mk-premium-chip relative min-h-[44px] gap-1.5 border-dashed px-3",
+                  "border-[#F5B700]/20 bg-[#F5B700]/[0.03] text-slate-500",
+                ].join(" ")}
+              >
+                <span className="text-sm leading-none opacity-70">🌈</span>
+                <span className="text-[11px] font-black leading-none text-slate-400">
+                  Colorful
+                </span>
+                <span className="mk-premium-badge rounded-full bg-[#F5B700]/15 px-1.5 py-0.5 text-[7px] font-black uppercase tracking-[0.12em] text-[#F5B700]">
+                  🔒 Premium
+                </span>
+              </button>
             </div>
+
+            {premiumNotice && (
+              <div className="mk-premium-note mb-2 flex items-center gap-2 rounded-xl border border-[#F5B700]/25 bg-[#F5B700]/[0.07] px-3 py-2 text-[11px] font-bold text-[#F5B700]">
+                <span>🔒</span>
+                <span>Colorful is a Premium feature — coming soon.</span>
+              </div>
+            )}
           </div>
 
           {/* language */}

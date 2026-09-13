@@ -107,6 +107,45 @@ body {
   display: none;
 }
 
+/* ---- Colorful premium lock ---- */
+
+.mk-premium-chip {
+  cursor: not-allowed;
+}
+
+.mk-premium-badge {
+  white-space: nowrap;
+}
+
+.mk-premium-note {
+  animation: mkPremiumIn 0.28s cubic-bezier(0.22, 0.8, 0.24, 1);
+}
+
+@keyframes mkPremiumIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* styled scoped to the hero so authentication pages never see it */
+.kivraa-mobile-hero .mk-premium-chip {
+  animation: mkPremiumChipPulse 7s ease-in-out infinite;
+}
+
+@keyframes mkPremiumChipPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(245, 183, 0, 0);
+  }
+  50% {
+    box-shadow: 0 0 14px 0 rgba(245, 183, 0, 0.08);
+  }
+}
+
 /* ============================================================================
    KIVRAA — MOBILE ONLY (max-width 1023px)
    Desktop (>=1024px) is untouched: everything below is inert there.
@@ -640,6 +679,164 @@ body {
   #generated-notes .rounded-\[18px\] .katex,
   #generated-notes .rounded-\[18px\] .formula-plain {
     color: #142c49;
+  }
+
+  /* ============================================================ */
+  /* V1 — FIXED-SIZE NOTEBOOK PAGE                                */
+  /* ============================================================ */
+
+  /* the page is a fixed-height sheet; denser splitting makes most
+     pages fit, and a hidden internal scroll is the safety net */
+  #generated-notes .mk-note-card {
+    height: var(--mk-card-h, min(560px, calc(100dvh - 258px)));
+    min-height: 360px;
+  }
+
+  /* One Page = last-minute revision sheet, uses the whole viewport */
+  #generated-notes.mk-one-page .mk-note-card {
+    height: var(--mk-card-h-onepage, min(640px, calc(100dvh - 150px)));
+  }
+
+  #generated-notes .mk-note-body {
+    flex: 1 1 0% !important;
+    min-height: 0 !important;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  #generated-notes .mk-note-body::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* ============================================================ */
+  /* V1 — NO MORE BOX-OVERLOAD: content lives on the paper        */
+  /* ============================================================ */
+
+  /* visual shells (Flow / Diagram / Cycle) become paper notes */
+  #generated-notes .mk-vshell {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    margin: 0.75rem 0;
+  }
+
+  #generated-notes .mk-vshell-head {
+    border-bottom: 1px dashed rgba(215, 207, 174, 0.9);
+    padding: 0.15rem 0.15rem 0.45rem;
+  }
+
+  #generated-notes .mk-vshell-head > span {
+    font-size: 8px;
+    padding: 0.1rem 0.5rem;
+  }
+
+  #generated-notes .mk-vshell-body {
+    padding: 0.55rem 0.15rem 0.15rem;
+  }
+
+  /* study annotations (Important / Remember / Example): paper notes
+     with a colored left edge instead of full slide-style cards */
+  #generated-notes .mk-study {
+    background: transparent !important;
+    box-shadow: none !important;
+    border-radius: 8px;
+    border-left-width: 3px;
+    margin: 0.7rem 0;
+  }
+
+  #generated-notes .mk-study > div:first-child {
+    margin: 0 0.6rem;
+    padding: 0.4rem 0 0.2rem;
+    background: transparent !important;
+  }
+
+  #generated-notes .mk-study > div:last-child {
+    padding: 0.35rem 0.6rem 0.25rem;
+  }
+
+  #generated-notes .mk-study p {
+    margin-bottom: 0.25rem;
+  }
+
+  #generated-notes .mk-study li {
+    margin-top: 0.2rem;
+  }
+
+  /* the formula panel stays a yellow sheet but compact */
+  #generated-notes .mk-formula {
+    border-radius: 12px;
+    box-shadow: none;
+  }
+
+  #generated-notes .mk-formula > div:first-child {
+    padding: 0.4rem 0.7rem;
+  }
+
+  #generated-notes .mk-formula > div:last-child {
+    padding: 0.7rem 0.55rem 0.55rem;
+  }
+
+  #generated-notes .mk-formula {
+    overflow-x: auto;
+  }
+
+  /* ============================================================ */
+  /* V1 — FLOWCHART: compact numbered left-aligned steps          */
+  /* ============================================================ */
+
+  #generated-notes .mk-flow {
+    width: 92%;
+    margin: 0 0 0 auto;
+    counter-reset: mkflow;
+  }
+
+  #generated-notes .mk-flow .mk-node {
+    counter-increment: mkflow;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    text-align: left;
+    padding: 0.45rem 0.6rem;
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+
+  #generated-notes .mk-flow .mk-node::before {
+    content: counter(mkflow, decimal-leading-zero);
+    flex: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 9999px;
+    background: #f5b700;
+    color: #0b0b0b;
+    font-size: 9px;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+    font-family: var(--font-geist-sans, system-ui), system-ui, sans-serif;
+  }
+
+  #generated-notes .mk-flow-arrow {
+    height: 1.1rem !important;
+  }
+
+  #generated-notes .mk-flow-arrow svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  #generated-notes .mk-flow-tip {
+    display: none !important;
+  }
+
+  /* diagram / cycle steps get the same compact rhythm */
+  #generated-notes .mk-diagram {
+    max-width: 100%;
   }
 
   @media (prefers-reduced-motion: reduce) {

@@ -1,6 +1,6 @@
 "use client";
 
-import type { Dispatch, SetStateAction } from "react";
+import { useRef, type Dispatch, type SetStateAction, type TouchEvent as ReactTouchEvent } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
@@ -9,6 +9,7 @@ import { asStringArray, type VisualKind } from "../notes/types";
 import VisualBlock from "../notes/VisualBlock";
 import ComparisonTable from "../notes/visual/ComparisonTable";
 import { prepareNotePage } from "../notes/prepareNotePage";
+import { prepareOnePage } from "../notes/kivraa";
 import {
   type Style,
   readableVisualText,
@@ -35,11 +36,58 @@ export default function MobileGeneratedNotes({
 
   const index = Math.min(Math.max(0, currentPage), pageCount - 1);
   const page = pages[index] || "";
+  const isOnePage = pageCount === 1;
+  const renderedPage = isOnePage
+    ? prepareOnePage(page)
+    : page;
+
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
+
+  const handleTouchStart = (event: ReactTouchEvent) => {
+    const target = event.target as HTMLElement;
+
+    if (
+      target.closest("button") ||
+      target.closest(".katex-display") ||
+      target.closest(".cmp-card")
+    ) {
+      touchStart.current = null;
+      return;
+    }
+
+    touchStart.current = {
+      x: event.touches[0].clientX,
+      y: event.touches[0].clientY,
+    };
+  };
+
+  const handleTouchEnd = (event: ReactTouchEvent) => {
+    const start = touchStart.current;
+    touchStart.current = null;
+
+    if (!start) return;
+
+    const dx = event.changedTouches[0].clientX - start.x;
+    const dy = event.changedTouches[0].clientY - start.y;
+
+    if (Math.abs(dx) > 52 && Math.abs(dx) > Math.abs(dy) * 1.4) {
+      if (dx < 0) {
+        setCurrentPage((p) => Math.min(pageCount - 1, p + 1));
+      } else {
+        setCurrentPage((p) => Math.max(0, p - 1));
+      }
+    }
+  };
 
   return (
     <section
       id="generated-notes"
-      className="mk-notes relative overflow-x-clip border-t border-white/[0.05] bg-[#09090B] pb-9 pt-5"
+      className={[
+        "mk-notes relative overflow-x-clip border-t border-white/[0.05] bg-[#09090B] pb-9 pt-5",
+        isOnePage ? "mk-one-page" : "",
+      ]
+        .filter(Boolean)
+        .join(" ")}
     >
       <div className="mx-auto w-full">
         {/* top label */}
@@ -67,10 +115,14 @@ export default function MobileGeneratedNotes({
 
         {/* notebook */}
         <div className="px-3">
-          <div className="relative">
+          <div
+            className="relative"
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+          >
             <div className="pointer-events-none absolute inset-x-5 bottom-[-8px] h-6 rounded-full bg-black/60 blur-2xl" />
 
-            <div key={index} className="mk-note-card relative overflow-hidden rounded-[18px] border border-[#D8CFAE] bg-[#F8F1DE] shadow-[0_16px_48px_rgba(0,0,0,.44)]">
+            <div key={index} className="mk-note-card relative flex flex-col overflow-hidden rounded-[18px] border border-[#D8CFAE] bg-[#F8F1DE] shadow-[0_16px_48px_rgba(0,0,0,.44)]">
               {/* paper top */}
               <div className="absolute left-0 right-0 top-0 h-1.5 bg-[#F5B700]" />
 
@@ -90,7 +142,7 @@ export default function MobileGeneratedNotes({
               />
 
               {/* page */}
-              <div className="mk-page-body relative px-4 pb-4 pt-3.5">
+              <div className="mk-page-body relative flex min-h-0 flex-1 flex-col px-4 pb-4 pt-3.5">
                 {/* corner dots */}
                 <div className="absolute right-4 top-4 flex gap-1.5">
                   <span className="h-1.5 w-1.5 rounded-full bg-[#F5B700]/70" />
@@ -123,15 +175,19 @@ export default function MobileGeneratedNotes({
                 </div>
 
                 {/* markdown body */}
-                <div className="mk-note-body overflow-x-hidden break-words" style={{ fontFamily: hand }}>
+                <div className="mk-note-body flex-1 overflow-x-hidden overflow-y-auto break-words" style={{ fontFamily: hand }}>
                   <ReactMarkdown
                     remarkPlugins={[remarkMath]}
                     rehypePlugins={[rehypeKatex]}
                     components={{
                       h1: ({ children }) => (
-                        <div className="mb-3.5 mt-0 inline-block rotate-[-1deg] rounded-[9px] bg-[#F5D85B] px-3 py-1.5 shadow-[2px_3px_0_rgba(0,0,0,.08)]">
+                        <div className="relative mb-3 mt-0.5 inline-block">
+                          <span
+                            aria-hidden="true"
+                            className="pointer-events-none absolute inset-x-[-5px] top-[58%] bottom-[3%] -z-[1] rotate-[-0.5deg] rounded-[3px] bg-[#F5D85B]/75"
+                          />
                           <h1
-                            className="text-[23px] font-bold leading-[1.12] text-[#172D48]"
+                            className="text-[22px] font-bold leading-[1.12] text-[#142C49]"
                             style={{ fontFamily: hand }}
                           >
                             {children}
@@ -140,11 +196,9 @@ export default function MobileGeneratedNotes({
                       ),
 
                       h2: ({ children }) => (
-                        <div className="mb-2 mt-3.5">
-                          <div className="flex items-center gap-2.5">
-                            <span className="flex h-7 w-7 shrink-0 rotate-[-2deg] items-center justify-center rounded-[9px] bg-[#F5D85B]/80 text-[#172D48] shadow-[2px_3px_0_rgba(0,0,0,.07)]">
-                              ✦
-                            </span>
+                        <div className="mb-2 mt-4">
+                          <div className="flex items-end gap-2">
+                            <span className="mb-[3px] h-2 w-2 shrink-0 rounded-full bg-[#F5B700]" />
                             <h2
                               className="text-[19px] font-bold leading-tight text-[#142C49]"
                               style={{ fontFamily: hand }}
@@ -152,7 +206,7 @@ export default function MobileGeneratedNotes({
                               {children}
                             </h2>
                           </div>
-                          <div className="ml-9 mt-1.5 h-[3px] w-14 rounded-full bg-[#F5B700]" />
+                          <div className="mt-1.5 h-[3px] w-12 rounded-full bg-[#F5B700]" />
                         </div>
                       ),
 
@@ -330,7 +384,7 @@ export default function MobileGeneratedNotes({
                       ),
                     }}
                   >
-                    {prepareNotePage(page)}
+                    {prepareNotePage(renderedPage)}
                   </ReactMarkdown>
                 </div>
 

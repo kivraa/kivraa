@@ -26,8 +26,8 @@ export function VisualShell({
   children: ReactNode;
 }) {
   return (
-    <div className="my-5 overflow-hidden rounded-[18px] border border-black/[0.08] bg-white shadow-[0_8px_24px_rgba(0,0,0,.06)]">
-      <div className="flex items-center gap-2 border-b border-black/[0.06] px-4 py-2.5">
+    <div className="mk-vshell my-5 overflow-hidden rounded-[18px] border border-black/[0.08] bg-white shadow-[0_8px_24px_rgba(0,0,0,.06)]">
+      <div className="mk-vshell-head flex items-center gap-2 border-b border-black/[0.06] px-4 py-2.5">
         <span className="rounded-full bg-[#F5B700] px-2 py-0.5 text-[8px] font-black uppercase tracking-[0.16em] text-black">
           {label}
         </span>
@@ -37,7 +37,7 @@ export function VisualShell({
           </h3>
         ) : null}
       </div>
-      <div className="px-3 py-4 sm:px-5">{children}</div>
+      <div className="mk-vshell-body px-3 py-4 sm:px-5">{children}</div>
     </div>
   );
 }

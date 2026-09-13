@@ -38,7 +38,7 @@ export default function FormulaBlock({
   }
 
   return (
-    <div className="my-5 overflow-hidden rounded-[18px] border border-[#F5B700]/45 bg-[#FFF8D9] shadow-[0_8px_24px_rgba(0,0,0,.06)]">
+    <div className="mk-formula my-5 overflow-hidden rounded-[18px] border border-[#F5B700]/45 bg-[#FFF8D9] shadow-[0_8px_24px_rgba(0,0,0,.06)]">
       <div className="flex items-center justify-between gap-3 border-b border-[#E8D77A]/50 px-4 py-2.5">
         <span className="rounded-full bg-[#F5B700] px-3 py-1 text-[8px] font-black uppercase tracking-[0.18em] text-black">
           Formula

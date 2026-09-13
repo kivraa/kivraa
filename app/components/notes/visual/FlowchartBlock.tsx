@@ -33,16 +33,16 @@ export default function FlowchartBlock({
 
   return (
     <VisualShell title={title} label="Flow">
-      <div className="mx-auto w-full max-w-[680px]">
+      <div className="mk-flow mx-auto w-full max-w-[680px]">
         <div className="flex flex-col items-stretch">
           {nodes.map((item, index) => (
             <div
               key={`${item}-${index}`}
-              className="flex flex-col items-center"
+              className="mk-flow-node flex flex-col items-center"
             >
               <div
                 className={[
-                  "w-full rounded-[16px] border px-4 py-3.5 text-center",
+                  "mk-node w-full rounded-[16px] border px-4 py-3.5 text-center",
                   "text-[13px] font-bold leading-6 sm:px-5 sm:text-[14px]",
                   nodeClass(style, index),
                 ].join(" ")}
@@ -51,7 +51,7 @@ export default function FlowchartBlock({
               </div>
 
               {index < nodes.length - 1 ? (
-                <div className="flex h-9 items-center justify-center">
+                <div className="mk-flow-arrow flex h-9 items-center justify-center">
                   <DownArrow />
                 </div>
               ) : null}
@@ -59,7 +59,7 @@ export default function FlowchartBlock({
           ))}
         </div>
 
-        <div className="mt-4 rounded-[12px] border border-black/[0.06] bg-black/[0.025] px-3 py-2.5 text-center font-[cursive] text-[12px] leading-5 text-[#64748B]">
+        <div className="mk-flow-tip mt-4 rounded-[12px] border border-black/[0.06] bg-black/[0.025] px-3 py-2.5 text-center font-[cursive] text-[12px] leading-5 text-[#64748B]">
           Follow the steps from top to bottom.
         </div>
       </div>

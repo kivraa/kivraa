@@ -17,7 +17,7 @@ export default function DiagramBlock({
 
   return (
     <VisualShell title={title} label="Diagram">
-      <div className="relative mx-auto max-w-[640px]">
+      <div className="mk-diagram relative mx-auto max-w-[640px]">
         <div className="pointer-events-none absolute bottom-3 left-[18px] top-3 w-px bg-[#F5B700]/50 sm:left-[22px]" />
 
         <div className="space-y-2.5">

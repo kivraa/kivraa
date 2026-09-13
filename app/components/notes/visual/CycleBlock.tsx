@@ -19,7 +19,7 @@ export default function CycleBlock({
 
   return (
     <VisualShell title={title} label="Cycle">
-      <div className="mx-auto hidden h-[280px] w-full max-w-[420px] sm:block">
+      <div className="mk-cycle mx-auto hidden h-[280px] w-full max-w-[420px] sm:block">
         <div className="relative h-full w-full">
           <div className="absolute left-1/2 top-1/2 h-[168px] w-[168px] -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-dashed border-[#F5B700]/45" />
           <div className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[#F5B700] text-[10px] font-black uppercase tracking-[0.12em] text-black">
@@ -49,7 +49,7 @@ export default function CycleBlock({
         </div>
       </div>
 
-      <div className="flex flex-col items-center gap-2 sm:hidden">
+      <div className="mk-cycle-list flex flex-col items-center gap-2 sm:hidden">
         {nodes.map((item, index) => (
           <div key={`${item}-${index}`} className="flex w-full flex-col items-center">
             <div

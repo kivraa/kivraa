@@ -91,15 +91,18 @@ export function visualItems(kind: string, rawItems: string[]) {
   Converts one long AI response into actual notebook pages.
 
   Rules:
-  - One Page = 1 page
-  - Other styles = minimum 3, maximum 6
+  - One Page = 1 revision sheet (distilled, never a wall of text)
+  - Other styles = minimum 3, maximum 6 on desktop
+  - Mobile (compact) = minimum 5, maximum 9 — medium-sized pages,
+    because the phone viewport fits less per page.
   - Never create empty pages
   - Prefer heading/section boundaries
   - Avoid tiny pages
 */
 export function splitNotesIntoPages(
   text: string,
-  style: Style
+  style: Style,
+  compact = false
 ) {
   const clean = text.trim();
 
@@ -122,11 +125,18 @@ export function splitNotesIntoPages(
 
   let targetPages = 3;
 
-  if (totalChars > 5000) targetPages = 4;
-  if (totalChars > 7500) targetPages = 5;
-  if (totalChars > 10000) targetPages = 6;
-
-  targetPages = Math.min(6, Math.max(3, targetPages));
+  if (compact) {
+    if (totalChars > 4000) targetPages = 6;
+    if (totalChars > 6500) targetPages = 7;
+    if (totalChars > 9000) targetPages = 8;
+    if (totalChars > 12000) targetPages = 9;
+    targetPages = Math.min(9, Math.max(5, targetPages));
+  } else {
+    if (totalChars > 5000) targetPages = 4;
+    if (totalChars > 7500) targetPages = 5;
+    if (totalChars > 10000) targetPages = 6;
+    targetPages = Math.min(6, Math.max(3, targetPages));
+  }
 
   const pages: string[] = [];
   let currentBlocks: string[] = [];
@@ -164,8 +174,10 @@ export function splitNotesIntoPages(
     );
   }
 
+  const tinyThreshold = compact ? 340 : 500;
+
   for (let i = pages.length - 1; i > 0; i--) {
-    if (pages[i].length < 500) {
+    if (pages[i].length < tinyThreshold) {
       pages[i - 1] =
         `${pages[i - 1]}\n\n${pages[i]}`.trim();
 
@@ -173,14 +185,16 @@ export function splitNotesIntoPages(
     }
   }
 
-  if (pages.length > 6) {
+  const maxPages = compact ? 9 : 6;
+
+  if (pages.length > maxPages) {
     const merged: string[] = [];
 
     for (let i = 0; i < pages.length; i++) {
       const targetIndex = Math.min(
-        5,
+        maxPages - 1,
         Math.floor(
-          (i * 6) / pages.length
+          (i * maxPages) / pages.length
         )
       );
 
@@ -195,4 +209,98 @@ export function splitNotesIntoPages(
   return pages.filter(
     (page) => page.trim().length > 0
   );
+}
+
+/*
+  Distills a full note into a last-minute revision sheet for One Page mode.
+
+  Keeps only high-value material:
+  - headings
+  - list items / short factual lines
+  - fenced blocks (formula, important, remember, comparison)
+  - short paragraphs
+
+  Drops long prose paragraphs and low-value filler. The result is a
+  concise cheat sheet that fits a single mobile viewport.
+*/
+export function prepareOnePage(markdown: string) {
+  const clean = String(markdown ?? "")
+    .replace(/\r/g, "")
+    .trim();
+
+  if (!clean) return "";
+
+  const maxSheetChars = 4800;
+  const longParagraphLimit = 180;
+  const shortLineLimit = 130;
+
+  const blocks = clean.split(/\n{2,}/);
+
+  const kept: string[] = [];
+
+  for (const rawBlock of blocks) {
+    const block = rawBlock.trim();
+    if (!block) continue;
+
+    if (
+      kept.reduce((total, b) => total + b.length, 0) >
+      maxSheetChars
+    ) {
+      break;
+    }
+
+    const isFence = /^```/.test(block);
+    const isHeading = /^#{1,3}\s/.test(block);
+    const lines = block.split("\n");
+
+    if (isFence) {
+      const lang =
+        /^```([a-z0-9-]+)/i.exec(lines[0])?.[1] || "";
+
+      if (/^(formula|important|remember|comparison|flowchart|diagram)$/i.test(lang)) {
+        kept.push(block);
+      }
+      continue;
+    }
+
+    if (isHeading) {
+      kept.push(block);
+      continue;
+    }
+
+    const isList =
+      lines.length > 0 &&
+      lines.every(
+        (line) =>
+          /^\s*(?:[-*•]|\d+[.)])\s/.test(line) ||
+          /^\s*$/.test(line)
+      );
+
+    if (isList) {
+      if (block.length <= maxSheetChars - 600) {
+        kept.push(block);
+      }
+      continue;
+    }
+
+    const allShort = lines.every(
+      (line) => line.trim().length <= shortLineLimit
+    );
+
+    if (block.length <= longParagraphLimit) {
+      kept.push(block);
+      continue;
+    }
+
+    if (
+      allShort &&
+      block.length <= maxSheetChars - 600 &&
+      lines.length <= 4
+    ) {
+      kept.push(block);
+      continue;
+    }
+  }
+
+  return kept.join("\n\n").trim();
 }

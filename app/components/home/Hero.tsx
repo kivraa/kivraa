@@ -10,6 +10,7 @@ import VisualBlock from "../notes/VisualBlock";
 import MobileHero from "./MobileHero";
 import ComparisonTable from "../notes/visual/ComparisonTable";
 import { prepareNotePage } from "../notes/prepareNotePage";
+import { prepareOnePage } from "../notes/kivraa";
 
 type Style = "Colorful" | "Simple" | "One Page";
 type Language = "English" | "Hinglish" | "Hindi";
@@ -803,7 +804,9 @@ function GeneratedNotes({
                   ),
                 }}
               >
-                {prepareNotePage(pages[currentPage])}
+                {style === "One Page"
+                  ? prepareOnePage(prepareNotePage(pages[currentPage]))
+                  : prepareNotePage(pages[currentPage])}
               </ReactMarkdown>
 
               {/* handwritten page footer */}
@@ -919,6 +922,14 @@ export default function Hero() {
 
   const [currentPage, setCurrentPage] =
     useState(0);
+
+  const [premiumNotice, setPremiumNotice] =
+    useState(false);
+
+  const notifyPremium = () => {
+    setPremiumNotice(true);
+    window.setTimeout(() => setPremiumNotice(false), 2600);
+  };
 
   const generateNotes = async (
     selectedTopic?: string
@@ -1314,7 +1325,6 @@ export default function Hero() {
               <div className="grid grid-cols-3 gap-2">
 
                 {[
-                  ["🌈", "Colorful", "Visual"],
                   ["✦", "Simple", "Focused"],
                   ["▤", "One Page", "Quick"],
                 ].map(
@@ -1358,7 +1368,29 @@ export default function Hero() {
                   }
                 )}
 
+                <button
+                  type="button"
+                  aria-label="Colorful — Premium feature (locked)"
+                  onClick={notifyPremium}
+                  className="mk-premium-chip flex min-h-[82px] cursor-not-allowed touch-manipulation flex-col items-start justify-between rounded-xl border border-dashed border-[#F5B700]/20 bg-[#F5B700]/[0.03] p-3 text-left text-slate-500"
+                >
+                  <span className="text-base opacity-70">🌈</span>
+                  <span className="text-[10px] font-black text-slate-400">
+                    Colorful
+                  </span>
+                  <span className="mk-premium-badge rounded-full bg-[#F5B700]/15 px-2 py-0.5 text-[7px] font-black uppercase tracking-[0.12em] text-[#F5B700]">
+                    🔒 Premium
+                  </span>
+                </button>
+
               </div>
+
+              {premiumNotice && (
+                <div className="mk-premium-note mt-2 flex items-center gap-2 rounded-xl border border-[#F5B700]/25 bg-[#F5B700]/[0.07] px-3 py-2 text-[11px] font-bold text-[#F5B700]">
+                  <span>🔒</span>
+                  <span>Colorful is a Premium feature — coming soon.</span>
+                </div>
+              )}
             </div>
 
             {/* LANGUAGE */}
