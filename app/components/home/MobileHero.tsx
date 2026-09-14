@@ -14,6 +14,7 @@ import {
   splitNotesIntoPages,
 } from "../notes/kivraa";
 import MobileGeneratedNotes from "./MobileGeneratedNotes";
+import { KivraaLogoAnimated } from "../KivraaLogo";
 
 const hand = "var(--font-kivraa-hand)";
 
@@ -42,12 +43,14 @@ function MobileLoading() {
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-[180px] w-[180px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#F5B700]/10 blur-[70px]" />
 
         <div className="relative flex flex-col items-center">
-          <div className="mk-load-orb relative flex h-[64px] w-[64px] items-center justify-center">
-            <div className="mk-load-ring absolute inset-0 rounded-full border border-dashed border-[#F5B700]/30" />
-            <div className="flex h-[42px] w-[42px] items-center justify-center rounded-[13px] bg-[#F5B700] shadow-[0_0_34px_rgba(245,183,0,.35)]">
-              <span className="text-[22px] font-black text-black">K</span>
-            </div>
-          </div>
+<div className="mk-load-orb relative flex h-[72px] w-[72px] items-center justify-center">
+          <div className="mk-load-ring absolute inset-0 rounded-full border border-dashed border-[#F5B700]/30" />
+          <KivraaLogoAnimated
+            className="relative"
+            size={56}
+            playing={true}
+          />
+        </div>
 
           <div className="mk-load-pulse mt-5 text-center">
             <div className="text-[9px] font-black uppercase tracking-[0.35em] text-[#F5B700]">

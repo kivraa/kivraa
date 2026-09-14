@@ -4,6 +4,7 @@ import Link from "next/link";
 import Hero from "./components/home/Hero";
 import Features from "./components/home/Features";
 import Categories from "./components/home/Categories";
+import { KivraaLogoStatic } from "./components/KivraaLogo";
 
 export default function HomePage() {
   return (
@@ -17,9 +18,10 @@ export default function HomePage() {
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className="flex items-center gap-2.5"
           >
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#F5B700] text-base font-black text-black">
-              K
-            </div>
+            <KivraaLogoStatic
+              size={32}
+              className="-my-1"
+            />
             <span className="hidden text-base font-black tracking-[-0.04em] text-white sm:inline">
               kivraa
             </span>
@@ -68,9 +70,10 @@ export default function HomePage() {
                 }
                 className="flex items-center gap-2.5"
               >
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#F5B700] text-lg font-black text-black">
-                  K
-                </div>
+                <KivraaLogoStatic
+                  size={36}
+                  className="-my-1"
+                />
 
                 <div className="text-left">
                   <div className="text-xl font-black tracking-[-0.04em] text-white">

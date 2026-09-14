@@ -10,6 +10,7 @@ import VisualBlock from "../notes/VisualBlock";
 import ComparisonTable from "../notes/visual/ComparisonTable";
 import { prepareNotePage } from "../notes/prepareNotePage";
 import { prepareOnePage } from "../notes/kivraa";
+import { KivraaLogoStatic } from "../KivraaLogo";
 import {
   type Style,
   readableVisualText,
@@ -151,10 +152,11 @@ export default function MobileGeneratedNotes({
                 </div>
 
                 {/* compact header */}
-                <div className="mb-3 flex items-start gap-3">
-                  <div className="flex h-9 w-9 shrink-0 rotate-[-2deg] items-center justify-center rounded-[10px] bg-[#F5B700] text-base font-black text-black shadow-[2px_3px_0_rgba(0,0,0,.10)]">
-                    K
-                  </div>
+<div className="mb-3 flex items-start gap-3">
+                  <KivraaLogoStatic
+                    className="shrink-0 -rotate-2"
+                    size={36}
+                  />
 
                   <div className="min-w-0 pr-4">
                     <div className="text-[8px] font-black uppercase tracking-[0.22em] text-[#9C8C57]">

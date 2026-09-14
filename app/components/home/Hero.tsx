@@ -11,6 +11,7 @@ import MobileHero from "./MobileHero";
 import ComparisonTable from "../notes/visual/ComparisonTable";
 import { prepareNotePage } from "../notes/prepareNotePage";
 import { prepareOnePage } from "../notes/kivraa";
+import { KivraaLogoStatic, KivraaLogoAnimated } from "../KivraaLogo";
 
 type Style = "Colorful" | "Simple" | "One Page";
 type Language = "English" | "Hinglish" | "Hindi";
@@ -447,20 +448,18 @@ function NotesLoading() {
 
           <div className="relative flex flex-col items-center">
 
-            {/* animated K */}
+            {/* animated logo */}
             <div className="relative flex h-[105px] w-[105px] items-center justify-center">
 
               <div className="absolute inset-0 animate-ping rounded-[30px] border border-[#F5B700]/20" />
 
               <div className="absolute inset-[9px] animate-[loaderRotate_5s_linear_infinite] rounded-[27px] border border-dashed border-[#F5B700]/30" />
 
-              <div className="flex h-[72px] w-[72px] animate-[loaderFloat_2s_ease-in-out_infinite] items-center justify-center rounded-[21px] bg-[#F5B700] shadow-[0_0_45px_rgba(245,183,0,.25)]">
-
-                <span className="text-[43px] font-black text-black">
-                  K
-                </span>
-
-              </div>
+              <KivraaLogoAnimated
+                className="relative"
+                size={80}
+                playing={true}
+              />
             </div>
 
             <div className="mt-6 text-center">
@@ -586,9 +585,10 @@ function GeneratedNotes({
 
               <div className="mb-8 flex items-start gap-4">
 
-                <div className="flex h-12 w-12 shrink-0 rotate-[-2deg] items-center justify-center rounded-[13px] bg-[#F5B700] text-xl font-black text-black shadow-[3px_4px_0_rgba(0,0,0,.10)]">
-                  K
-                </div>
+                <KivraaLogoStatic
+                  className="shrink-0 -rotate-2"
+                  size={44}
+                />
 
                 <div>
                   <div className="text-[9px] font-black uppercase tracking-[0.25em] text-[#9C8C57]">

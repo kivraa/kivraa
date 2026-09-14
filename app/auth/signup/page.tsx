@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { KivraaLogoStatic } from "../../components/KivraaLogo";
 
 export default function SignupPage() {
   const [name, setName] = useState("");
@@ -42,9 +43,7 @@ export default function SignupPage() {
 
         {/* Logo */}
         <div className="flex justify-center">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#1B2340] text-3xl font-bold text-[#F5B700]">
-            K
-          </div>
+          <KivraaLogoStatic size={72} />
         </div>
 
         {/* Heading */}

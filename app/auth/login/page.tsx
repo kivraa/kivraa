@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import { KivraaLogoStatic } from "../../components/KivraaLogo";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -42,9 +43,7 @@ export default function LoginPage() {
 
         {/* Logo */}
         <div className="flex justify-center">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#1B2340] text-3xl font-bold text-[#F5B700]">
-            K
-          </div>
+          <KivraaLogoStatic size={72} />
         </div>
 
         <h1 className="mt-6 text-center text-4xl font-bold text-white">
