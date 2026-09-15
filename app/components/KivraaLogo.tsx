@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 
 /* ────────────────────────────────────────────────────────────────
- * KivraaLogo — two overlapping rounded/tilted panels
+ * KivraaLogo — two overlapping sharp/tilted panels
  *
  *  • "normal"  → static logo, uses CSS animation classes
  *  • "loading" → formation + float loop via JS-driven keyframes
@@ -58,7 +58,6 @@ function Panels({ className = "" }: { className?: string }) {
           y="5.5"
           width="15.5"
           height="12.5"
-          rx="3"
           fill="url(#kivraa-cream-grad)"
           transform="rotate(9 18.75 11.75)"
         />
@@ -68,7 +67,6 @@ function Panels({ className = "" }: { className?: string }) {
           y="8"
           width="7"
           height="5"
-          rx="1.5"
           fill="#F5B700"
           opacity="0.1"
           transform="rotate(9 18.5 10.5)"
@@ -82,7 +80,6 @@ function Panels({ className = "" }: { className?: string }) {
           y="13"
           width="15.5"
           height="12.5"
-          rx="3"
           fill="url(#kivraa-yellow-grad)"
           transform="rotate(-4 12.75 19.25)"
         />
@@ -297,7 +294,6 @@ export function KivraaLogoAnimated({
             y="5.5"
             width="15.5"
             height="12.5"
-            rx="3"
             fill="url(#kivraa-cream-grad-a)"
             transform="rotate(9 18.75 11.75)"
           />
@@ -306,7 +302,6 @@ export function KivraaLogoAnimated({
             y="8"
             width="7"
             height="5"
-            rx="1.5"
             fill="#F5B700"
             opacity="0.1"
             transform="rotate(9 18.5 10.5)"
@@ -320,7 +315,6 @@ export function KivraaLogoAnimated({
             y="13"
             width="15.5"
             height="12.5"
-            rx="3"
             fill="url(#kivraa-yellow-grad-a)"
             transform="rotate(-4 12.75 19.25)"
           />
