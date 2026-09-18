@@ -45,6 +45,51 @@ body {
   word-break: break-word;
 }
 
+/* ============================================================================
+   KIVRAA — HANDWRITTEN NOTE FONT (Kalam)
+   Note content on every viewport uses the Kalam handwritten family.
+   Scoped to note surfaces so website typography outside notes is untouched.
+   ========================================================================== */
+
+.kivraa-note-page,
+.kivraa-page-body {
+  font-family: var(--font-kivraa-hand), cursive, sans-serif;
+}
+
+.font-\[cursive\] {
+  font-family: var(--font-kivraa-hand), cursive, sans-serif !important;
+}
+
+/* ============================================================================
+   KIVRAA — FLOWCHART TEXT WRAP (desktop + mobile)
+   Long step text must wrap fully inside its node; nothing may escape the
+   vertical top-to-bottom flow or overflow its container horizontally.
+   ========================================================================== */
+
+.mk-flow,
+.mk-flow-node,
+.mk-node,
+.mk-diagram {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.mk-node {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+
+.mk-vshell-head {
+  min-width: 0;
+}
+
+.mk-vshell-head h3 {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
 /* ---- comparison table (raw pipes → responsive blocks) ---- */
 
 #generated-notes .cmp-card {
@@ -618,10 +663,10 @@ body {
 
   #generated-notes .cmp-card {
     margin: 0.85rem 0;
-    border-radius: 16px;
-    border-color: #e6dec7;
-    background: rgba(255, 255, 255, 0.55);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    border-radius: 0;
+    border: none;
+    background: transparent;
+    box-shadow: none;
   }
 
   #generated-notes .cmp-head {
@@ -634,7 +679,7 @@ body {
   }
 
   #generated-notes .cmp-row + .cmp-row {
-    border-top: none;
+    border-top: 1px dashed rgba(215, 207, 174, 0.9);
   }
 
   #generated-notes .cmp-cell {
@@ -685,11 +730,11 @@ body {
   /* V1 — FIXED-SIZE NOTEBOOK PAGE                                */
   /* ============================================================ */
 
-  /* the page is a fixed-height sheet; denser splitting makes most
-     pages fit, and a hidden internal scroll is the safety net */
+  /* the page is a fixed medium sheet; content is spread across pages,
+     so the page never scrolls and nothing overflows outside it */
   #generated-notes .mk-note-card {
-    height: var(--mk-card-h, min(560px, calc(100dvh - 258px)));
-    min-height: 360px;
+    height: var(--mk-card-h, min(640px, calc(100dvh - 200px)));
+    min-height: 420px;
   }
 
   /* One Page = last-minute revision sheet, uses the whole viewport */
@@ -697,17 +742,148 @@ body {
     height: var(--mk-card-h-onepage, min(640px, calc(100dvh - 150px)));
   }
 
+  /* One Page = compact revision sheet: tighter ink, no visual bulk */
+  #generated-notes.mk-one-page .mk-note-body p {
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+    margin-bottom: 0.4rem;
+  }
+  #generated-notes.mk-one-page .mk-note-body ul,
+  #generated-notes.mk-one-page .mk-note-body ol {
+    font-size: 14.75px !important;
+    line-height: 1.5 !important;
+    margin-bottom: 0.5rem;
+    margin-top: 0.15rem;
+  }
+  #generated-notes.mk-one-page .mk-note-body h2 {
+    margin-top: 0.6rem;
+    margin-bottom: 0.35rem;
+  }
+  #generated-notes.mk-one-page .mk-note-body h3 {
+    margin-top: 0.5rem;
+    margin-bottom: 0.25rem;
+    font-size: 15px;
+  }
+  #generated-notes.mk-one-page .mk-note-body blockquote {
+    margin: 0.45rem 0;
+    padding: 0.45rem 0.85rem;
+  }
+  #generated-notes.mk-one-page .mk-note-body .mk-study {
+    margin: 0.35rem 0;
+  }
+  #generated-notes.mk-one-page .mk-note-body .mk-study p {
+    margin-bottom: 0.15rem;
+  }
+  #generated-notes.mk-one-page .mk-note-body .mk-formula {
+    margin: 0.4rem 0;
+  }
+  #generated-notes.mk-one-page .mk-note-body hr {
+    margin: 0.4rem 0;
+  }
+
   #generated-notes .mk-note-body {
     flex: 1 1 0% !important;
     min-height: 0 !important;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    overflow: hidden;
+    overscroll-behavior: none;
   }
 
-  #generated-notes .mk-note-body::-webkit-scrollbar {
-    display: none;
+  /* multi-page notes flow into fixed-height columns = the phone sheets.
+     The browser packs content, so no page can ever clip; pagination just
+     slides the stream left/right by one sheet width. */
+  #generated-notes .mk-pages {
+    height: 100%;
+    column-fill: auto;
+    column-gap: 56px;
+    transition: transform 0.32s cubic-bezier(0.22, 0.8, 0.24, 1);
+    will-change: transform;
+  }
+
+  /* visual blocks should not be torn in half at a column boundary */
+  #generated-notes .mk-note-body .mk-formula,
+  #generated-notes .mk-note-body .mk-study,
+  #generated-notes .mk-note-body .mk-vshell,
+  #generated-notes .mk-note-body img,
+  #generated-notes .mk-note-body table,
+  #generated-notes .mk-note-body blockquote,
+  #generated-notes .mk-note-body hr {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+  }
+
+  /* dense paper — used only when a very long note would otherwise exceed the
+     compact short page count; tightens type so sheets hold a bit more */
+  #generated-notes.mk-dense .mk-note-body p,
+  #generated-notes.mk-dense .mk-note-body li {
+    font-size: 12.9px !important;
+    line-height: 1.36 !important;
+  }
+  #generated-notes.mk-dense .mk-note-body h2 {
+    font-size: 15.5px !important;
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+  #generated-notes.mk-dense .mk-note-body h3 {
+    font-size: 14px !important;
+    margin-top: 0.4rem !important;
+    margin-bottom: 0.2rem !important;
+  }
+  #generated-notes.mk-dense .mk-note-body blockquote {
+    padding-top: 0.4rem !important;
+    padding-bottom: 0.4rem !important;
+    margin: 0.4rem 0 !important;
+  }
+  #generated-notes.mk-dense .mk-note-body .mk-study-entries {
+    row-gap: 0.35rem !important;
+  }
+  #generated-notes.mk-dense .mk-note-body .mk-formula {
+    margin: 0.35rem 0 !important;
+  }
+
+  /* extra-dense paper — final fallback for exceptionally long notes */
+  #generated-notes.mk-dense-2 .mk-note-body p,
+  #generated-notes.mk-dense-2 .mk-note-body li {
+    font-size: 11.8px !important;
+    line-height: 1.28 !important;
+  }
+  #generated-notes.mk-dense-2 .mk-note-body h2 {
+    font-size: 13.5px !important;
+    margin-top: 0.35rem !important;
+    margin-bottom: 0.15rem !important;
+  }
+  #generated-notes.mk-dense-2 .mk-note-body h3 {
+    font-size: 12.2px !important;
+    margin-top: 0.28rem !important;
+    margin-bottom: 0.12rem !important;
+  }
+  #generated-notes.mk-dense-2 .mk-note-body blockquote {
+    padding-top: 0.3rem !important;
+    padding-bottom: 0.3rem !important;
+    margin: 0.28rem 0 !important;
+  }
+  #generated-notes.mk-dense-2 .mk-note-body .mk-formula,
+  #generated-notes.mk-dense-2 .mk-note-body .mk-study,
+  #generated-notes.mk-dense-2 .mk-note-body .mk-vshell {
+    margin-top: 0.22rem !important;
+    margin-bottom: 0.22rem !important;
+  }
+
+  /* ink never escapes the paper: long unbreakable tokens must wrap */
+  #generated-notes .mk-note-body p,
+  #generated-notes .mk-note-body li,
+  #generated-notes .mk-note-body .mk-caption,
+  #generated-notes .mk-note-body .mk-study *,
+  #generated-notes .mk-note-body .formula-plain,
+  #generated-notes .cmp-cell {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  /* wide inline math must scroll inside its sheet instead of widening the page */
+  #generated-notes .mk-formula .max-w-\[680px\] {
+    max-width: 100%;
+    overflow-x: auto;
   }
 
   /* ============================================================ */

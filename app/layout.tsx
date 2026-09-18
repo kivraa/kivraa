@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Patrick_Hand } from "next/font/google";
+import { Geist, Geist_Mono, Kalam } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -12,10 +12,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const kivraaHand = Patrick_Hand({
-  weight: "400",
+const kivraaHand = Kalam({
+  weight: ["400", "700"],
   variable: "--font-kivraa-hand",
-  subsets: ["latin"],
+  subsets: ["latin", "devanagari"],
   display: "swap",
   preload: false,
 });

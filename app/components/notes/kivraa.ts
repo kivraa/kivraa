@@ -46,6 +46,10 @@ export function readableVisualText(value: string) {
   return String(value || "")
     .replace(/\$\$/g, "")
     .replace(/\$/g, "")
+    .replace(/\*{1,2}/g, "")
+    .replace(/__(.*?)__/g, "$1")
+    .replace(/^#+\s*/gm, "")
+    .replace(/`/g, "")
     .replace(/\\text\s*\{([^{}]*)\}/g, "$1")
     .replace(/\\mathrm\s*\{([^{}]*)\}/g, "$1")
     .replace(/\\frac\s*\{([^{}]*)\}\s*\{([^{}]*)\}/g, "$1 / $2")
@@ -93,8 +97,9 @@ export function visualItems(kind: string, rawItems: string[]) {
   Rules:
   - One Page = 1 revision sheet (distilled, never a wall of text)
   - Other styles = minimum 3, maximum 6 on desktop
-  - Mobile (compact) = minimum 5, maximum 9 — medium-sized pages,
-    because the phone viewport fits less per page.
+  - Mobile (compact) = minimum 3, usually 3-6, up to 9 on very long topics.
+    Each phone page is a fixed medium sheet (approximately 700-900 chars),
+    so pages fill comfortably without ever needing to scroll internally.
   - Never create empty pages
   - Prefer heading/section boundaries
   - Avoid tiny pages
@@ -126,11 +131,10 @@ export function splitNotesIntoPages(
   let targetPages = 3;
 
   if (compact) {
-    if (totalChars > 4000) targetPages = 6;
-    if (totalChars > 6500) targetPages = 7;
-    if (totalChars > 9000) targetPages = 8;
-    if (totalChars > 12000) targetPages = 9;
-    targetPages = Math.min(9, Math.max(5, targetPages));
+    targetPages = Math.min(
+      9,
+      Math.max(3, Math.ceil(totalChars / 850))
+    );
   } else {
     if (totalChars > 5000) targetPages = 4;
     if (totalChars > 7500) targetPages = 5;
@@ -142,14 +146,11 @@ export function splitNotesIntoPages(
   let currentBlocks: string[] = [];
   let currentLength = 0;
 
-  const targetChars = Math.ceil(
-    totalChars / targetPages
-  );
+  const targetChars = Math.ceil(totalChars / targetPages);
 
-  for (const block of blocks) {
-    const nextLength =
-      currentLength +
-      block.length;
+  for (let bi = 0; bi < blocks.length; bi++) {
+    const block = blocks[bi];
+    const nextLength = currentLength + block.length;
 
     if (
       currentBlocks.length > 0 &&
@@ -174,7 +175,7 @@ export function splitNotesIntoPages(
     );
   }
 
-  const tinyThreshold = compact ? 340 : 500;
+  const tinyThreshold = compact ? 420 : 500;
 
   for (let i = pages.length - 1; i > 0; i--) {
     if (pages[i].length < tinyThreshold) {
@@ -217,11 +218,12 @@ export function splitNotesIntoPages(
   Keeps only high-value material:
   - headings
   - list items / short factual lines
-  - fenced blocks (formula, important, remember, comparison)
+  - compact fenced blocks (formula, important, remember, comparison)
   - short paragraphs
 
-  Drops long prose paragraphs and low-value filler. The result is a
-  concise cheat sheet that fits a single mobile viewport.
+  Drops long prose paragraphs and bulky visual fences (flowchart / diagram /
+  cycle) — a revision sheet is a quick-reference, not a layout page. The
+  result is a concise cheat sheet that fits a single mobile viewport.
 */
 export function prepareOnePage(markdown: string) {
   const clean = String(markdown ?? "")
@@ -230,7 +232,7 @@ export function prepareOnePage(markdown: string) {
 
   if (!clean) return "";
 
-  const maxSheetChars = 4800;
+  const maxSheetChars = 640;
   const longParagraphLimit = 180;
   const shortLineLimit = 130;
 
@@ -257,7 +259,7 @@ export function prepareOnePage(markdown: string) {
       const lang =
         /^```([a-z0-9-]+)/i.exec(lines[0])?.[1] || "";
 
-      if (/^(formula|important|remember|comparison|flowchart|diagram)$/i.test(lang)) {
+      if (/^(formula|important|remember|comparison)$/i.test(lang)) {
         kept.push(block);
       }
       continue;

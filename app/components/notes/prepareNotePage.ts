@@ -121,6 +121,19 @@ export function prepareNotePage(markdown: string) {
     // Arrow cleanup for plain prose.
     let text = arrowClean(line);
 
+    // Leading whitespace on an otherwise-plain line would turn it into an
+    // indented code block (raw markdown on the paper). Normalize the block
+    // start so generated headings/lists render as text, never as raw "#".
+    text = text.trimStart();
+
+    // "#Heading" without a space would render as raw "#" — make it a valid
+    // heading so heading syntax never shows up as literal text.
+    text = text.replace(/^(#{1,6})(?=\S)/, "$1 ");
+
+    // `# # 1. ...` / `## #### ...` would render the leading marker as raw
+    // text inside the heading — collapse repeated markers into one.
+    text = text.replace(/^(#{1,6})(?:\s+#)+\s/, "$1 ");
+
     // Drop leftover markdown artifacts (stray delimiter rows, |||, pure pipes).
     if (isJunkLine(text)) {
       continue;

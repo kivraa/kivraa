@@ -451,13 +451,9 @@ function NotesLoading() {
             {/* animated logo */}
             <div className="relative flex h-[105px] w-[105px] items-center justify-center">
 
-              <div className="absolute inset-0 animate-ping rounded-[30px] border border-[#F5B700]/20" />
-
-              <div className="absolute inset-[9px] animate-[loaderRotate_5s_linear_infinite] rounded-[27px] border border-dashed border-[#F5B700]/30" />
-
               <KivraaLogoAnimated
                 className="relative"
-                size={80}
+                size={88}
                 playing={true}
               />
             </div>

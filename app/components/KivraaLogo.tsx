@@ -3,92 +3,18 @@
 import { useEffect, useRef } from "react";
 
 /* ────────────────────────────────────────────────────────────────
- * KivraaLogo — two overlapping sharp/tilted panels
+ * KivraaLogo — approved Kivraa artwork (two overlapping panels:
+ * sunset-yellow front, warm-cream rear), rendered 1:1 from the
+ * source-of-truth PNG in /public/logo.
  *
- *  • "normal"  → static logo, uses CSS animation classes
- *  • "loading" → formation + float loop via JS-driven keyframes
+ *  • KivraaLogoStatic   → static logo (navbar, footer, auth, notes)
+ *  • KivraaLogoAnimated → formation + glow + float loop (loading)
  *  • respects prefers-reduced-motion (shows static in both modes)
  * ──────────────────────────────────────────────────────────────── */
 
-function Panels({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 32 32"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className={className}
-      aria-hidden="true"
-    >
-      <defs>
-        <linearGradient
-          id="kivraa-cream-grad"
-          x1="0%"
-          y1="0%"
-          x2="100%"
-          y2="100%"
-        >
-          <stop offset="0%" stopColor="#F2ECE0" />
-          <stop offset="100%" stopColor="#E2DCCE" />
-        </linearGradient>
-        <linearGradient
-          id="kivraa-yellow-grad"
-          x1="25%"
-          y1="0%"
-          x2="75%"
-          y2="100%"
-        >
-          <stop offset="0%" stopColor="#F5B700" />
-          <stop offset="100%" stopColor="#E0A400" />
-        </linearGradient>
-        <filter id="kivraa-panel-shadow">
-          <feDropShadow
-            dx="0"
-            dy="0.6"
-            stdDeviation="1"
-            floodColor="#000"
-            floodOpacity="0.18"
-          />
-        </filter>
-      </defs>
+const MASTER = "/logo/kivraa-logo.png";
 
-      {/* Rear panel — cream */}
-      <g filter="url(#kivraa-panel-shadow)">
-        <rect
-          x="11"
-          y="5.5"
-          width="15.5"
-          height="12.5"
-          fill="url(#kivraa-cream-grad)"
-          transform="rotate(9 18.75 11.75)"
-        />
-        {/* subtle yellow reflection on the cream surface */}
-        <rect
-          x="15"
-          y="8"
-          width="7"
-          height="5"
-          fill="#F5B700"
-          opacity="0.1"
-          transform="rotate(9 18.5 10.5)"
-        />
-      </g>
-
-      {/* Front panel — yellow */}
-      <g filter="url(#kivraa-panel-shadow)">
-        <rect
-          x="5"
-          y="13"
-          width="15.5"
-          height="12.5"
-          fill="url(#kivraa-yellow-grad)"
-          transform="rotate(-4 12.75 19.25)"
-        />
-      </g>
-    </svg>
-  );
-}
-
-/* ── Static logo ─────────────────────────────────────────────── */
+/* Static logo ─────────────────────────────────────────────── */
 export function KivraaLogoStatic({
   className = "",
   size,
@@ -101,12 +27,17 @@ export function KivraaLogoStatic({
       className={className}
       style={size ? { width: size, height: size } : undefined}
     >
-      <Panels className="h-full w-full" />
+      <img
+        src={MASTER}
+        alt="Kivraa"
+        draggable={false}
+        className="block h-full w-full select-none"
+      />
     </div>
   );
 }
 
-/* ── Animated logo (loading / hero) ──────────────────────────── */
+/* Animated logo (loading / hero) ──────────────────────────── */
 export function KivraaLogoAnimated({
   className = "",
   size,
@@ -116,9 +47,9 @@ export function KivraaLogoAnimated({
   size?: number;
   playing?: boolean;
 }) {
-  const creamRef = useRef<SVGGElement>(null);
-  const yellowRef = useRef<SVGGElement>(null);
-  const glowRef = useRef<SVGGElement>(null);
+  const creamRef = useRef<HTMLDivElement>(null);
+  const yellowRef = useRef<HTMLDivElement>(null);
+  const glowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!playing) return;
@@ -232,94 +163,52 @@ export function KivraaLogoAnimated({
       `,
         }}
       />
-      <svg
-        viewBox="0 0 32 32"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-full w-full"
-        aria-hidden="true"
+
+      {/* warm glow layer */}
+      <div
+        ref={glowRef}
+        style={{ opacity: 0 }}
+        className="pointer-events-none absolute inset-0"
       >
-        <defs>
-          <linearGradient
-            id="kivraa-cream-grad-a"
-            x1="0%"
-            y1="0%"
-            x2="100%"
-            y2="100%"
-          >
-            <stop offset="0%" stopColor="#F2ECE0" />
-            <stop offset="100%" stopColor="#E2DCCE" />
-          </linearGradient>
-          <linearGradient
-            id="kivraa-yellow-grad-a"
-            x1="25%"
-            y1="0%"
-            x2="75%"
-            y2="100%"
-          >
-            <stop offset="0%" stopColor="#F5B700" />
-            <stop offset="100%" stopColor="#E0A400" />
-          </linearGradient>
-          <filter id="kivraa-shadow-a">
-            <feDropShadow
-              dx="0"
-              dy="0.6"
-              stdDeviation="1"
-              floodColor="#000"
-              floodOpacity="0.18"
-            />
-          </filter>
-          <filter id="kivraa-glow-a">
-            <feGaussianBlur stdDeviation="2.5" />
-          </filter>
-        </defs>
+        <div
+          className="h-full w-full"
+          style={{
+            background:
+              "radial-gradient(circle, rgba(245,183,0,0.35) 0%, rgba(245,183,0,0.14) 42%, rgba(245,183,0,0) 70%)",
+            filter: "blur(4px)",
+          }}
+        />
+      </div>
 
-        {/* Warm glow behind the logo */}
-        <g ref={glowRef} style={{ opacity: 0 }}>
-          <ellipse
-            cx="16"
-            cy="17"
-            rx="14"
-            ry="12"
-            fill="#F5B700"
-            filter="url(#kivraa-glow-a)"
-            opacity="0.35"
-          />
-        </g>
+      {/* rear (cream) layer */}
+      <div
+        ref={creamRef}
+        className="absolute inset-0"
+        style={{ willChange: "transform, opacity, filter" }}
+      >
+        <img
+          src="/logo/kivraa-logo-cream.png"
+          alt=""
+          aria-hidden="true"
+          draggable={false}
+          className="block h-full w-full select-none"
+        />
+      </div>
 
-        {/* Rear panel — cream */}
-        <g ref={creamRef} filter="url(#kivraa-shadow-a)">
-          <rect
-            x="11"
-            y="5.5"
-            width="15.5"
-            height="12.5"
-            fill="url(#kivraa-cream-grad-a)"
-            transform="rotate(9 18.75 11.75)"
-          />
-          <rect
-            x="15"
-            y="8"
-            width="7"
-            height="5"
-            fill="#F5B700"
-            opacity="0.1"
-            transform="rotate(9 18.5 10.5)"
-          />
-        </g>
-
-        {/* Front panel — yellow */}
-        <g ref={yellowRef} filter="url(#kivraa-shadow-a)">
-          <rect
-            x="5"
-            y="13"
-            width="15.5"
-            height="12.5"
-            fill="url(#kivraa-yellow-grad-a)"
-            transform="rotate(-4 12.75 19.25)"
-          />
-        </g>
-      </svg>
+      {/* front (yellow) layer */}
+      <div
+        ref={yellowRef}
+        className="absolute inset-0"
+        style={{ willChange: "transform, opacity, filter" }}
+      >
+        <img
+          src="/logo/kivraa-logo-yellow.png"
+          alt=""
+          aria-hidden="true"
+          draggable={false}
+          className="block h-full w-full select-none"
+        />
+      </div>
     </div>
   );
 }

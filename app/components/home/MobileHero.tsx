@@ -44,10 +44,9 @@ function MobileLoading() {
 
         <div className="relative flex flex-col items-center">
 <div className="mk-load-orb relative flex h-[72px] w-[72px] items-center justify-center">
-          <div className="mk-load-ring absolute inset-0 rounded-full border border-dashed border-[#F5B700]/30" />
           <KivraaLogoAnimated
             className="relative"
-            size={56}
+            size={60}
             playing={true}
           />
         </div>
