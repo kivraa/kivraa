@@ -788,15 +788,28 @@ body {
     overscroll-behavior: none;
   }
 
-  /* multi-page notes flow into fixed-height columns = the phone sheets.
-     The browser packs content, so no page can ever clip; pagination just
-     slides the stream left/right by one sheet width. */
+  /* multi-page notes are packed into fixed sheets by the app layer (each
+     sheet = one phone page). The rail just slides left/right by one sheet
+     width; sheets never clip because packing guarantees a fit. */
   #generated-notes .mk-pages {
-    height: 100%;
-    column-fill: auto;
-    column-gap: 56px;
+    display: flex;
+    align-items: flex-start;
     transition: transform 0.32s cubic-bezier(0.22, 0.8, 0.24, 1);
     will-change: transform;
+  }
+
+  #generated-notes .mk-pages .mk-sheet {
+    flex: 0 0 auto;
+    margin-right: 56px;
+    overflow: hidden;
+  }
+
+  #generated-notes .mk-note-body .mk-measure {
+    position: fixed;
+    left: -9999px;
+    top: 0;
+    z-index: -1;
+    pointer-events: none;
   }
 
   /* visual blocks should not be torn in half at a column boundary */
@@ -896,12 +909,12 @@ body {
     border: none !important;
     border-radius: 0 !important;
     box-shadow: none !important;
-    margin: 0.75rem 0;
+    margin: 0.3rem 0;
   }
 
   #generated-notes .mk-vshell-head {
     border-bottom: 1px dashed rgba(215, 207, 174, 0.9);
-    padding: 0.15rem 0.15rem 0.45rem;
+    padding: 0.05rem 0.1rem 0.2rem;
   }
 
   #generated-notes .mk-vshell-head > span {
@@ -910,7 +923,7 @@ body {
   }
 
   #generated-notes .mk-vshell-body {
-    padding: 0.55rem 0.15rem 0.15rem;
+    padding: 0.15rem 0.1rem 0.05rem;
   }
 
   /* study annotations (Important / Remember / Example): paper notes
@@ -920,25 +933,25 @@ body {
     box-shadow: none !important;
     border-radius: 8px;
     border-left-width: 3px;
-    margin: 0.7rem 0;
+    margin: 0.3rem 0;
   }
 
   #generated-notes .mk-study > div:first-child {
     margin: 0 0.6rem;
-    padding: 0.4rem 0 0.2rem;
+    padding: 0.2rem 0 0.1rem;
     background: transparent !important;
   }
 
   #generated-notes .mk-study > div:last-child {
-    padding: 0.35rem 0.6rem 0.25rem;
+    padding: 0.1rem 0.5rem 0.1rem;
   }
 
   #generated-notes .mk-study p {
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.15rem;
   }
 
   #generated-notes .mk-study li {
-    margin-top: 0.2rem;
+    margin-top: 0.1rem;
   }
 
   /* the formula panel stays a yellow sheet but compact */
@@ -948,15 +961,20 @@ body {
   }
 
   #generated-notes .mk-formula > div:first-child {
-    padding: 0.4rem 0.7rem;
+    padding: 0.25rem 0.6rem;
   }
 
   #generated-notes .mk-formula > div:last-child {
-    padding: 0.7rem 0.55rem 0.55rem;
+    padding: 0.25rem 0.45rem 0.25rem;
   }
 
   #generated-notes .mk-formula {
     overflow-x: auto;
+  }
+
+  #generated-notes .mk-note-body blockquote {
+    margin: 0.35rem 0 !important;
+    padding: 0.35rem 0.8rem !important;
   }
 
   /* ============================================================ */
@@ -973,22 +991,22 @@ body {
     counter-increment: mkflow;
     display: flex;
     align-items: flex-start;
-    gap: 8px;
+    gap: 6px;
     text-align: left;
-    padding: 0.45rem 0.6rem;
-    font-size: 12.5px;
-    line-height: 1.5;
+    padding: 0.12rem 0.6rem;
+    font-size: 12px;
+    line-height: 1.38;
   }
 
   #generated-notes .mk-flow .mk-node::before {
     content: counter(mkflow, decimal-leading-zero);
     flex: none;
-    width: 20px;
-    height: 20px;
+    width: 17px;
+    height: 17px;
     border-radius: 9999px;
     background: #f5b700;
     color: #0b0b0b;
-    font-size: 9px;
+    font-size: 8.5px;
     font-weight: 800;
     display: inline-flex;
     align-items: center;
@@ -998,7 +1016,7 @@ body {
   }
 
   #generated-notes .mk-flow-arrow {
-    height: 1.1rem !important;
+    height: 0.3rem !important;
   }
 
   #generated-notes .mk-flow-arrow svg {

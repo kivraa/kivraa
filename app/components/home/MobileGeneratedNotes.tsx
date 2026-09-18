@@ -15,9 +15,114 @@ import { readableVisualText, visualItems, type Style } from "../notes/kivraa";
 
 const hand = "var(--font-kivraa-hand)";
 
-/* Gap, in px, between notebook columns. Must match the CSS below and the
-   walk-from-column-to-column math. */
+/* Gap, in px, between notebook sheets. Must match the CSS below and the
+   walk-from-sheet-to-sheet math. */
 const COLUMN_GAP = 56;
+
+/* Splits prepared note markdown into atomic, order-preserving units that can
+   be packed onto sheets without breaking markdown or tearing visual blocks:
+   - fenced code blocks (formulas, flowcharts, audit boxes) stay whole,
+   - ATX headings stay whole,
+   - runs of plain prose are kept together unless they are short and free of
+     emphasis/latex/list markers, in which case they can be sliced at
+     sentence boundaries so sheets pack tightly. */
+function splitNoteUnits(markdown: string): string[] {
+  const lines = String(markdown).replace(/\r/g, "").split("\n");
+  const units: string[] = [];
+  let i = 0;
+
+  while (i < lines.length) {
+    const trimmed = lines[i].trim();
+
+    if (!trimmed) {
+      i += 1;
+      continue;
+    }
+
+    if (/^```/.test(trimmed)) {
+      const block: string[] = [];
+      block.push(lines[i]);
+      i += 1;
+      while (i < lines.length && !/^\s*```/.test(lines[i])) {
+        block.push(lines[i]);
+        i += 1;
+      }
+      if (i < lines.length) {
+        block.push(lines[i]);
+        i += 1;
+      }
+      units.push(block.join("\n"));
+      continue;
+    }
+
+    if (/^(#{1,6})\s/.test(trimmed) && !/^#{7,}/.test(trimmed)) {
+      units.push(lines[i]);
+      i += 1;
+      continue;
+    }
+
+    const run: string[] = [];
+    while (
+      i < lines.length &&
+      lines[i].trim() !== "" &&
+      !/^```/.test(lines[i].trim()) &&
+      !/^(#{1,6})\s/.test(lines[i].trim())
+    ) {
+      run.push(lines[i]);
+      i += 1;
+    }
+    const joined = run.join("\n");
+    const hasList =
+      /^\s*(?:[-*+]|\d+[.)])\s/.test(lines[i - 1] || "") ||
+      /^\s*(?:[-*+]|\d+[.)])\s/.test(lines[i] || "");
+    const safeToSlice =
+      !hasList && !/[*$]\^|\\\(|\\\]/.test(joined) && joined.split(/\s+/).length > 26;
+
+    if (safeToSlice) {
+      const pieces = joined.split(/(?<=[.!?])\s+(?=[A-Z0-9∞√π∑Δ&<])/);
+      for (const piece of pieces) {
+        const clean = piece.trim();
+        if (clean) units.push(clean);
+      }
+    } else {
+      units.push(joined);
+    }
+  }
+
+  return units;
+}
+
+/* Greedy pack of measured units onto fixed-height sheets. A unit taller than
+   a sheet is treated as its own full sheet (the render layer scales it). */
+function packSheets(
+  units: string[],
+  heights: number[],
+  pageHeight: number
+): string[][] {
+  const pages: string[][] = [];
+  let current: string[] = [];
+  let used = 0;
+  /* Small safety margin so collapsed margins at a sheet end can never push a
+     final line out of the fixed sheet. */
+  const budget = Math.max(120, (pageHeight || 491) - 12);
+
+  for (let i = 0; i < units.length; i++) {
+    const h = Math.max(
+      0,
+      Math.min(heights[i] || 0, pageHeight - 12)
+    );
+    if (current.length && used + h > budget) {
+      pages.push(current);
+      current = [units[i]];
+      used = h;
+    } else {
+      current.push(units[i]);
+      used += h;
+    }
+  }
+  if (current.length) pages.push(current);
+  return pages.length ? pages : [[...units]];
+}
 
 const makeNoteComponents = (style: Style) => ({
   h1: ({ children }: { children?: React.ReactNode }) => (
@@ -27,7 +132,7 @@ const makeNoteComponents = (style: Style) => ({
         className="pointer-events-none absolute inset-x-[-2px] top-[58%] bottom-[3%] -z-[1] rotate-[-0.5deg] rounded-[3px] bg-[#F5D85B]/75"
       />
       <h1
-        className="text-[22px] font-bold leading-[1.12] text-[#142C49]"
+        className="text-[21px] font-bold leading-[1.1] text-[#142C49]"
         style={{ fontFamily: hand }}
       >
         {children}
@@ -36,23 +141,23 @@ const makeNoteComponents = (style: Style) => ({
   ),
 
   h2: ({ children }: { children?: React.ReactNode }) => (
-    <div className="mb-2 mt-4">
+    <div className="mb-0.75 mt-1.5">
       <div className="flex items-end gap-2">
-        <span className="mb-[3px] h-2 w-2 shrink-0 rounded-full bg-[#F5B700]" />
+        <span className="mb-[2px] h-1.5 w-1.5 shrink-0 rounded-full bg-[#F5B700]" />
         <h2
-          className="text-[19px] font-bold leading-tight text-[#142C49]"
+          className="text-[18px] font-bold leading-tight text-[#142C49]"
           style={{ fontFamily: hand }}
         >
           {children}
         </h2>
       </div>
-      <div className="mt-1.5 h-[3px] w-12 rounded-full bg-[#F5B700]" />
+      <div className="mt-0.5 h-[3px] w-11 rounded-full bg-[#F5B700]" />
     </div>
   ),
 
   h3: ({ children }: { children?: React.ReactNode }) => (
     <h3
-      className="mb-1 mt-3 text-[16.5px] font-bold text-[#17314F]"
+      className="mb-0.25 mt-0.75 text-[16px] font-bold text-[#17314F]"
       style={{ fontFamily: hand }}
     >
       {children}
@@ -60,19 +165,19 @@ const makeNoteComponents = (style: Style) => ({
   ),
 
   p: ({ children }: { children?: React.ReactNode }) => (
-    <p className="mb-2 text-[16.5px] font-medium leading-[1.6] text-[#26384B]">
+    <p className="mb-0.75 text-[16px] font-medium leading-[1.5] text-[#26384B]">
       {children}
     </p>
   ),
 
   ul: ({ children }: { children?: React.ReactNode }) => (
-    <ul className="mb-3 ml-5 list-disc space-y-0.5 text-[16px] leading-[1.65] text-[#26384B] marker:text-[#E7A900]">
+    <ul className="mb-1 ml-5 list-disc space-y-0.5 text-[15.5px] leading-[1.5] text-[#26384B] marker:text-[#E7A900]">
       {children}
     </ul>
   ),
 
   ol: ({ children }: { children?: React.ReactNode }) => (
-    <ol className="mb-3 ml-5 list-decimal space-y-0.5 text-[16px] leading-[1.65] text-[#26384B] marker:font-bold marker:text-[#E7A900]">
+    <ol className="mb-1 ml-5 list-decimal space-y-0.5 text-[15.5px] leading-[1.5] text-[#26384B] marker:font-bold marker:text-[#E7A900]">
       {children}
     </ol>
   ),
@@ -193,7 +298,7 @@ const makeNoteComponents = (style: Style) => ({
   ),
 
   table: ({ children }: { children?: React.ReactNode }) => (
-    <div className="my-3 overflow-x-auto rounded-[13px] border border-[#DDD2AE] bg-white/45">
+    <div className="my-2 overflow-x-auto rounded-[13px] border border-[#DDD2AE] bg-white/45">
       <table className="mk-table w-full min-w-[300px] border-collapse text-[13.5px]">
         {children}
       </table>
@@ -201,24 +306,24 @@ const makeNoteComponents = (style: Style) => ({
   ),
 
   th: ({ children }: { children?: React.ReactNode }) => (
-    <th className="border-b border-[#DDD2AE] bg-[#F5D85B]/50 px-3 py-2.5 text-left font-bold text-[#172D48]">
+    <th className="border-b border-[#DDD2AE] bg-[#F5D85B]/50 px-2.5 py-1.5 text-left font-bold text-[#172D48]">
       {children}
     </th>
   ),
 
   td: ({ children }: { children?: React.ReactNode }) => (
-    <td className="border-b border-[#E6DEC7] px-3 py-2.5 text-[#26384B]">
+    <td className="border-b border-[#E6DEC7] px-2.5 py-1.5 text-[#26384B]">
       {children}
     </td>
   ),
 
   img: ({ src, alt }: { src?: string | Blob; alt?: string }) => (
-    <div className="my-3 overflow-hidden rounded-[16px] border border-[#D8CFAE] bg-white/40 p-2">
+    <div className="my-2 overflow-hidden rounded-[16px] border border-[#D8CFAE] bg-white/40 p-1.5">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={src || ""}
         alt={alt || "Diagram"}
-        className="mx-auto max-h-[320px] max-w-full object-contain"
+        className="mx-auto max-h-[260px] max-w-full object-contain"
       />
     </div>
   ),
@@ -239,9 +344,13 @@ export default function MobileGeneratedNotes({
 }) {
   const [sheetScale, setSheetScale] = useState(1);
   const [pageWidth, setPageWidth] = useState(0);
+  const [pageHeight, setPageHeight] = useState(0);
   const [columnCount, setColumnCount] = useState(1);
+  const [units, setUnits] = useState<string[]>([]);
+  const [sheets, setSheets] = useState<string[]>([]);
   const [dense, setDense] = useState(0);
   const denseRef = useRef(0);
+  const unitsKeyRef = useRef("");
   const prevPagesRef = useRef(pages);
   const pagesRef = useRef<HTMLDivElement>(null);
   const isOnePage = pages.length === 1;
@@ -283,97 +392,86 @@ export default function MobileGeneratedNotes({
     };
   }, [isOnePage, pages]);
 
-/* Multi-page notes are packed by the browser's own column layout: the
-     whole markdown stream flows into fixed-height columns (one per phone
-     sheet), so content can never be clipped — whatever does not fit spills
-     into the next column (= next page). Pagination just slides the stream.
-     The column count is read straight from layout (synchronously, then on
-     every change) so the digit on the pill always matches the paper. */
+/* Multi-page notes are packed at the app layer, sheet by sheet. Instead of
+     letting the browser balance text across CSS columns (which leaves every
+     sheet half-empty), the note is split into atomic units, each unit is
+     measured at its true rendered height, and units are packed greedily onto
+     fixed-height sheets. A sheet can never clip: whatever does not fit simply
+     starts the next sheet. Pagination just slides the strip. */
   useLayoutEffect(() => {
     if (!pages.length || isOnePage) return;
-
-    const bodyEl = document.querySelector(
-      "#generated-notes .mk-note-body"
-    ) as HTMLElement | null;
-    const wrap = pagesRef.current;
-    if (!bodyEl || !wrap) return;
 
     if (prevPagesRef.current !== pages) {
       prevPagesRef.current = pages;
       denseRef.current = 0;
       setDense(0);
     }
-    let interrupted = false;
+
+    const source = prepareNotePage(pages.join("\n\n"));
+    const unis = splitNoteUnits(source);
+    const key = unis.join("\u0000");
+    if (unitsKeyRef.current !== key) {
+      unitsKeyRef.current = key;
+      setUnits(unis);
+    }
+  }, [pages, isOnePage]);
+
+  useLayoutEffect(() => {
+    if (!pages.length || isOnePage || !units.length) return;
+
+    const bodyEl = document.querySelector(
+      "#generated-notes .mk-note-body"
+    ) as HTMLElement | null;
+    if (!bodyEl) return;
+
+    let alive = true;
     let lastCount = -1;
 
-    const measure = () => {
-      if (interrupted) return;
+    const pack = () => {
+      if (!alive) return;
 
       const width = bodyEl.clientWidth;
       if (width > 0) setPageWidth(width);
+      const height = bodyEl.clientHeight;
+      if (height > 0) setPageHeight(height);
 
-      /* An indivisible visual block (chart, study card, formula sheet…) that
-         is taller than one sheet would spill below the paper — columns cannot
-         break it. Shrink those blocks (uniform scale) so every sheet fits. */
-      const pageH = bodyEl.clientHeight;
-      const indivisible = [
-        ".mk-vshell",
-        ".mk-diagram",
-        ".mk-study",
-        ".mk-formula",
-        ".mk-cycle",
-        ".mk-important",
-        ".mk-remember",
-        ".mk-experiment",
-        ".mk-observation",
-        ".mk-timeline",
-        "pre",
-        ".cmp-card",
-        ".cmp-table",
-        ".mk-cmp",
-      ];
-      for (const sel of indivisible) {
-        const found = wrap.querySelectorAll(sel);
-        for (let i = 0; i < found.length; i++) {
-          const el = found[i] as HTMLElement;
-          const natural = el.getBoundingClientRect().height;
-          if (!Number.isFinite(natural) || natural <= 0) continue;
-          const available = Math.max(200, pageH - 46);
-          if (natural <= available + 1) continue;
-          const k = Math.max(0.5, available / natural);
-          el.style.transformOrigin = "top center";
-          el.style.transform = `scale(${Math.round(k * 100) / 100})`;
-          el.style.height = `${Math.round(natural * k)}px`;
-        }
-      }
+      const host = document.querySelector(
+        "#generated-notes .mk-measure"
+      ) as HTMLElement | null;
+      if (!host) return;
 
-      const advance = width + COLUMN_GAP;
-      const count = Math.max(
-        1,
-        Math.ceil((wrap.scrollWidth + COLUMN_GAP) / advance)
+      const els = Array.from(
+        host.querySelectorAll("[data-mk-unit]")
+      ) as HTMLElement[];
+      if (els.length !== units.length) return;
+
+      const heights = els.map((el) =>
+        Math.max(0, el.getBoundingClientRect().height)
       );
+      const packed = packSheets(units, heights, height || 491);
 
       /* Very long notes get one or two compact typesetting passes (markdown-style
          emphasis-free, tighter) so the page count stays notebook-like. */
-      if (count > 9 && denseRef.current < 2) {
+      if (packed.length > 9 && denseRef.current < 2) {
         denseRef.current += 1;
         setDense(denseRef.current);
         return;
       }
 
-      const settled = Math.min(48, count);
-      if (settled !== lastCount) {
-        lastCount = settled;
-        setColumnCount(settled);
+      const count = Math.min(48, packed.length);
+      setSheets(packed.map((page) => page.join("\n\n")));
+      if (count !== lastCount) {
+        lastCount = count;
+        setColumnCount(count);
       }
     };
 
-    measure();
+    pack();
 
     let ro: ResizeObserver | null = null;
     try {
-      ro = new ResizeObserver(measure);
-      ro.observe(wrap);
+      ro = new ResizeObserver(pack);
+      ro.observe(bodyEl);
     } catch {
       /* ResizeObserver unavailable in this environment */
     }
@@ -390,18 +488,63 @@ export default function MobileGeneratedNotes({
       } catch {
         /* fine */
       }
-      if (!cancelled) measure();
+      if (!cancelled) pack();
     };
     void onFonts();
-    const ticker = window.setInterval(measure, 800);
+    const ticker = window.setInterval(pack, 900);
 
     return () => {
-      interrupted = true;
+      alive = false;
       cancelled = true;
       ro?.disconnect();
       window.clearInterval(ticker);
     };
-  }, [pages, isOnePage]);
+  }, [units, dense, isOnePage, pages]);
+
+  /* Any indivisible visual block that is taller than a sheet is scaled to fit
+     (uniform scale) so a single block never forces clipped sheets. */
+  useLayoutEffect(() => {
+    if (!sheets.length) return;
+    const rail = pagesRef.current;
+    if (!rail) return;
+
+    const bodyEl = document.querySelector(
+      "#generated-notes .mk-note-body"
+    ) as HTMLElement | null;
+    if (!bodyEl) return;
+
+    const pageH = bodyEl.clientHeight;
+    const indivisible = [
+      ".mk-vshell",
+      ".mk-diagram",
+      ".mk-study",
+      ".mk-formula",
+      ".mk-cycle",
+      ".mk-important",
+      ".mk-remember",
+      ".mk-experiment",
+      ".mk-observation",
+      ".mk-timeline",
+      "pre",
+      ".cmp-card",
+      ".cmp-table",
+      ".mk-cmp",
+    ];
+    for (const sel of indivisible) {
+      const found = rail.querySelectorAll(sel);
+      for (let i = 0; i < found.length; i++) {
+        const el = found[i] as HTMLElement;
+        const natural = el.getBoundingClientRect().height;
+        if (!Number.isFinite(natural) || natural <= 0) continue;
+        const available = Math.max(200, pageH - 46);
+        if (natural <= available + 1) continue;
+        const k = Math.max(0.5, available / natural);
+        el.style.transformOrigin = "top center";
+        el.style.transform = `scale(${Math.round(k * 100) / 100})`;
+        el.style.height = `${Math.round(natural * k)}px`;
+      }
+    }
+  }, [sheets]);
 
   const effectiveCount = isOnePage ? 1 : columnCount;
   const index = Math.min(Math.max(0, currentPage), effectiveCount - 1);
@@ -520,24 +663,67 @@ export default function MobileGeneratedNotes({
                       {prepareNotePage(prepareOnePage(pages[0] || ""))}
                     </ReactMarkdown>
                   ) : (
-                    <div
-                      ref={pagesRef}
-                      className="mk-pages"
-                      style={{
-                        columnWidth: `${pageWidth || 300}px`,
-                        transform: `translateX(${
-                          -index * ((pageWidth || 300) + COLUMN_GAP)
-                        }px)`,
-                      }}
-                    >
-                      <ReactMarkdown
-                        remarkPlugins={[remarkMath]}
-                        rehypePlugins={[rehypeKatex]}
-                        components={makeNoteComponents(style)}
+                    <>
+                      <div
+                        ref={pagesRef}
+                        className="mk-pages"
+                        style={{
+                          height: pageHeight ? `${pageHeight}px` : undefined,
+                          transform: `translateX(${
+                            -index * ((pageWidth || 300) + COLUMN_GAP)
+                          }px)`,
+                        }}
                       >
-                        {prepareNotePage(pages.join("\n\n"))}
-                      </ReactMarkdown>
-                    </div>
+                        {sheets.map((sheet, sheetIndex) => (
+                          <div
+                            key={sheetIndex}
+                            className="mk-sheet"
+                            style={{
+                              width: pageWidth || 300,
+                              height: pageHeight || "100%",
+                            }}
+                          >
+                            <ReactMarkdown
+                              remarkPlugins={[remarkMath]}
+                              rehypePlugins={[rehypeKatex]}
+                              components={makeNoteComponents(style)}
+                            >
+                              {sheet}
+                            </ReactMarkdown>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div
+                        aria-hidden="true"
+                        className="mk-measure mk-note-body"
+                        style={{
+                          position: "fixed",
+                          left: -9999,
+                          top: 0,
+                          width: pageWidth || 300,
+                          visibility: "hidden",
+                          pointerEvents: "none",
+                          zIndex: -1,
+                          overflow: "visible",
+                          height: "auto",
+                          flex: "none",
+                          minHeight: 0,
+                        }}
+                      >
+                        {units.map((unit, unitIndex) => (
+                          <div key={unitIndex} data-mk-unit={unitIndex}>
+                            <ReactMarkdown
+                              remarkPlugins={[remarkMath]}
+                              rehypePlugins={[rehypeKatex]}
+                              components={makeNoteComponents(style)}
+                            >
+                              {unit}
+                            </ReactMarkdown>
+                          </div>
+                        ))}
+                      </div>
+                    </>
                   )}
                 </div>
 
@@ -617,7 +803,7 @@ export default function MobileGeneratedNotes({
           font-size: 0.97em;
           overflow-x: auto;
           overflow-y: hidden;
-          padding: 5px 0;
+          padding: 3px 0;
           max-width: 100%;
         }
       `}</style>

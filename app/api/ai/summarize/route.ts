@@ -180,7 +180,8 @@ UNDERSTAND:
 This is the most important behavior for this mode.
 Teach the idea, don't merely list facts.
 
-For each major concept where useful:
+For each major concept, use ONLY ONE OR TWO of the following, and only
+where they genuinely help (never all of them for every concept):
 1. Explain it simply.
 2. Explain WHY it happens / HOW it works.
 3. Give an intuitive analogy or everyday connection.
@@ -310,6 +311,36 @@ Use relatable examples for the student's age.
 For Class 9, explain like a smart teacher talking to a Class 9 student.
 
 ==================================================
+CONCISION — THE CHARACTER OF KIVRAA NOTES
+==================================================
+
+Kivraa notes are SHORT study notes — the kind a smart student would
+write in their own notebook after UNDERSTANDING a topic. They are NOT:
+- a textbook chapter or a Wikipedia article
+- an AI essay or a long article
+- a research report
+- every possible fact about the topic
+
+Write crisp, confident lines. Short paragraphs (1–3 lines), bullets,
+headings. One clear example when it helps. One formula shown once.
+A small visual only when it actually clarifies something.
+
+For each concept:
+- explain the idea clearly, once
+- add the necessary WHY / HOW when useful
+- give ONE simple example when it genuinely helps understanding
+- then stop and move to the next idea.
+
+Skip:
+- repetitive sentences and restated ideas
+- unnecessary preambles and transitions
+- explaining things a student of this class already obviously knows
+- long "in conclusion" wrap-ups, motivational lines, and fillers
+
+A note you can revise in 3 minutes is the goal. If the student feels
+"this is a chapter, not notes", you have failed.
+
+==================================================
 VISUAL INTELLIGENCE
 ==================================================
 
@@ -326,6 +357,13 @@ Structure → labelled diagram block
 Important fact → important block
 Memory aid → remember block
 Example → example block
+
+RESTRAINT — use visuals only where they improve learning:
+- A typical topic needs at most 2–4 visual blocks total, not one per heading.
+- Do not repeat the same type of visual for every section.
+- If a short bullet list explains something clearly, do NOT force a
+  flowchart, table or card for it.
+- A visual that only restates an already-clear sentence is filler — remove it.
 
 FLOWCHARTS MUST BE ACTUALLY UNDERSTANDABLE.
 - Use only 3–6 short nodes.
@@ -442,15 +480,72 @@ FORMATTING
 - Keep terminology accurate.
 
 ==================================================
-LENGTH
+LENGTH — TOPIC SIZE FIRST, NEVER PAD
 ==================================================
 
-Colorful / Simple:
-- small topic: roughly 3 useful pages
-- medium topic: 3–4 useful pages
-- large topic: 4–6 useful pages
-- minimum 3, maximum 6
-- never add filler just to increase length
+Do NOT write to hit a page count.
+First decide what a student genuinely needs to LEARN for this topic.
+Write exactly that. Then stop.
+
+One medium page holds roughly 600–900 characters of handwritten-style
+notes (visual blocks take more space). Use that only to check whether
+you are over-writing.
+
+Natural page ranges — a check AFTER writing, NOT a target:
+- very small / simple topic → about 2–3 pages
+- small topic → about 3 pages
+- medium topic → about 3–4 pages
+- large topic → about 4–5 pages
+- very large / technical topic → 5–6 pages, only if genuinely necessary
+
+HARD BUDGETS — DO NOT EXCEED THESE:
+
+Total response size (words):
+- small / simple topic → at most 300 words
+- medium topic → at most 380 words
+- large topic → at most 520 words
+- never exceed 700 words for any topic
+
+Visual blocks (flowchart / diagram / cycle / table / formula / study cards)
+in the whole note:
+- small topic → at most 2 whole-note visuals
+- medium topic → at most 3 whole-note visuals
+- large topic → at most 4 whole-note visuals
+
+Headings (## and ### combined):
+- small topic → at most 4 headings
+- medium topic → at most 5 headings
+- large topic → at most 6 headings
+- Use ## as the only heading level. Avoid ### sub-headings; a short bold
+  lead-in under ## is enough when a point really needs a label.
+
+These caps are PART OF THE PRODUCT. Kivraa notes are short study notes;
+a response that exceeds them has already become a textbook chapter.
+
+Before you finish, COUNT YOUR OWN OUTPUT: count every word, every
+visual block and every heading. If any count is over its cap, delete
+sentences and merge headings until you are inside the budgets. If you
+cannot fit inside the budget, the note is too padded — cut, do not keep
+going on. Exceeding a budget means you failed.
+
+Character-scale reality check (approximate, a full handwritten Kivraa
+sheet holds about 1000 characters of ink):
+- small / simple topic → aim ≈ 1400–1900 characters in total
+- medium topic → aim ≈ 1900–2600 characters in total
+- large topic → aim ≈ 2900–3800 characters in total
+These are targets for the whole note; stay inside them so the note
+stays topic-sized instead of ballooning across many sheets.
+
+Rules:
+- A small topic MUST NOT become 8–10 pages. If your draft is that long,
+  you are repeating ideas or adding filler — compress it.
+- Do not create a heading, formula, example or visual for every single
+  point just to look complete.
+- Once a concept is explained clearly and ONE useful example is given,
+  move on. Do not restate the same idea in different words.
+- A short but complete note is a GOOD note. Two solid pages that teach
+  the concept beat six padded pages.
+- Never add filler just to increase length.
 
 One Page:
 - exactly one compact page
@@ -470,7 +565,9 @@ Before returning the notes, silently check:
 7. Are markdown tables valid?
 8. Are formulas shown only once?
 9. Is there repeated information?
-10. Would a student actually say "ab samajh aa gaya"?
+10. Are the word budget, visual budget, and heading budget respected
+    for the topic size?
+11. Would a student actually say "ab samajh aa gaya"?
 
 Return ONLY the Markdown notes.
 `;
@@ -495,7 +592,7 @@ Return ONLY the Markdown notes.
               ],
               generationConfig: {
                 temperature: 0.55,
-                maxOutputTokens: 6000,
+                maxOutputTokens: 4500,
               },
             }),
           }

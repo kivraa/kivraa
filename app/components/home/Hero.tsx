@@ -93,7 +93,7 @@ function visualItems(kind: string, rawItems: string[]) {
 
   Rules:
   - One Page = 1 page
-  - Other styles = minimum 3, maximum 6
+  - Other styles = topic-sized (small 2–3, medium 3–4, large up to 5–6)
   - Never create empty pages
   - Prefer heading/section boundaries
   - Avoid tiny pages
@@ -131,7 +131,7 @@ function splitNotesIntoPages(
   if (totalChars > 7500) targetPages = 5;
   if (totalChars > 10000) targetPages = 6;
 
-  targetPages = Math.min(6, Math.max(3, targetPages));
+  targetPages = Math.min(6, Math.max(2, targetPages));
 
   const pages: string[] = [];
   let currentBlocks: string[] = [];
@@ -187,8 +187,8 @@ function splitNotesIntoPages(
 
   /*
     Hard safety:
-    never more than 6 and never less than 3
-    unless the content itself is genuinely tiny.
+    never more than 6. Small topics may be 2 pages;
+    the content and tiny-page merge decide the natural count.
   */
   if (pages.length > 6) {
     const merged: string[] = [];

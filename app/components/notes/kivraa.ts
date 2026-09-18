@@ -96,10 +96,10 @@ export function visualItems(kind: string, rawItems: string[]) {
 
   Rules:
   - One Page = 1 revision sheet (distilled, never a wall of text)
-  - Other styles = minimum 3, maximum 6 on desktop
-  - Mobile (compact) = minimum 3, usually 3-6, up to 9 on very long topics.
-    Each phone page is a fixed medium sheet (approximately 700-900 chars),
-    so pages fill comfortably without ever needing to scroll internally.
+  - Other styles = topic-sized: small 2–3, medium 3–4, large up to 5–6
+  - Mobile (compact) = the same content, laid out on fixed medium sheets
+    (approximately 700-900 chars each), so pages fill comfortably without
+    ever needing to scroll internally.
   - Never create empty pages
   - Prefer heading/section boundaries
   - Avoid tiny pages
@@ -133,13 +133,13 @@ export function splitNotesIntoPages(
   if (compact) {
     targetPages = Math.min(
       9,
-      Math.max(3, Math.ceil(totalChars / 850))
+      Math.max(2, Math.ceil(totalChars / 850))
     );
   } else {
     if (totalChars > 5000) targetPages = 4;
     if (totalChars > 7500) targetPages = 5;
     if (totalChars > 10000) targetPages = 6;
-    targetPages = Math.min(6, Math.max(3, targetPages));
+    targetPages = Math.min(6, Math.max(2, targetPages));
   }
 
   const pages: string[] = [];
