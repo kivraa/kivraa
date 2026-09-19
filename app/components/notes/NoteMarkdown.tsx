@@ -17,6 +17,8 @@ import {
 
 import { asStringArray, type NoteStyle, type VisualKind } from "./types";
 
+const hand = "var(--font-kivraa-hand)";
+
 function childText(children: ReactNode): string {
   if (children == null || children === false) return "";
 
@@ -70,7 +72,6 @@ export default function NoteMarkdown({
   content: string;
   style: NoteStyle;
 }) {
-  const colorful = style === "Colorful";
   const compact = style === "One Page";
 
   if (!content?.trim()) return null;
@@ -81,34 +82,65 @@ export default function NoteMarkdown({
       rehypePlugins={[rehypeKatex]}
       components={{
         h1: ({ children }) => (
-          <h1
-            className={[
-              "mb-4 mt-1 font-black tracking-[-0.045em] text-[#171717]",
-              compact
-                ? "text-xl"
-                : "text-[25px] leading-[1.15] sm:text-[29px]",
-            ].join(" ")}
-          >
-            {children}
-          </h1>
+          <div className="relative isolate mb-4 mt-1 inline-block max-w-full min-w-0 break-words">
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-x-[-2px] top-[58%] bottom-[3%] -z-[1] rotate-[-0.5deg] rounded-[3px] bg-[#F5D85B]/80"
+            />
+            <h1
+              className={[
+                "font-bold leading-[1.12] text-[#142C49]",
+                compact ? "text-xl" : "text-[26px] sm:text-[28px]",
+              ].join(" ")}
+              style={{ fontFamily: hand }}
+            >
+              {children}
+            </h1>
+          </div>
         ),
 
         h2: ({ children }) => (
-          <h2
-            className={[
-              "relative mb-3 mt-8 pb-2.5 font-black tracking-[-0.03em] text-[#171717]",
-              compact ? "mt-5 text-[15px]" : "text-[18px] sm:text-[20px]",
-              colorful
-                ? "border-b border-[#F5B700]/30"
-                : "border-b border-[#D9D5C8]",
-            ].join(" ")}
+          <div
+            className={
+              compact ? "mb-1.5 mt-4" : "mb-2.5 mt-6 first:mt-1"
+            }
           >
-            {children}
-          </h2>
+            <div className="flex items-end gap-2">
+              <span className="mb-[3px] h-2 w-2 shrink-0 rounded-full bg-[#F5B700]" />
+              <h2
+                className={[
+                  "font-bold leading-tight text-[#142C49]",
+                  compact ? "text-[15px]" : "text-[19px]",
+                ].join(" ")}
+                style={{ fontFamily: hand }}
+              >
+                {children}
+              </h2>
+            </div>
+            <div
+              className={
+                compact
+                  ? "mt-0.5 h-[2.5px] w-8 rounded-full bg-[#F5B700]/70"
+                  : "mt-1 h-[3px] w-12 rounded-full bg-[#F5B700]/70"
+              }
+            />
+          </div>
         ),
 
         h3: ({ children }) => (
-          <h3 className="mb-2 mt-5 text-[15px] font-black leading-6 text-[#292929]">
+          <h3
+            className={[
+              "mb-1.5 mt-4 font-bold text-[#17314F]",
+              compact ? "text-[14px]" : "text-[16.5px]",
+            ].join(" ")}
+            style={{ fontFamily: hand }}
+          >
+            <span
+              aria-hidden="true"
+              className="mr-1 text-[#E7A900]"
+            >
+              ↳
+            </span>
             {children}
           </h3>
         ),
@@ -122,8 +154,8 @@ export default function NoteMarkdown({
           return (
             <p
               className={[
-                "mb-3.5 leading-[1.75] text-[#3F4650]",
-                compact ? "text-[12.5px] leading-[1.65]" : "text-[14.5px]",
+                "mb-3 leading-[1.65] text-[#26384B]",
+                compact ? "text-[12.5px] leading-[1.6]" : "text-[15.5px]",
               ].join(" ")}
             >
               {children}
@@ -134,9 +166,9 @@ export default function NoteMarkdown({
         ul: ({ children }) => (
           <ul
             className={[
-              "mb-4 ml-5 list-disc space-y-1.5 leading-7 text-[#3F4650]",
-              compact ? "text-[12.5px]" : "text-[14px]",
-              "marker:text-[#F5B700]",
+              "mb-3.5 ml-5 list-disc space-y-1 leading-[1.6] text-[#26384B]",
+              compact ? "text-[12.5px]" : "text-[15px]",
+              "marker:text-[#E7A900]",
             ].join(" ")}
           >
             {children}
@@ -146,9 +178,9 @@ export default function NoteMarkdown({
         ol: ({ children }) => (
           <ol
             className={[
-              "mb-4 ml-5 list-decimal space-y-1.5 leading-7 text-[#3F4650]",
-              compact ? "text-[12.5px]" : "text-[14px]",
-              "marker:font-black marker:text-[#B58A00]",
+              "mb-3.5 ml-5 list-decimal space-y-1 leading-[1.6] text-[#26384B]",
+              compact ? "text-[12.5px]" : "text-[15px]",
+              "marker:font-bold marker:text-[#E7A900]",
             ].join(" ")}
           >
             {children}
@@ -160,20 +192,13 @@ export default function NoteMarkdown({
         ),
 
         strong: ({ children }) => (
-          <strong
-            className={[
-              "font-black",
-              colorful
-                ? "rounded-[4px] bg-[#FFF0A8] px-1 text-[#171717]"
-                : "text-[#171717]",
-            ].join(" ")}
-          >
+          <strong className="mk-ink-strong font-bold text-[#132C4B]">
             {children}
           </strong>
         ),
 
         em: ({ children }) => (
-          <em className="font-medium text-[#555]">{children}</em>
+          <em className="font-medium text-[#5B6570]">{children}</em>
         ),
 
         blockquote: ({ children }) => {
@@ -183,14 +208,7 @@ export default function NoteMarkdown({
           if (card) return card;
 
           return (
-            <blockquote
-              className={[
-                "my-5 rounded-[16px] border-l-[4px] px-4 py-3.5 text-[13.5px] leading-6",
-                colorful
-                  ? "border-[#F5B700] bg-[#FFF8D7] text-[#413600]"
-                  : "border-[#C9C4B6] bg-[#F8F7F2] text-[#424242]",
-              ].join(" ")}
-            >
+            <blockquote className="mk-ref-note relative my-4 border-l-[3px] border-dashed border-[#E7B22A] pl-4 pr-2 text-[14.5px] leading-[1.6] text-[#4A4536]">
               {children}
             </blockquote>
           );
@@ -244,28 +262,25 @@ export default function NoteMarkdown({
 
           if (className || text.includes("\n")) {
             return (
-              <code className="block overflow-x-auto rounded-[12px] border border-black/[0.07] bg-[#F5F4EF] px-3 py-2.5 font-mono text-[12px] leading-5 text-[#242424]">
+              <code className="block overflow-x-auto rounded-[12px] border border-dashed border-[#D8CFAE] bg-[#F6F0DC]/70 px-4 py-3 font-mono text-[13px] leading-6 text-[#17314F]">
                 {text}
               </code>
             );
           }
 
           return (
-            <code
-              className={[
-                "rounded-[5px] px-1.5 py-0.5 font-mono text-[12.5px]",
-                colorful
-                  ? "bg-[#FFF1A8] text-[#302700]"
-                  : "bg-[#F1EFE8] text-[#252525]",
-              ].join(" ")}
-            >
+            <code className="rounded-[5px] bg-[#EFE7CB]/80 px-1.5 py-0.5 font-mono text-[12.5px] text-[#17314F]">
               {children}
             </code>
           );
         },
 
         hr: () => (
-          <div className="my-7 h-px bg-gradient-to-r from-transparent via-[#D7D2C5] to-transparent" />
+          <div className="my-6 flex items-center gap-3">
+            <div className="h-px flex-1 bg-[#D7CEB3]" />
+            <span className="text-[#D1A900]">✦</span>
+            <div className="h-px flex-1 bg-[#D7CEB3]" />
+          </div>
         ),
 
         table: ({ children }) => (
@@ -277,25 +292,25 @@ export default function NoteMarkdown({
         tbody: ({ children }) => <tbody>{children}</tbody>,
 
         tr: ({ children }) => (
-          <tr className="border-b border-black/[0.06]">
+          <tr className="border-b border-[#DDD2AE]/80">
             {children}
           </tr>
         ),
 
         th: ({ children }) => (
-          <th className="bg-[#FFF3C0] px-3 py-2.5 text-left text-[11px] font-black uppercase tracking-[0.05em] text-[#302700]">
+          <th className="mk-table-th bg-[#F5D85B]/45 px-3 py-2 text-left font-bold text-[#172D48]">
             {children}
           </th>
         ),
 
         td: ({ children }) => (
-          <td className="px-3 py-2.5 align-top text-[13px] leading-6 text-[#3F4650]">
+          <td className="px-3 py-2 align-top text-[14px] leading-6 text-[#26384B]">
             {children}
           </td>
         ),
 
         img: ({ src, alt }) => (
-          <div className="my-5 overflow-hidden rounded-[16px] border border-black/[0.08] bg-[#FCFBF7] p-3">
+          <div className="my-5 overflow-hidden rounded-[18px] border border-dashed border-[#D8CFAE] bg-transparent p-2.5">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={typeof src === "string" ? src : ""}

@@ -32,12 +32,12 @@ function Card({
       <div className="flex items-center gap-2 border-b border-black/[0.06] px-4 py-2.5">
         <span
           className={[
-            "h-2 w-2 rounded-full",
+            "mk-study-dot h-2 w-2 rounded-full",
             accent,
           ].join(" ")}
         />
 
-        <span className="text-[8px] font-black uppercase tracking-[0.2em] text-[#555]">
+        <span className="mk-study-label text-[8px] font-black uppercase tracking-[0.2em] text-[#555]">
           {label}
         </span>
       </div>

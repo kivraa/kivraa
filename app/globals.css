@@ -1033,6 +1033,100 @@ body {
     max-width: 100%;
   }
 
+  /* ============================================================ */
+  /* PAPER REFINEMENTS — labels are handwritten, no UI chips       */
+  /* ============================================================ */
+
+  /* visual-shell label chips become highlighter bands */
+  #generated-notes .mk-vshell-head > span {
+    background: linear-gradient(
+      transparent 55%,
+      rgba(245, 183, 0, 0.4) 55%,
+      rgba(245, 183, 0, 0.4) 96%,
+      transparent 96%
+    ) !important;
+    border-radius: 0.2em !important;
+    color: #7a5a00 !important;
+    padding: 0 0.2em !important;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* formula panel: "Formula" becomes a handwritten band label */
+  #generated-notes .mk-formula-pill {
+    background: linear-gradient(
+      transparent 55%,
+      rgba(245, 183, 0, 0.4) 55%,
+      rgba(245, 183, 0, 0.4) 96%,
+      transparent 96%
+    ) !important;
+    border-radius: 0.2em !important;
+    color: #7a5a00 !important;
+    padding: 0 0.25em !important;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 8.5px;
+  }
+
+  /* study annotations: no dot, no header rule — pure margin notes */
+  #generated-notes .mk-study-dot {
+    display: none;
+  }
+
+  #generated-notes .mk-study > div:first-child {
+    border-bottom: none;
+  }
+
+  #generated-notes .mk-study-label {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 0 0.3em 0 0.15em;
+    border-radius: 0.2em;
+  }
+
+  #generated-notes .mk-study-important .mk-study-label {
+    background: linear-gradient(
+      transparent 58%,
+      rgba(245, 183, 0, 0.45) 58%,
+      rgba(245, 183, 0, 0.45) 97%,
+      transparent 97%
+    );
+    color: #6b4c00;
+  }
+
+  #generated-notes .mk-study-remember .mk-study-label {
+    background: linear-gradient(
+      transparent 58%,
+      rgba(79, 178, 124, 0.35) 58%,
+      rgba(79, 178, 124, 0.35) 97%,
+      transparent 97%
+    );
+    color: #17603c;
+  }
+
+  #generated-notes .mk-study-example .mk-study-label {
+    background: linear-gradient(
+      transparent 58%,
+      rgba(222, 124, 169, 0.32) 58%,
+      rgba(222, 124, 169, 0.32) 97%,
+      transparent 97%
+    );
+    color: #8a2f56;
+  }
+
+  /* blockquotes become margin annotations, never boxes */
+  #generated-notes .mk-note-body blockquote {
+    margin: 0.45rem 0 0.45rem 0.2rem;
+    padding: 0.15rem 0.5rem !important;
+    background: transparent !important;
+    border: none !important;
+    border-left: 3px dashed #e7b22a;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .kivraa-mobile-hero,
     .kivraa-atmos,
@@ -1042,6 +1136,336 @@ body {
     .kivraa-atmos-dust,
     .kivraa-hero-stage,
     #generated-notes .mk-note-card {
+      animation: none !important;
+    }
+  }
+}
+
+/* ============================================================================
+   KIVRAA — DESKTOP (>=1024px): notebook paper note system
+   Everything below is inert on mobile (its rules live in a separate media
+   block) and scoped to #generated-notes so the website outside notes is
+   untouched. Content still lives on the paper — nothing is a UI card.
+   ========================================================================== */
+@media (min-width: 1024px) {
+  /* ---- paper frame ---- */
+  #generated-notes .mk-desktop-paper {
+    border-radius: 20px;
+  }
+
+  #generated-notes .mk-paper-grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+    opacity: 0.05;
+  }
+
+  #generated-notes .kivraa-note-page {
+    color: #26384b;
+  }
+
+  /* ---- handwritten ink ---- */
+  #generated-notes .kivraa-note-page p,
+  #generated-notes .kivraa-note-page li,
+  #generated-notes .kivraa-note-page td {
+    color: #26384b;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  /* highlighter swipe on key terms — student-marked look */
+  #generated-notes .kivraa-note-page strong,
+  #generated-notes .mk-ink-strong {
+    background: linear-gradient(
+      104deg,
+      rgba(255, 232, 117, 0.2) 0.7%,
+      rgba(255, 232, 117, 0.62) 2.4%,
+      #ffe875 5.9%,
+      rgba(255, 232, 117, 0.9) 93.5%,
+      rgba(255, 232, 117, 0.28) 96.4%
+    );
+    border-radius: 0.18em;
+    padding: 0.06em 0.18em;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+
+  /* blockquote = teacher's margin annotation */
+  #generated-notes .kivraa-note-page blockquote {
+    padding: 0.15rem 0.6rem 0.15rem 0.9rem;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* table cells inside comparison blocks on paper */
+  #generated-notes .mk-table-th {
+    background: linear-gradient(
+      transparent 55%,
+      rgba(245, 216, 91, 0.5) 55%,
+      rgba(245, 216, 91, 0.5) 96%,
+      transparent 96%
+    );
+  }
+
+  /* ============================================================ */
+  /* COMPARISON — a handwritten comparison sheet, not a UI grid    */
+  /* ============================================================ */
+
+  #generated-notes .cmp-card {
+    overflow: hidden;
+    border: 1px dashed rgba(200, 188, 150, 0.95);
+    border-radius: 14px;
+    background: rgba(255, 252, 240, 0.6);
+    box-shadow: none;
+    margin: 1.1rem 0;
+  }
+
+  #generated-notes .cmp-head {
+    background: linear-gradient(
+      transparent 55%,
+      rgba(245, 216, 91, 0.42) 55%,
+      rgba(245, 216, 91, 0.42) 96%,
+      transparent 96%
+    );
+    border-bottom: 1px dashed rgba(215, 207, 174, 0.9);
+  }
+
+  #generated-notes .cmp-head-cell {
+    padding: 0.55rem 0.9rem;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: none;
+    color: #17314f;
+    border-right: 1px dashed rgba(215, 207, 174, 0.55);
+  }
+
+  #generated-notes .cmp-row {
+    display: grid;
+  }
+
+  #generated-notes .cmp-row + .cmp-row {
+    border-top: 1px dashed rgba(215, 207, 174, 0.8);
+  }
+
+  #generated-notes .cmp-cell {
+    padding: 0.55rem 0.9rem;
+    font-size: 15px;
+    line-height: 1.55;
+    color: #26384b;
+    border-right: 1px dashed rgba(215, 207, 174, 0.45);
+  }
+
+  #generated-notes .cmp-cell:last-child {
+    border-right: none;
+  }
+
+  #generated-notes .cmp-cell-label {
+    font-weight: 700;
+    color: #142c49;
+    background: linear-gradient(
+      transparent 62%,
+      rgba(245, 183, 0, 0.3) 62%,
+      rgba(245, 183, 0, 0.3) 97%,
+      transparent 97%
+    );
+  }
+
+  /* ============================================================ */
+  /* VISUAL SHELLS — paper notes, not slide cards                 */
+  /* ============================================================ */
+
+  #generated-notes .mk-vshell {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    margin: 1.1rem 0;
+  }
+
+  #generated-notes .mk-vshell-head {
+    border-bottom: 1px dashed rgba(215, 207, 174, 0.9);
+    padding: 0 0.1rem 0.3rem;
+  }
+
+  #generated-notes .mk-vshell-pill {
+    background: linear-gradient(
+      transparent 55%,
+      rgba(245, 183, 0, 0.4) 55%,
+      rgba(245, 183, 0, 0.4) 96%,
+      transparent 96%
+    );
+    border-radius: 0.2em;
+    color: #7a5a00;
+    padding: 0 0.25em;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    box-shadow: none;
+  }
+
+  #generated-notes .mk-vshell-title {
+    color: #17314f;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  /* ============================================================ */
+  /* STUDY ANNOTATIONS — handwritten margin notes                 */
+  /* ============================================================ */
+
+  #generated-notes .mk-study {
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    border-radius: 0;
+    margin: 0.85rem 0;
+  }
+
+  #generated-notes .mk-study-dot {
+    display: none;
+  }
+
+  #generated-notes .mk-study > div:first-child {
+    border-bottom: none;
+    margin: 0 0.1rem;
+    padding: 0.25rem 0.1rem 0.15rem;
+  }
+
+  #generated-notes .mk-study-important {
+    border-left: 3px solid #e7b22a;
+  }
+
+  #generated-notes .mk-study-remember {
+    border-left: 3px solid #4fb27c;
+  }
+
+  #generated-notes .mk-study-example {
+    border-left: 3px solid #de7ca9;
+  }
+
+  #generated-notes .mk-study-label {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 0 0.3em 0 0.15em;
+    border-radius: 0.2em;
+  }
+
+  #generated-notes .mk-study-important .mk-study-label {
+    background: linear-gradient(
+      transparent 58%,
+      rgba(245, 183, 0, 0.45) 58%,
+      rgba(245, 183, 0, 0.45) 97%,
+      transparent 97%
+    );
+    color: #6b4c00;
+  }
+
+  #generated-notes .mk-study-remember .mk-study-label {
+    background: linear-gradient(
+      transparent 58%,
+      rgba(79, 178, 124, 0.34) 58%,
+      rgba(79, 178, 124, 0.34) 97%,
+      transparent 97%
+    );
+    color: #17603c;
+  }
+
+  #generated-notes .mk-study-example .mk-study-label {
+    background: linear-gradient(
+      transparent 58%,
+      rgba(222, 124, 169, 0.32) 58%,
+      rgba(222, 124, 169, 0.32) 97%,
+      transparent 97%
+    );
+    color: #8a2f56;
+  }
+
+  #generated-notes .mk-study > div:last-child {
+    padding: 0.2rem 0.5rem 0.2rem 1.2rem;
+  }
+
+  #generated-notes .mk-study p {
+    margin-bottom: 0.2rem;
+  }
+
+  /* ============================================================ */
+  /* FORMULA — a warm yellow sticky sheet                          */
+  /* ============================================================ */
+
+  #generated-notes .mk-formula {
+    border-radius: 16px;
+    border-color: rgba(231, 178, 42, 0.55);
+    background: #fdf6db;
+    box-shadow: 0 2px 8px rgba(120, 90, 10, 0.08);
+  }
+
+  #generated-notes .mk-formula-pill {
+    background: linear-gradient(
+      transparent 55%,
+      rgba(245, 183, 0, 0.4) 55%,
+      rgba(245, 183, 0, 0.4) 96%,
+      transparent 96%
+    );
+    border-radius: 0.2em;
+    color: #7a5a00;
+    padding: 0 0.3em;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  #generated-notes .mk-formula-title {
+    color: #5b4a00;
+    font-weight: 700;
+  }
+
+  /* ============================================================ */
+  /* FLOW — numbered sticky chips on paper                         */
+  /* ============================================================ */
+
+  #generated-notes .mk-flow {
+    max-width: 640px;
+  }
+
+  #generated-notes .mk-flow .mk-node {
+    border-width: 1.5px;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.65),
+      0 3px 9px rgba(40, 30, 10, 0.08);
+    border-radius: 14px;
+  }
+
+  #generated-notes .mk-flow-tip {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    color: #8a7a55;
+    font-style: italic;
+    text-align: left;
+    padding: 0.15rem 0.2rem;
+  }
+
+  /* diagram label nodes stay as tidy hand-tinted chips */
+  #generated-notes .mk-diagram .rounded-\[14px\] {
+    border-width: 1.5px;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.65),
+      0 3px 9px rgba(40, 30, 10, 0.07);
+  }
+
+  /* page entrance — soft rise on desktop too */
+  #generated-notes .mk-desktop-paper {
+    animation: mkNotePageIn 0.38s cubic-bezier(0.22, 0.8, 0.24, 1);
+    transform-origin: 50% 32%;
+    will-change: transform, opacity;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #generated-notes .mk-desktop-paper {
       animation: none !important;
     }
   }

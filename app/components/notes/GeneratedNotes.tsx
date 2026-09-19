@@ -3,6 +3,7 @@
 import type { Dispatch, SetStateAction } from "react";
 import NotePageContent from "./NotePageContent";
 import type { NoteStyle } from "./types";
+import { KivraaLogoStatic } from "../KivraaLogo";
 
 export default function GeneratedNotes({
   topic,
@@ -54,43 +55,70 @@ export default function GeneratedNotes({
         </div>
 
         <div className="relative">
-          <div className="pointer-events-none absolute inset-x-6 bottom-[-10px] h-8 rounded-full bg-black/50 blur-2xl" />
+          <div className="pointer-events-none absolute inset-x-6 bottom-[-10px] h-8 rounded-full bg-black/60 blur-2xl" />
 
           <article
             className={[
-              "relative overflow-hidden rounded-[22px] border border-black/[0.06] bg-white shadow-[0_24px_70px_rgba(0,0,0,.38)]",
+              "mk-desktop-paper relative overflow-hidden border border-[#D8CFAE] bg-[#F8F1DE] shadow-[0_1px_2px_rgba(43,33,10,.14),0_10px_30px_rgba(0,0,0,.32),0_34px_80px_rgba(0,0,0,.5)]",
               compact ? "min-h-[520px]" : "min-h-[640px]",
             ].join(" ")}
           >
+            {/* paper top edge */}
+            <div className="absolute left-0 right-0 top-0 h-1.5 bg-[#F5B700]" />
+
+            {/* paper grain — pure CSS noise */}
+            <div aria-hidden="true" className="mk-paper-grain pointer-events-none absolute inset-0" />
+
+            {/* faint notebook ruling */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 opacity-[0.4]"
+              style={{
+                backgroundImage:
+                  "repeating-linear-gradient(to bottom, transparent 0px, transparent 35px, rgba(70,90,110,.09) 36px)",
+              }}
+            />
+
+            {/* red margin line */}
+            <div className="pointer-events-none absolute bottom-0 left-[46px] top-0 w-px bg-red-300/40" />
+
             <div
               className={[
-                "relative px-5 py-8 sm:px-10 sm:py-11",
-                compact ? "sm:py-8" : "",
+                "relative pl-[58px] pr-10 pt-10",
+                compact ? "sm:py-7" : "sm:py-10",
               ].join(" ")}
             >
-              <div className="mb-7 flex items-start gap-3">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[12px] bg-[#F5B700] text-lg font-black text-black">
-                  K
-                </div>
-                <div>
-                  <div className="text-[9px] font-black uppercase tracking-[0.22em] text-slate-400">
-                    Study notes
+              {/* handwritten note header */}
+              <div className="mb-6 flex items-start gap-3">
+                <KivraaLogoStatic
+                  className="shrink-0 -rotate-2"
+                  size={40}
+                />
+                <div className="min-w-0">
+                  <div className="text-[9px] font-black uppercase tracking-[0.22em] text-[#9C8C57]">
+                    study note
                   </div>
-                  <div className="mt-1 text-[22px] font-black leading-tight tracking-[-0.03em] text-[#111827] sm:text-[26px]">
+                  <div
+                    className="mt-1 text-[28px] font-bold leading-[1.05] tracking-[-0.01em] text-[#142C49] sm:text-[30px]"
+                    style={{ fontFamily: "var(--font-kivraa-hand)" }}
+                  >
                     {topic}
+                  </div>
+                  <div className="mt-1 text-[9px] font-bold uppercase tracking-[0.18em] text-[#9B927D]">
+                    learn it · connect it · remember it
                   </div>
                 </div>
               </div>
 
-            <div className="kivraa-note-page overflow-x-hidden break-words font-sans">
-              <NotePageContent content={page} style={style} />
-            </div>
+              <div className="kivraa-note-page overflow-x-hidden break-words">
+                <NotePageContent content={page} style={style} />
+              </div>
 
-              <div className="mt-8 flex items-center justify-between border-t border-black/[0.06] pt-4">
-                <span className="text-[11px] font-medium text-slate-400">
-                  Kivraa · understand · remember · revise
+              <div className="mt-9 flex items-end justify-between border-t border-dashed border-[#D7CEB3] pt-3">
+                <span className="text-[12px] italic text-[#9D947D]">
+                  Kivraa · make the idea click
                 </span>
-                <span className="text-[11px] font-bold text-slate-400">
+                <span className="text-[12px] font-bold text-[#9D947D]">
                   {index + 1}
                   {pageCount > 1 ? ` / ${pageCount}` : ""}
                 </span>
