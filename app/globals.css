@@ -1992,3 +1992,96 @@ body {
     padding-right: 14px;
   }
 }
+
+/* ============================================================
+   KIVRAA — FINAL STUDENT NOTEBOOK RENDERER
+   Scoped ONLY to #generated-notes. Hero/site UI untouched.
+   ============================================================ */
+#generated-notes .kivraa-note-page,
+#generated-notes .kivraa-note-page *,
+#generated-notes .kivraa-page-body,
+#generated-notes .mk-note-body{font-family:var(--font-geist-sans),system-ui,sans-serif!important}
+#generated-notes .font-\[cursive\],#generated-notes [style*="font-kivraa-hand"]{font-family:var(--font-geist-sans),system-ui,sans-serif!important}
+
+#generated-notes .kivraa-student-paragraph{color:#293746;font-size:15px;line-height:1.52;margin:0 0 7px}
+#generated-notes .kivraa-student-title h1{color:#182c43;font-weight:800}
+#generated-notes .kivraa-student-subtitle h2,#generated-notes .kivraa-student-mini-heading{color:#1d344d}
+
+/* visual shell = content on paper, never a UI card */
+#generated-notes .kivraa-visual{width:100%;max-width:100%;margin:12px 0;min-width:0}
+#generated-notes .kivraa-visual-heading{display:flex;align-items:baseline;flex-wrap:wrap;gap:7px;margin:0 0 5px;min-width:0}
+#generated-notes .kivraa-visual-label{color:#806500;font-size:9px;line-height:1.2;font-weight:800;text-transform:uppercase;letter-spacing:.11em;background:linear-gradient(transparent 55%,rgba(245,183,0,.38) 55%,rgba(245,183,0,.38) 94%,transparent 94%)}
+#generated-notes .kivraa-visual-title{margin:0;color:#20354c;font-size:15px;line-height:1.3;font-weight:750;overflow-wrap:anywhere}
+#generated-notes .kivraa-visual-content{min-width:0;width:100%}
+
+/* flowchart */
+#generated-notes .kivraa-student-flow{width:min(100%,620px);margin:5px auto 4px;min-width:0}
+#generated-notes .kivraa-flow-step{position:relative;width:100%;min-width:0;display:flex;justify-content:center}
+#generated-notes .kivraa-flow-step-inner{position:relative;width:min(100%,520px);min-width:0;padding:5px 13px 6px;color:#24384f;text-align:center;font-size:13.5px;line-height:1.42;overflow-wrap:anywhere;word-break:break-word;background:transparent;border:1.4px solid rgba(49,79,106,.58);border-radius:4px 8px 5px 7px;transform:rotate(-.25deg);box-shadow:none}
+#generated-notes .kivraa-flow-step:nth-child(even) .kivraa-flow-step-inner{transform:rotate(.3deg)}
+#generated-notes .kivraa-flow-step-text{display:block}
+#generated-notes .kivraa-flow-connector{display:flex;justify-content:center;align-items:center;height:20px;color:#b88a00}
+#generated-notes .kivraa-down-arrow{width:17px;height:17px;color:#b88a00}
+#generated-notes .kivraa-student-flow-colorful .kivraa-flow-step:nth-child(3n+1) .kivraa-flow-step-inner{border-color:rgba(49,90,130,.58)}
+#generated-notes .kivraa-student-flow-colorful .kivraa-flow-step:nth-child(3n+2) .kivraa-flow-step-inner{border-color:rgba(123,73,112,.5)}
+#generated-notes .kivraa-student-flow-colorful .kivraa-flow-step:nth-child(3n) .kivraa-flow-step-inner{border-color:rgba(55,117,82,.55)}
+#generated-notes .kivraa-student-flow-compact .kivraa-flow-step-inner{padding-top:3px;padding-bottom:4px;font-size:12.5px}
+#generated-notes .kivraa-student-flow-compact .kivraa-flow-connector{height:14px}
+
+/* diagram */
+#generated-notes .kivraa-student-diagram{width:min(100%,620px);margin:7px auto;min-width:0}
+#generated-notes .kivraa-diagram-paper{position:relative;width:min(100%,520px);min-height:210px;margin:0 auto;overflow:visible}
+#generated-notes .kivraa-diagram-center{position:absolute;left:50%;top:50%;width:min(38%,190px);min-height:54px;transform:translate(-50%,-50%) rotate(-.5deg);display:flex;align-items:center;justify-content:center;padding:9px 13px;border:1.6px solid #27445f;border-radius:46% 54% 50% 48%;color:#203a55;text-align:center;background:rgba(255,255,255,.18);box-shadow:none}
+#generated-notes .kivraa-diagram-center-text{font-size:13px;line-height:1.35;font-weight:750;overflow-wrap:anywhere}
+#generated-notes .kivraa-diagram-label{position:absolute;width:min(31%,145px);min-width:90px;padding:4px 7px;color:#30465b;font-size:11.5px;line-height:1.35;overflow-wrap:anywhere;text-align:center;border-bottom:1.2px solid rgba(62,83,103,.55)}
+#generated-notes .kivraa-diagram-label-0{left:1%;top:8%}#generated-notes .kivraa-diagram-label-1{right:1%;top:8%}#generated-notes .kivraa-diagram-label-2{left:1%;bottom:8%}#generated-notes .kivraa-diagram-label-3{right:1%;bottom:8%}
+#generated-notes .kivraa-diagram-line{position:absolute;height:1px;background:rgba(72,89,105,.48);transform-origin:left center;pointer-events:none}
+#generated-notes .kivraa-diagram-label-text{display:block}#generated-notes .kivraa-diagram-label-description{display:block;margin-top:2px;color:#69727d;font-size:10px}
+
+/* cycle */
+#generated-notes .kivraa-student-cycle{width:min(100%,620px);margin:5px auto;min-width:0}
+#generated-notes .kivraa-cycle-desktop{position:relative;width:300px;height:300px;margin:0 auto}
+#generated-notes .kivraa-cycle-ring{position:absolute;inset:50px;border:1.3px dashed rgba(73,89,103,.55);border-radius:50%;transform:rotate(-2deg)}
+#generated-notes .kivraa-cycle-center{position:absolute;left:50%;top:50%;width:68px;height:48px;transform:translate(-50%,-50%) rotate(-2deg);display:flex;align-items:center;justify-content:center;border-bottom:2px solid #d0a200;color:#765d00;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+#generated-notes .kivraa-cycle-node{position:absolute;transform:translate(-50%,-50%);width:min(118px,31%);min-height:34px;padding:4px 7px;border:1.2px solid currentColor;border-radius:44% 56% 48% 52%;background:transparent;color:#30465b;text-align:center;font-size:11.5px;line-height:1.3;overflow-wrap:anywhere;box-shadow:none}
+#generated-notes .kivraa-cycle-node:nth-child(odd){transform:translate(-50%,-50%) rotate(-1deg)}#generated-notes .kivraa-cycle-node:nth-child(even){transform:translate(-50%,-50%) rotate(.8deg)}
+#generated-notes .kivraa-cycle-arrow-ring{position:absolute;inset:0;width:100%;height:100%;overflow:visible;fill:none;stroke:#b28a08;stroke-width:1.35;stroke-linecap:round;stroke-dasharray:4 5;pointer-events:none}
+#generated-notes .kivraa-cycle-arrow-head{fill:none;stroke-width:1.35}
+#generated-notes .kivraa-cycle-mobile{display:none}
+#generated-notes .kivraa-ink-yellow{color:#765d00}.kivraa-ink-blue{color:#244d73}.kivraa-ink-green{color:#286047}.kivraa-ink-pink{color:#87405d}.kivraa-ink-orange{color:#875322}.kivraa-ink-neutral{color:#30465b}
+
+/* formula */
+#generated-notes .kivraa-student-formula{width:min(100%,620px);margin:10px auto}
+#generated-notes .kivraa-formula-paper{position:relative;width:fit-content;max-width:100%;min-width:180px;margin:0 auto;padding:9px 16px 10px;border:1.5px solid rgba(196,157,31,.72);border-radius:7px 4px 9px 5px;background:rgba(255,246,184,.34);transform:rotate(-.35deg);box-shadow:none}
+#generated-notes .kivraa-formula-heading{margin-bottom:3px;color:#765d00;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.11em}
+#generated-notes .kivraa-formula-main{max-width:100%;overflow-x:auto;overflow-y:hidden;text-align:center}
+#generated-notes .kivraa-formula-math,#generated-notes .kivraa-formula-plain{color:#142c49;font-size:1.18rem;font-weight:700;overflow-wrap:anywhere}.kivraa-formula-plain{white-space:normal}
+#generated-notes .kivraa-formula-meaning{margin-top:6px;color:#4a5968;font-size:11.5px;line-height:1.45}.kivraa-formula-meaning-line{margin-top:2px}.kivraa-formula-arrow{color:#a67e00;margin-right:3px}.kivraa-formula-doodle{position:absolute;right:-8px;bottom:-6px;width:35px;height:10px;border-bottom:1px solid rgba(180,135,0,.55);border-radius:50%;transform:rotate(-7deg)}
+
+/* study annotations */
+#generated-notes .kivraa-study-annotation{position:relative;margin:9px 0;padding:2px 5px 5px 11px;background:transparent;border-left:2px solid #d5a51b;color:#344250;font-size:12.5px;line-height:1.48}
+#generated-notes .kivraa-study-annotation-remember{border-left-color:#4f9a70}#generated-notes .kivraa-study-annotation-example{border-left-color:#c06b8e}
+#generated-notes .kivraa-study-annotation-label{display:inline-flex;align-items:center;gap:4px;margin-bottom:2px;color:#725700;font-size:9px;line-height:1.2;font-weight:800;text-transform:uppercase;letter-spacing:.09em}
+#generated-notes .kivraa-study-annotation-remember .kivraa-study-annotation-label{color:#31704e}#generated-notes .kivraa-study-annotation-example .kivraa-study-annotation-label{color:#91405f}
+#generated-notes .kivraa-study-annotation-symbol{font-size:11px;transform:rotate(-5deg)}#generated-notes .kivraa-study-annotation-title{color:#26384b;font-weight:750;margin-bottom:2px}#generated-notes .kivraa-study-annotation-body{display:grid;gap:1px}#generated-notes .kivraa-study-annotation-line{display:flex;align-items:flex-start;gap:4px}#generated-notes .kivraa-study-annotation-mini-mark{color:#b98d08;flex:none}#generated-notes .kivraa-study-annotation-stroke{display:block;width:55px;height:5px;margin-top:1px;border-bottom:1px solid rgba(179,141,35,.5);transform:rotate(-1deg)}
+
+/* comparison */
+#generated-notes .kivraa-comparison-wrap{width:100%;margin:11px 0;min-width:0}#generated-notes .kivraa-comparison-label{display:flex;align-items:center;gap:5px;width:fit-content;margin-bottom:3px;color:#806500;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em}
+#generated-notes .kivraa-comparison-scroll{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}#generated-notes .kivraa-comparison-table{width:100%;min-width:280px;border-collapse:collapse;color:#293746;font-size:12.5px;line-height:1.45}
+#generated-notes .kivraa-comparison-table th{padding:5px 8px;color:#203a55;font-weight:800;text-align:left;border-top:1px dashed rgba(93,103,111,.5);border-bottom:1px dashed rgba(93,103,111,.5);background:linear-gradient(transparent 55%,rgba(255,226,86,.35) 55%,rgba(255,226,86,.35) 95%,transparent 95%)}
+#generated-notes .kivraa-comparison-table td{padding:5px 8px;vertical-align:top;border-bottom:1px dashed rgba(151,155,157,.38);border-right:1px dashed rgba(151,155,157,.3);overflow-wrap:anywhere}#generated-notes .kivraa-comparison-table td:last-child,#generated-notes .kivraa-comparison-table th:last-child{border-right:0}
+
+/* responsive */
+@media(max-width:1023px){
+#generated-notes .kivraa-visual{margin:8px 0}#generated-notes .kivraa-visual-title{font-size:13px}#generated-notes .kivraa-visual-label{font-size:8px}
+#generated-notes .kivraa-flow-step-inner{width:min(100%,430px);padding:4px 10px 5px;font-size:11.5px;line-height:1.35}#generated-notes .kivraa-flow-connector{height:15px}#generated-notes .kivraa-down-arrow{width:14px;height:14px}
+#generated-notes .kivraa-diagram-paper{min-height:175px;transform:scale(.94);transform-origin:center}#generated-notes .kivraa-diagram-center{width:34%;min-height:45px;padding:6px 8px}#generated-notes .kivraa-diagram-center-text{font-size:10.5px}#generated-notes .kivraa-diagram-label{width:29%;min-width:72px;font-size:9.5px;line-height:1.3}#generated-notes .kivraa-diagram-label-description{font-size:8px}
+#generated-notes .kivraa-cycle-desktop{display:none}#generated-notes .kivraa-cycle-mobile{display:flex;flex-direction:column;align-items:center;width:100%}#generated-notes .kivraa-cycle-mobile-step{display:flex;flex-direction:column;align-items:center;width:100%}#generated-notes .kivraa-cycle-mobile-node{width:min(100%,360px);padding:5px 9px;border:1.2px solid currentColor;border-radius:45% 55% 50% 48%;background:transparent;color:#30465b;text-align:center;font-size:11px;line-height:1.35;overflow-wrap:anywhere}#generated-notes .kivraa-cycle-mobile-arrow{height:17px;display:flex;align-items:center;justify-content:center;color:#a98108}#generated-notes .kivraa-cycle-return{margin-top:3px;color:#887342;font-size:8px;font-style:italic}
+#generated-notes .kivraa-formula-paper{max-width:100%;padding:7px 10px 8px}#generated-notes .kivraa-formula-math,#generated-notes .kivraa-formula-plain{font-size:1rem}#generated-notes .kivraa-formula-meaning{font-size:10.5px}
+#generated-notes .kivraa-study-annotation{font-size:11px;line-height:1.42;margin:7px 0;padding-left:9px}#generated-notes .kivraa-study-annotation-label{font-size:8px}
+#generated-notes .kivraa-comparison-table{font-size:10.5px;line-height:1.4}#generated-notes .kivraa-comparison-table th,#generated-notes .kivraa-comparison-table td{padding:4px 6px}
+}
+
+#generated-notes.mk-one-page .kivraa-visual{margin-top:5px;margin-bottom:5px}#generated-notes.mk-one-page .kivraa-student-paragraph{margin-bottom:4px}#generated-notes.mk-one-page .kivraa-study-annotation{margin:4px 0}#generated-notes.mk-one-page .kivraa-student-formula{margin:5px auto}#generated-notes.mk-one-page .kivraa-comparison-wrap{margin:5px 0}
+#generated-notes .kivraa-visual *,#generated-notes .kivraa-study-annotation *,#generated-notes .kivraa-comparison-wrap *,#generated-notes .kivraa-student-formula *{min-width:0;max-width:100%;box-sizing:border-box}
+#generated-notes .kivraa-visual,#generated-notes .kivraa-study-annotation,#generated-notes .kivraa-comparison-wrap,#generated-notes .kivraa-student-formula{overflow-wrap:anywhere;word-break:break-word}

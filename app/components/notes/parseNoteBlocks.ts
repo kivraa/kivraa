@@ -19,7 +19,11 @@ function isVisualKind(value: string): value is VisualKind {
 }
 
 function parseMeta(meta: string) {
-  const idMatch = meta.match(/id\s*=\s*["']?([^"'\s]+)["']?/i);
+  const value = String(meta || "");
+
+  const idMatch =
+    value.match(/\bid\s*=\s*["']([^"']+)["']/i) ||
+    value.match(/\bid\s*=\s*([^\s]+)/i);
 
   return {
     id: idMatch?.[1]?.trim() || undefined,
@@ -27,7 +31,7 @@ function parseMeta(meta: string) {
 }
 
 function cleanVisualLine(line: string) {
-  return line
+  return String(line || "")
     .trim()
     .replace(/^[-*•]\s+/, "")
     .replace(/^\d+[.)]\s+/, "")
@@ -35,38 +39,54 @@ function cleanVisualLine(line: string) {
 }
 
 function isObviousAsciiJunk(line: string) {
-  const value = line.trim();
+  const value = String(line || "").trim();
 
   if (!value) return true;
 
-  if (/^[┌┐└┘│─━═╔╗╚╝║╠╣╦╩╬]+$/.test(value)) {
+  // Pure box-drawing / decorative ASCII lines
+  if (
+    /^[┌┐└┘│─━═╔╗╚╝║╠╣╦╩╬╭╮╯╰]+$/.test(value)
+  ) {
     return true;
   }
 
-  if (/^[\s\-_=+<>|\\/.*`~]+$/.test(value)) {
+  // Pure separator/decorative characters
+  if (
+    /^[\s\-_=+<>|/\\~`*.:]+$/.test(value)
+  ) {
     return true;
   }
 
-  if (/^.{0,80}(-->|==>|->|=>|→{2,}|-{3,}>).{0,80}$/.test(value)) {
-    return false;
+  // Standalone ASCII arrow art is not useful.
+  if (
+    /^(-->|==>|->|=>|→{2,}|-{3,}>)+$/.test(value)
+  ) {
+    return true;
   }
 
   return false;
 }
 
 function parseBlockBody(body: string) {
-  const lines = String(body || "")
+  const rawLines = String(body || "")
     .replace(/\r/g, "")
-    .split("\n")
-    .map((line) => line.trim())
-    .filter(Boolean)
-    .filter((line) => !isObviousAsciiJunk(line));
+    .split("\n");
 
   let title: string | undefined;
   const items: string[] = [];
 
-  for (const line of lines) {
-    const titleMatch = line.match(/^title\s*:\s*(.+)$/i);
+  for (const rawLine of rawLines) {
+    const line = rawLine.trim();
+
+    if (!line) continue;
+
+    if (isObviousAsciiJunk(line)) {
+      continue;
+    }
+
+    const titleMatch = line.match(
+      /^title\s*:\s*(.+)$/i
+    );
 
     if (titleMatch && !title) {
       title = titleMatch[1].trim();
@@ -75,9 +95,9 @@ function parseBlockBody(body: string) {
 
     const cleaned = cleanVisualLine(line);
 
-    if (cleaned) {
-      items.push(cleaned);
-    }
+    if (!cleaned) continue;
+
+    items.push(cleaned);
   }
 
   return {
@@ -86,10 +106,37 @@ function parseBlockBody(body: string) {
   };
 }
 
-export function parseNoteBlocks(markdown: string): NoteSegment[] {
-  const source = String(markdown || "").replace(/\r/g, "");
+export function parseNoteBlocks(
+  markdown: string
+): NoteSegment[] {
+  const source = String(markdown || "")
+    .replace(/\r/g, "")
+    .trim();
 
-  if (!source.trim()) return [];
+  if (!source) return [];
+
+  /*
+   * Supported blocks:
+   *
+   * ```flowchart
+   * title: ...
+   * Step 1
+   * Step 2
+   * ```
+   *
+   * ```diagram id="structure"
+   * title: ...
+   * Part A
+   * Part B
+   * ```
+   *
+   * Same for:
+   * cycle
+   * formula
+   * important
+   * remember
+   * example
+   */
 
   const fence =
     /```(flowchart|diagram|cycle|formula|important|remember|example)([^\n]*)\n([\s\S]*?)```/gi;
@@ -100,7 +147,9 @@ export function parseNoteBlocks(markdown: string): NoteSegment[] {
   let match: RegExpExecArray | null;
 
   while ((match = fence.exec(source))) {
-    const before = source.slice(lastIndex, match.index).trim();
+    const before = source
+      .slice(lastIndex, match.index)
+      .trim();
 
     if (before) {
       segments.push({
@@ -109,7 +158,9 @@ export function parseNoteBlocks(markdown: string): NoteSegment[] {
       });
     }
 
-    const kindRaw = (match[1] || "").toLowerCase();
+    const kindRaw = String(match[1] || "")
+      .toLowerCase()
+      .trim();
 
     if (!isVisualKind(kindRaw)) {
       segments.push({
@@ -117,15 +168,28 @@ export function parseNoteBlocks(markdown: string): NoteSegment[] {
         content: match[0],
       });
 
-      lastIndex = match.index + match[0].length;
+      lastIndex =
+        match.index + match[0].length;
+
       continue;
     }
 
     const meta = parseMeta(match[2] || "");
-    const parsed = parseBlockBody(match[3] || "");
 
-    if (!parsed.items.length && !parsed.title) {
-      lastIndex = match.index + match[0].length;
+    const parsed = parseBlockBody(
+      match[3] || ""
+    );
+
+    /*
+     * Ignore completely empty visual blocks.
+     */
+    if (
+      !parsed.items.length &&
+      !parsed.title
+    ) {
+      lastIndex =
+        match.index + match[0].length;
+
       continue;
     }
 
@@ -136,10 +200,17 @@ export function parseNoteBlocks(markdown: string): NoteSegment[] {
       items: parsed.items,
     });
 
-    lastIndex = match.index + match[0].length;
+    lastIndex =
+      match.index + match[0].length;
   }
 
-  const rest = source.slice(lastIndex).trim();
+  /*
+   * Everything after the final visual block
+   * remains normal Markdown.
+   */
+  const rest = source
+    .slice(lastIndex)
+    .trim();
 
   if (rest) {
     segments.push({
@@ -148,14 +219,42 @@ export function parseNoteBlocks(markdown: string): NoteSegment[] {
     });
   }
 
+  /*
+   * If no visual blocks were found,
+   * return the entire content as Markdown.
+   */
+  if (!segments.length) {
+    return [
+      {
+        kind: "markdown",
+        content: source,
+      },
+    ];
+  }
+
   return segments;
 }
 
-export function cleanGeneratedNotes(text: string) {
+export function cleanGeneratedNotes(
+  text: string
+) {
   return String(text || "")
     .replace(/\r/g, "")
-    .replace(/```\s*(flowchart|diagram|cycle|formula|important|remember|example)/gi, "```$1")
+
+    // Normalize malformed fence openings such as:
+    // ``` flowchart
+    // ```  flowchart
+    // ```flowchart
+    .replace(
+      /```[ \t]*(flowchart|diagram|cycle|formula|important|remember|example)\b/gi,
+      "```$1"
+    )
+
+    // Remove excessive blank lines
     .replace(/\n{3,}/g, "\n\n")
+
+    // Remove trailing spaces before line breaks
     .replace(/[ \t]+\n/g, "\n")
+
     .trim();
 }

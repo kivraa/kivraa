@@ -10,10 +10,17 @@ export default function ComparisonBlock({
   if (!children) return null;
 
   return (
-    <div className="my-5 overflow-x-auto rounded-[16px] border border-black/[0.08] bg-[#F8FBFF] shadow-[0_6px_18px_rgba(0,0,0,.04)]">
-      <table className="w-full min-w-[280px] border-collapse text-left text-[13px] text-[#1F2937]">
-        {children}
-      </table>
+    <div className="kivraa-comparison-wrap">
+      <div className="kivraa-comparison-label">
+        <span aria-hidden="true">↔</span>
+        <span>Compare</span>
+      </div>
+
+      <div className="kivraa-comparison-scroll">
+        <table className="kivraa-comparison-table">
+          {children}
+        </table>
+      </div>
     </div>
   );
 }

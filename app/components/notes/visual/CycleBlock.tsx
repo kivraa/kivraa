@@ -13,64 +13,101 @@ export default function CycleBlock({
   style: NoteStyle;
 }) {
   const nodes = safeItems(items);
-  if (!nodes.length) return null;
 
-  const radius = nodes.length > 5 ? 118 : 102;
+  if (!nodes.length) return null;
 
   return (
     <VisualShell title={title} label="Cycle">
-      <div className="mk-cycle mx-auto hidden h-[280px] w-full max-w-[420px] sm:block">
-        <div className="relative h-full w-full">
-          <div className="absolute left-1/2 top-1/2 h-[168px] w-[168px] -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-dashed border-[#F5B700]/45" />
-          <div className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[#F5B700] text-[10px] font-black uppercase tracking-[0.12em] text-black">
-            Cycle
+      <div
+        className={[
+          "kivraa-student-cycle",
+          style === "Colorful"
+            ? "kivraa-student-cycle-colorful"
+            : "kivraa-student-cycle-simple",
+        ].join(" ")}
+      >
+        {/* Desktop / tablet circular study diagram */}
+        <div className="kivraa-cycle-desktop">
+          <div className="kivraa-cycle-ring" aria-hidden="true" />
+
+          <div className="kivraa-cycle-center">
+            <span>cycle</span>
           </div>
+
           {nodes.map((item, index) => {
-            const angle = (index / nodes.length) * Math.PI * 2 - Math.PI / 2;
+            const angle =
+              (index / nodes.length) * Math.PI * 2 - Math.PI / 2;
+
+            const radius = nodes.length > 5 ? 108 : 96;
+
             const x = Math.cos(angle) * radius;
             const y = Math.sin(angle) * radius;
+
             return (
               <div
                 key={`${item}-${index}`}
                 className={[
-                  "absolute max-w-[120px] rounded-[14px] border px-2.5 py-2 text-center text-[11px] font-bold leading-4 shadow-sm",
+                  "kivraa-cycle-node",
                   nodeClass(style, index),
                 ].join(" ")}
                 style={{
                   left: `calc(50% + ${x}px)`,
                   top: `calc(50% + ${y}px)`,
-                  transform: "translate(-50%, -50%)",
                 }}
               >
-                {item}
+                <span>{item}</span>
               </div>
             );
           })}
-        </div>
-      </div>
 
-      <div className="mk-cycle-list flex flex-col items-center gap-2 sm:hidden">
-        {nodes.map((item, index) => (
-          <div key={`${item}-${index}`} className="flex w-full flex-col items-center">
+          <svg
+            className="kivraa-cycle-arrow-ring"
+            viewBox="0 0 300 300"
+            aria-hidden="true"
+          >
+            <path
+              d="M150 37
+                 C214 37 263 87 263 150
+                 C263 213 213 263 150 263
+                 C87 263 37 213 37 150
+                 C37 87 87 37 150 37"
+            />
+
+            <path
+              className="kivraa-cycle-arrow-head"
+              d="M144 31 L159 38 L147 49"
+            />
+          </svg>
+        </div>
+
+        {/* Mobile — same concept, vertical notebook flow */}
+        <div className="kivraa-cycle-mobile">
+          {nodes.map((item, index) => (
             <div
-              className={[
-                "w-full rounded-[14px] border px-3 py-3 text-center text-[13px] font-bold",
-                nodeClass(style, index),
-              ].join(" ")}
+              key={`${item}-${index}`}
+              className="kivraa-cycle-mobile-step"
             >
-              {item}
-            </div>
-            {index < nodes.length - 1 ? (
-              <div className="flex h-6 rotate-90 items-center">
-                <Arrow className="h-5 w-5" />
+              <div
+                className={[
+                  "kivraa-cycle-mobile-node",
+                  nodeClass(style, index),
+                ].join(" ")}
+              >
+                <span>{item}</span>
               </div>
-            ) : (
-              <p className="mt-2 text-[10px] font-bold uppercase tracking-[0.16em] text-[#B45309]">
-                returns to start
-              </p>
-            )}
-          </div>
-        ))}
+
+              {index < nodes.length - 1 ? (
+                <div className="kivraa-cycle-mobile-arrow">
+                  <Arrow />
+                </div>
+              ) : (
+                <div className="kivraa-cycle-return">
+                  ↻ back to start
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     </VisualShell>
   );

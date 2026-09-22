@@ -1,19 +1,20 @@
 import type { ReactNode } from "react";
 import { asStringArray, type NoteStyle } from "../types";
 
-const colorfulFills = [
-  "bg-[#FFF3C0] border-[#F5B700]/40 text-[#1A1A1A]",
-  "bg-[#DCEBFF] border-[#7FB3FF]/50 text-[#12305A]",
-  "bg-[#DDF6E7] border-[#6BCF97]/45 text-[#14532D]",
-  "bg-[#FFE0EC] border-[#F3A6C0]/45 text-[#7A2948]",
-  "bg-[#FFF0C7] border-[#F5B700]/30 text-[#3F2E00]",
+const colorfulInk = [
+  "kivraa-ink-yellow",
+  "kivraa-ink-blue",
+  "kivraa-ink-green",
+  "kivraa-ink-pink",
+  "kivraa-ink-orange",
 ];
 
 export function nodeClass(style: NoteStyle, index: number) {
   if (style === "Colorful") {
-    return colorfulFills[index % colorfulFills.length];
+    return colorfulInk[index % colorfulInk.length];
   }
-  return "bg-[#F7F8FA] border-black/[0.08] text-[#111827]";
+
+  return "kivraa-ink-neutral";
 }
 
 export function VisualShell({
@@ -26,19 +27,21 @@ export function VisualShell({
   children: ReactNode;
 }) {
   return (
-    <div className="mk-vshell my-5 overflow-hidden rounded-[18px] border border-black/[0.08] bg-white shadow-[0_8px_24px_rgba(0,0,0,.06)]">
-      <div className="mk-vshell-head flex items-center gap-2 border-b border-black/[0.06] px-4 py-2.5">
-        <span className="mk-vshell-pill rounded-full bg-[#F5B700] px-2 py-0.5 text-[8px] font-black uppercase tracking-[0.16em] text-black">
-          {label}
-        </span>
+    <section className="kivraa-visual">
+      <div className="kivraa-visual-heading">
+        <span className="kivraa-visual-label">{label}</span>
+
         {title ? (
-          <h3 className="mk-vshell-title text-sm font-bold tracking-[-0.02em] text-[#111827]">
+          <h3 className="kivraa-visual-title">
             {title}
           </h3>
         ) : null}
       </div>
-      <div className="mk-vshell-body px-3 py-4 sm:px-5">{children}</div>
-    </div>
+
+      <div className="kivraa-visual-content">
+        {children}
+      </div>
+    </section>
   );
 }
 
@@ -47,13 +50,13 @@ export function Arrow({ className = "" }: { className?: string }) {
     <svg
       aria-hidden="true"
       viewBox="0 0 24 24"
-      className={className}
+      className={`kivraa-arrow ${className}`}
       fill="none"
     >
       <path
-        d="M5 12h12M13 6l6 6-6 6"
-        stroke="#F5B700"
-        strokeWidth="2.2"
+        d="M4 12h14M13 6l6 6-6 6"
+        stroke="currentColor"
+        strokeWidth="1.8"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -63,11 +66,16 @@ export function Arrow({ className = "" }: { className?: string }) {
 
 export function DownArrow() {
   return (
-    <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5" fill="none">
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      className="kivraa-down-arrow"
+      fill="none"
+    >
       <path
-        d="M12 5v12M6 13l6 6 6-6"
-        stroke="#F5B700"
-        strokeWidth="2.2"
+        d="M12 4v14M7 13l5 5 5-5"
+        stroke="currentColor"
+        strokeWidth="1.8"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -76,5 +84,8 @@ export function DownArrow() {
 }
 
 export function safeItems(items: unknown) {
-  return asStringArray(items).slice(0, 10);
+  return asStringArray(items)
+    .map((item) => String(item).trim())
+    .filter(Boolean)
+    .slice(0, 10);
 }

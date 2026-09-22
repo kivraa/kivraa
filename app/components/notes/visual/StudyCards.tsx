@@ -2,64 +2,82 @@
 
 import { asStringArray } from "../types";
 
-function Card({
+function Annotation({
   label,
-  accent,
-  background,
   title,
   items,
+  variant,
 }: {
-  label: string;
-  accent: string;
-  background: string;
+  label: "Important" | "Remember" | "Example";
   title?: string;
   items?: string[];
+  variant: "important" | "remember" | "example";
 }) {
-  const lines = asStringArray(items).filter(Boolean);
-  const body = lines.length ? lines : title ? [title] : [];
+  const lines = asStringArray(items)
+    .map((item) => String(item).trim())
+    .filter(Boolean);
+
+  const body =
+    lines.length > 0
+      ? lines
+      : title
+        ? [title]
+        : [];
 
   if (!body.length) return null;
 
   return (
     <div
       className={[
-        "mk-study mk-study-" + label.toLowerCase(),
-        "my-5 overflow-hidden rounded-[18px] border",
-        background,
-        "shadow-[0_7px_20px_rgba(17,24,39,.06)]",
+        "kivraa-study-annotation",
+        `kivraa-study-annotation-${variant}`,
       ].join(" ")}
     >
-      <div className="flex items-center gap-2 border-b border-black/[0.06] px-4 py-2.5">
+      <div className="kivraa-study-annotation-label">
         <span
-          className={[
-            "mk-study-dot h-2 w-2 rounded-full",
-            accent,
-          ].join(" ")}
-        />
-
-        <span className="mk-study-label text-[8px] font-black uppercase tracking-[0.2em] text-[#555]">
-          {label}
+          className="kivraa-study-annotation-symbol"
+          aria-hidden="true"
+        >
+          {variant === "important"
+            ? "★"
+            : variant === "remember"
+              ? "↳"
+              : "✎"}
         </span>
+
+        <span>{label}</span>
       </div>
 
-      <div className="px-4 py-3.5">
-        {title && lines.length ? (
-          <div className="mb-1.5 text-[13px] font-black leading-5 text-[#171717]">
-            {title}
-          </div>
-        ) : null}
-
-        <div className="space-y-1.5">
-          {body.map((line, index) => (
-            <p
-              key={index}
-              className="text-[13px] leading-6 text-[#343434]"
-            >
-              {line}
-            </p>
-          ))}
+      {title && lines.length > 0 ? (
+        <div className="kivraa-study-annotation-title">
+          {title}
         </div>
+      ) : null}
+
+      <div className="kivraa-study-annotation-body">
+        {body.map((line, index) => (
+          <div
+            key={`${line}-${index}`}
+            className="kivraa-study-annotation-line"
+          >
+            {index > 0 ? (
+              <span
+                className="kivraa-study-annotation-mini-mark"
+                aria-hidden="true"
+              >
+                •
+              </span>
+            ) : null}
+
+            <span>{line}</span>
+          </div>
+        ))}
       </div>
+
+      <span
+        className="kivraa-study-annotation-stroke"
+        aria-hidden="true"
+      />
     </div>
   );
 }
@@ -72,12 +90,11 @@ export function ImportantBlock({
   items?: string[];
 }) {
   return (
-    <Card
+    <Annotation
       label="Important"
-      accent="bg-[#F5B700]"
-      background="bg-[#FFF9DB] border-[#E7CC57]/70"
       title={title}
       items={items}
+      variant="important"
     />
   );
 }
@@ -90,12 +107,11 @@ export function RememberBlock({
   items?: string[];
 }) {
   return (
-    <Card
+    <Annotation
       label="Remember"
-      accent="bg-[#39A96B]"
-      background="bg-[#ECFAF1] border-[#8AD1A8]/60"
       title={title}
       items={items}
+      variant="remember"
     />
   );
 }
@@ -108,12 +124,11 @@ export function ExampleBlock({
   items?: string[];
 }) {
   return (
-    <Card
+    <Annotation
       label="Example"
-      accent="bg-[#D15C88]"
-      background="bg-[#FFF0F5] border-[#E8B2C7]/60"
       title={title}
       items={items}
+      variant="example"
     />
   );
 }
