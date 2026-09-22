@@ -4,22 +4,9 @@ import type { NoteStyle } from "../types";
 import {
   DownArrow,
   VisualShell,
+  nodeClass,
   safeItems,
 } from "./shared";
-
-function isArrowOnly(value: string) {
-  return /^(↓|↑|→|←|↔|->|-->|=>|→+|↓+|↑+|←+)$/.test(
-    value.trim()
-  );
-}
-
-function cleanNode(value: string) {
-  return String(value || "")
-    .trim()
-    .replace(/^[-*•]\s+/, "")
-    .replace(/^\d+[.)]\s+/, "")
-    .trim();
-}
 
 export default function FlowchartBlock({
   title,
@@ -30,48 +17,44 @@ export default function FlowchartBlock({
   items?: string[];
   style: NoteStyle;
 }) {
-  const rawNodes = safeItems(items);
+  const steps = safeItems(items, 8);
 
-  if (!rawNodes.length) return null;
+  if (!steps.length) return null;
 
-  const nodes = rawNodes
-    .map(cleanNode)
-    .filter(Boolean)
-    .filter((item) => !isArrowOnly(item));
-
-  if (!nodes.length) return null;
+  const colorful = style === "Colorful";
 
   return (
     <VisualShell title={title} label="Flow">
       <div
         className={[
           "kivraa-student-flow",
-          style === "Colorful"
+          colorful
             ? "kivraa-student-flow-colorful"
-            : "",
-          style === "One Page"
-            ? "kivraa-student-flow-compact"
-            : "",
-        ]
-          .filter(Boolean)
-          .join(" ")}
+            : "kivraa-student-flow-simple",
+        ].join(" ")}
       >
-        {nodes.map((item, index) => (
+        {steps.map((step, index) => (
           <div
-            key={`${item}-${index}`}
-            className="kivraa-flow-step"
+            key={`${step}-${index}`}
+            className="kivraa-flow-step-group"
           >
-            <div className="kivraa-flow-step-inner">
+            <div
+              className={[
+                "kivraa-flow-step",
+                nodeClass(index, colorful),
+              ].join(" ")}
+            >
+              <span className="kivraa-flow-step-mark">
+                {index + 1}
+              </span>
+
               <span className="kivraa-flow-step-text">
-                {item}
+                {step}
               </span>
             </div>
 
-            {index < nodes.length - 1 ? (
-              <div
-                className="kivraa-flow-connector"
-                aria-hidden="true"
-              >
+            {index < steps.length - 1 ? (
+              <div className="kivraa-flow-connector">
                 <DownArrow />
               </div>
             ) : null}

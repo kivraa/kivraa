@@ -1,7 +1,12 @@
 "use client";
 
 import type { NoteStyle } from "../types";
-import { Arrow, VisualShell, nodeClass, safeItems } from "./shared";
+import {
+  Arrow,
+  VisualShell,
+  nodeClass,
+  safeItems,
+} from "./shared";
 
 export default function CycleBlock({
   title,
@@ -16,19 +21,24 @@ export default function CycleBlock({
 
   if (!nodes.length) return null;
 
+  const colorful = style === "Colorful";
+
   return (
     <VisualShell title={title} label="Cycle">
       <div
         className={[
           "kivraa-student-cycle",
-          style === "Colorful"
+          colorful
             ? "kivraa-student-cycle-colorful"
             : "kivraa-student-cycle-simple",
         ].join(" ")}
       >
-        {/* Desktop / tablet circular study diagram */}
+        {/* Desktop / tablet — circular student-style cycle */}
         <div className="kivraa-cycle-desktop">
-          <div className="kivraa-cycle-ring" aria-hidden="true" />
+          <div
+            className="kivraa-cycle-ring"
+            aria-hidden="true"
+          />
 
           <div className="kivraa-cycle-center">
             <span>cycle</span>
@@ -36,7 +46,8 @@ export default function CycleBlock({
 
           {nodes.map((item, index) => {
             const angle =
-              (index / nodes.length) * Math.PI * 2 - Math.PI / 2;
+              (index / nodes.length) * Math.PI * 2 -
+              Math.PI / 2;
 
             const radius = nodes.length > 5 ? 108 : 96;
 
@@ -48,7 +59,7 @@ export default function CycleBlock({
                 key={`${item}-${index}`}
                 className={[
                   "kivraa-cycle-node",
-                  nodeClass(style, index),
+                  nodeClass(index, colorful),
                 ].join(" ")}
                 style={{
                   left: `calc(50% + ${x}px)`,
@@ -66,11 +77,13 @@ export default function CycleBlock({
             aria-hidden="true"
           >
             <path
-              d="M150 37
-                 C214 37 263 87 263 150
-                 C263 213 213 263 150 263
-                 C87 263 37 213 37 150
-                 C37 87 87 37 150 37"
+              d="
+                M150 37
+                C214 37 263 87 263 150
+                C263 213 213 263 150 263
+                C87 263 37 213 37 150
+                C37 87 87 37 150 37
+              "
             />
 
             <path
@@ -80,7 +93,7 @@ export default function CycleBlock({
           </svg>
         </div>
 
-        {/* Mobile — same concept, vertical notebook flow */}
+        {/* Mobile — vertical notebook-style cycle */}
         <div className="kivraa-cycle-mobile">
           {nodes.map((item, index) => (
             <div
@@ -90,7 +103,7 @@ export default function CycleBlock({
               <div
                 className={[
                   "kivraa-cycle-mobile-node",
-                  nodeClass(style, index),
+                  nodeClass(index, colorful),
                 ].join(" ")}
               >
                 <span>{item}</span>

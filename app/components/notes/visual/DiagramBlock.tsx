@@ -1,46 +1,27 @@
 "use client";
 
 import type { NoteStyle } from "../types";
-import { VisualShell, safeItems } from "./shared";
-
-function cleanItem(value: string) {
-  return String(value || "")
-    .trim()
-    .replace(/^[-*•]\s+/, "")
-    .replace(/^\d+[.)]\s+/, "")
-    .trim();
-}
+import {
+  VisualShell,
+  nodeClass,
+  safeItems,
+} from "./shared";
 
 function splitLabel(value: string) {
-  const cleaned = cleanItem(value);
+  const match = value.match(
+    /^(.+?)\s*(?:→|➡|➜|:|-)\s*(.+)$/
+  );
 
-  const separators = [
-    "→",
-    "->",
-    ":",
-    "—",
-    "-",
-  ];
-
-  for (const separator of separators) {
-    if (!cleaned.includes(separator)) continue;
-
-    const parts = cleaned
-      .split(separator)
-      .map((part) => part.trim())
-      .filter(Boolean);
-
-    if (parts.length >= 2) {
-      return {
-        label: parts[0],
-        description: parts.slice(1).join(" "),
-      };
-    }
+  if (!match) {
+    return {
+      label: value.trim(),
+      description: "",
+    };
   }
 
   return {
-    label: cleaned,
-    description: "",
+    label: match[1].trim(),
+    description: match[2].trim(),
   };
 }
 
@@ -53,80 +34,61 @@ export default function DiagramBlock({
   items?: string[];
   style: NoteStyle;
 }) {
-  const nodes = safeItems(items)
-    .map(cleanItem)
-    .filter(Boolean);
+  const values = safeItems(items, 6);
 
-  if (!nodes.length) return null;
+  if (!values.length) return null;
 
-  /*
-   * A diagram should look like something a student
-   * actually sketched in their notebook.
-   *
-   * It is intentionally NOT:
-   * - numbered cards
-   * - dashboard UI
-   * - yellow boxes
-   * - perfectly symmetrical cards
-   */
+  const colorful = style === "Colorful";
 
-  const center =
-    nodes.length > 2
-      ? nodes[Math.floor(nodes.length / 2)]
-      : nodes[0];
+  const center = values[0];
 
-  const surrounding =
-    nodes.length > 2
-      ? nodes.filter(
-          (_, index) =>
-            index !== Math.floor(nodes.length / 2)
-        )
-      : nodes.slice(1);
+  const labels = values.slice(1, 5);
 
   return (
-    <VisualShell
-      title={title}
-      label="Sketch"
-    >
+    <VisualShell title={title} label="Diagram">
       <div
         className={[
           "kivraa-student-diagram",
-          style === "Colorful"
+          colorful
             ? "kivraa-student-diagram-colorful"
-            : "",
-          style === "One Page"
-            ? "kivraa-student-diagram-compact"
-            : "",
-        ]
-          .filter(Boolean)
-          .join(" ")}
+            : "kivraa-student-diagram-simple",
+        ].join(" ")}
       >
         <div className="kivraa-diagram-paper">
-          <div className="kivraa-diagram-center">
+          <div
+            className={[
+              "kivraa-diagram-center",
+              nodeClass(0, colorful),
+            ].join(" ")}
+          >
             <span className="kivraa-diagram-center-text">
               {center}
             </span>
           </div>
 
-          {surrounding.map((item, index) => {
+          {labels.map((item, index) => {
             const parsed = splitLabel(item);
 
             return (
               <div
                 key={`${item}-${index}`}
-                className={`kivraa-diagram-label kivraa-diagram-label-${index % 4}`}
+                className={[
+                  "kivraa-diagram-label",
+                  `kivraa-diagram-label-${index}`,
+                  nodeClass(index + 1, colorful),
+                ].join(" ")}
               >
                 <span className="kivraa-diagram-line" />
 
-                <span className="kivraa-diagram-label-text">
-                  {parsed.label}
+                <div className="kivraa-diagram-label-text">
+                  <strong>{parsed.label}</strong>
 
                   {parsed.description ? (
                     <small>
                       {parsed.description}
                     </small>
                   ) : null}
-                </span>
+                </div>
               </div>
             );
           })}

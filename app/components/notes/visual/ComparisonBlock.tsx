@@ -1,26 +1,68 @@
 "use client";
 
-import type { ReactNode } from "react";
+import React from "react";
+
+type ComparisonBlockProps = {
+  content: string;
+};
+
+function parseRows(content: string) {
+  return content
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .filter((line) => !/^[-|:\s]+$/.test(line))
+    .map((line) =>
+      line
+        .replace(/^\|/, "")
+        .replace(/\|$/, "")
+        .split("|")
+        .map((cell) => cell.trim())
+    )
+    .filter((row) => row.length >= 2);
+}
 
 export default function ComparisonBlock({
-  children,
-}: {
-  children?: ReactNode;
-}) {
-  if (!children) return null;
+  content,
+}: ComparisonBlockProps) {
+  const rows = parseRows(content);
+
+  if (rows.length < 2) return null;
+
+  const header = rows[0];
+  const body = rows.slice(1);
 
   return (
-    <div className="kivraa-comparison-wrap">
+    <section className="kivraa-comparison-wrap">
       <div className="kivraa-comparison-label">
-        <span aria-hidden="true">↔</span>
-        <span>Compare</span>
+        QUICK COMPARISON
       </div>
 
       <div className="kivraa-comparison-scroll">
         <table className="kivraa-comparison-table">
-          {children}
+          <thead>
+            <tr>
+              {header.map((cell, index) => (
+                <th key={`${cell}-${index}`}>
+                  {cell}
+                </th>
+              ))}
+            </tr>
+          </thead>
+
+          <tbody>
+            {body.map((row, rowIndex) => (
+              <tr key={`row-${rowIndex}`}>
+                {header.map((_, cellIndex) => (
+                  <td key={`${rowIndex}-${cellIndex}`}>
+                    {row[cellIndex] || "—"}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
         </table>
       </div>
-    </div>
+    </section>
   );
 }

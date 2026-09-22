@@ -1,42 +1,104 @@
-import type { ReactNode } from "react";
-import { asStringArray, type NoteStyle } from "../types";
+import React from "react";
 
-const colorfulInk = [
-  "kivraa-ink-yellow",
-  "kivraa-ink-blue",
-  "kivraa-ink-green",
-  "kivraa-ink-pink",
-  "kivraa-ink-orange",
-];
+export const colorfulInk = [
+  "blue",
+  "purple",
+  "red",
+  "orange",
+] as const;
 
-export function nodeClass(style: NoteStyle, index: number) {
-  if (style === "Colorful") {
-    return colorfulInk[index % colorfulInk.length];
+export type InkColor = (typeof colorfulInk)[number];
+
+/*
+ * Existing visual blocks sometimes pass a number
+ * and sometimes a string as the first argument.
+ * Keep both compatible.
+ */
+export function nodeClass(
+  index: number | string,
+  colorful = true
+) {
+  if (!colorful) {
+    return "kivraa-ink-blue";
   }
 
-  return "kivraa-ink-neutral";
+  const numericIndex =
+    typeof index === "number"
+      ? index
+      : Math.abs(
+          Array.from(index).reduce(
+            (sum, char) => sum + char.charCodeAt(0),
+            0
+          )
+        );
+
+  return `kivraa-ink-${
+    colorfulInk[numericIndex % colorfulInk.length]
+  }`;
 }
 
+export function safeItems(
+  items: unknown,
+  limit = 8
+): string[] {
+  if (!Array.isArray(items)) return [];
+
+  return items
+    .map((item) => String(item ?? "").trim())
+    .filter(Boolean)
+    .filter((item) => {
+      const normalized = item
+        .replace(/[→➡➜➝➞➔]/g, "")
+        .trim();
+
+      return (
+        normalized.length > 0 &&
+        normalized !== "-" &&
+        normalized !== "—" &&
+        normalized !== ">" &&
+        normalized !== "→"
+      );
+    })
+    .slice(0, limit);
+}
+
+/*
+ * kind is optional because the existing visual blocks
+ * already use VisualShell in both old and new forms.
+ */
 export function VisualShell({
-  title,
+  kind,
   label,
+  title,
   children,
 }: {
+  kind?: string;
+  label?: string;
   title?: string;
-  label: string;
-  children: ReactNode;
+  children: React.ReactNode;
 }) {
-  return (
-    <section className="kivraa-visual">
-      <div className="kivraa-visual-heading">
-        <span className="kivraa-visual-label">{label}</span>
+  const visualKind = kind || "student";
 
-        {title ? (
-          <h3 className="kivraa-visual-title">
-            {title}
-          </h3>
-        ) : null}
-      </div>
+  return (
+    <section
+      className={`kivraa-visual kivraa-visual-${visualKind}`}
+      data-visual-kind={visualKind}
+    >
+      {(label || title) && (
+        <div className="kivraa-visual-heading">
+          {label ? (
+            <span className="kivraa-visual-label">
+              {label}
+            </span>
+          ) : null}
+
+          {title ? (
+            <span className="kivraa-visual-title">
+              {title}
+            </span>
+          ) : null}
+        </div>
+      )}
 
       <div className="kivraa-visual-content">
         {children}
@@ -45,47 +107,32 @@ export function VisualShell({
   );
 }
 
-export function Arrow({ className = "" }: { className?: string }) {
+export function Arrow({
+  className = "",
+}: {
+  className?: string;
+}) {
   return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 24 24"
+    <span
       className={`kivraa-arrow ${className}`}
-      fill="none"
-    >
-      <path
-        d="M4 12h14M13 6l6 6-6 6"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-export function DownArrow() {
-  return (
-    <svg
       aria-hidden="true"
-      viewBox="0 0 24 24"
-      className="kivraa-down-arrow"
-      fill="none"
     >
-      <path
-        d="M12 4v14M7 13l5 5 5-5"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
+      →
+    </span>
   );
 }
 
-export function safeItems(items: unknown) {
-  return asStringArray(items)
-    .map((item) => String(item).trim())
-    .filter(Boolean)
-    .slice(0, 10);
+export function DownArrow({
+  className = "",
+}: {
+  className?: string;
+}) {
+  return (
+    <span
+      className={`kivraa-down-arrow ${className}`}
+      aria-hidden="true"
+    >
+      ↓
+    </span>
+  );
 }

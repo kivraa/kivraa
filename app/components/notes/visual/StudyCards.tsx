@@ -1,84 +1,90 @@
 "use client";
 
-import { asStringArray } from "../types";
+import React from "react";
+import { VisualShell, nodeClass, safeItems } from "./shared";
+
+type AnnotationVariant =
+  | "important"
+  | "remember"
+  | "example";
 
 function Annotation({
-  label,
+  variant,
   title,
   items,
-  variant,
 }: {
-  label: "Important" | "Remember" | "Example";
+  variant: AnnotationVariant;
   title?: string;
   items?: string[];
-  variant: "important" | "remember" | "example";
 }) {
-  const lines = asStringArray(items)
-    .map((item) => String(item).trim())
-    .filter(Boolean);
+  const values = safeItems(items, 6);
 
-  const body =
-    lines.length > 0
-      ? lines
-      : title
-        ? [title]
-        : [];
+  if (!values.length && !title) return null;
 
-  if (!body.length) return null;
+  const config = {
+    important: {
+      label: "IMPORTANT",
+      symbol: "!",
+    },
+    remember: {
+      label: "REMEMBER",
+      symbol: "★",
+    },
+    example: {
+      label: "EXAMPLE",
+      symbol: "✎",
+    },
+  }[variant];
 
   return (
-    <div
-      className={[
-        "kivraa-study-annotation",
-        `kivraa-study-annotation-${variant}`,
-      ].join(" ")}
+    <VisualShell
+      kind={`annotation-${variant}`}
+      label={config.label}
+      title={title}
     >
-      <div className="kivraa-study-annotation-label">
+      <div
+        className={[
+          "kivraa-study-annotation",
+          `kivraa-study-annotation-${variant}`,
+        ].join(" ")}
+      >
         <span
           className="kivraa-study-annotation-symbol"
           aria-hidden="true"
         >
-          {variant === "important"
-            ? "★"
-            : variant === "remember"
-              ? "↳"
-              : "✎"}
+          {config.symbol}
         </span>
 
-        <span>{label}</span>
-      </div>
+        <div className="kivraa-study-annotation-body">
+          {title ? (
+            <div className="kivraa-study-annotation-title">
+              {title}
+            </div>
+          ) : null}
 
-      {title && lines.length > 0 ? (
-        <div className="kivraa-study-annotation-title">
-          {title}
-        </div>
-      ) : null}
-
-      <div className="kivraa-study-annotation-body">
-        {body.map((line, index) => (
-          <div
-            key={`${line}-${index}`}
-            className="kivraa-study-annotation-line"
-          >
-            {index > 0 ? (
-              <span
-                className="kivraa-study-annotation-mini-mark"
-                aria-hidden="true"
-              >
-                •
+          {values.map((item, index) => (
+            <div
+              key={`${item}-${index}`}
+              className={[
+                "kivraa-study-annotation-line",
+                nodeClass(index, true),
+              ].join(" ")}
+            >
+              <span className="kivraa-study-annotation-mark">
+                {variant === "example" ? "→" : "•"}
               </span>
-            ) : null}
 
-            <span>{line}</span>
-          </div>
-        ))}
+              <span>{item}</span>
+            </div>
+          ))}
+        </div>
+
+        <span
+          className="kivraa-study-annotation-stroke"
+          aria-hidden="true"
+        />
       </div>
-
-      <span
-        className="kivraa-study-annotation-stroke"
-        aria-hidden="true"
-      />
-    </div>
+    </VisualShell>
   );
 }
 
@@ -91,10 +97,9 @@ export function ImportantBlock({
 }) {
   return (
     <Annotation
-      label="Important"
+      variant="important"
       title={title}
       items={items}
-      variant="important"
     />
   );
 }
@@ -108,10 +113,9 @@ export function RememberBlock({
 }) {
   return (
     <Annotation
-      label="Remember"
+      variant="remember"
       title={title}
       items={items}
-      variant="remember"
     />
   );
 }
@@ -125,10 +129,11 @@ export function ExampleBlock({
 }) {
   return (
     <Annotation
-      label="Example"
+      variant="example"
       title={title}
       items={items}
-      variant="example"
     />
   );
 }
+
+export default Annotation;

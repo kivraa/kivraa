@@ -1,116 +1,113 @@
 "use client";
 
+import React from "react";
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
-import katex from "katex";
-import "katex/dist/katex.min.css";
 
-import { asStringArray } from "../types";
+import type { NoteStyle } from "../types";
 import { VisualShell } from "./shared";
 
-function normalizeFormula(text: string) {
-  return String(text || "")
-    .replace(/^\s*\$\$([\s\S]*?)\$\$\s*$/g, "$1")
-    .replace(/^\s*\$([\s\S]*?)\$\s*$/g, "$1")
+function cleanFormula(value: string) {
+  return value
+    .replace(/\r\n/g, "\n")
     .trim();
 }
 
-function cleanMeaning(text: string) {
-  return String(text || "")
-    .trim()
-    .replace(/^[-*•]\s+/, "")
-    .replace(/^\d+[.)]\s+/, "")
+function cleanMeaning(value: string) {
+  return value
+    .replace(/^meaning\s*:\s*/i, "")
+    .replace(/^where\s*:\s*/i, "")
     .trim();
+}
+
+function isLikelyFormula(value: string) {
+  return /[=+\-*/^]|\\frac|\\sqrt|\\times|\\rightarrow|[A-Za-z]\s*=/.test(
+    value
+  );
 }
 
 export default function FormulaBlock({
   title,
   items,
+  style,
 }: {
   title?: string;
   items?: string[];
+  style?: NoteStyle;
 }) {
-  const lines = asStringArray(items)
-    .map((item) => String(item).trim())
-    .filter(Boolean);
+  const lines = Array.isArray(items)
+    ? items
+        .map((item) => String(item ?? "").trim())
+        .filter(Boolean)
+    : [];
 
-  if (!lines.length && !title) {
-    return null;
-  }
+  if (!lines.length) return null;
 
-  const formula = normalizeFormula(
-    lines[0] || title || ""
+  const formulaIndex = lines.findIndex(isLikelyFormula);
+
+  const formula =
+    formulaIndex >= 0
+      ? lines[formulaIndex]
+      : lines[0];
+
+  const meaningLines = lines.filter(
+    (_, index) => index !== formulaIndex
   );
 
-  if (!formula) return null;
-
-  const meaning = lines
-    .slice(1)
+  const meaningful = meaningLines
     .map(cleanMeaning)
-    .filter(Boolean);
+    .filter(Boolean)
+    .slice(0, 3);
 
-  let mathSafe = true;
+  const formulaText = cleanFormula(formula);
 
-  try {
-    katex.renderToString(formula, {
-      throwOnError: true,
-      displayMode: true,
-    });
-  } catch {
-    mathSafe = false;
-  }
+  const colorful = style === "Colorful";
 
   return (
-    <VisualShell
-      title={title}
-      label="Formula"
-    >
-      <div className="kivraa-student-formula">
+    <VisualShell title={title} label="Formula">
+      <div
+        className={[
+          "kivraa-student-formula",
+          colorful
+            ? "kivraa-student-formula-colorful"
+            : "kivraa-student-formula-simple",
+        ].join(" ")}
+      >
         <div className="kivraa-formula-paper">
-          {title ? (
-            <div className="kivraa-formula-heading">
-              {title}
-            </div>
-          ) : null}
+          <div className="kivraa-formula-heading">
+            <span>FORMULA</span>
+          </div>
 
           <div className="kivraa-formula-main">
-            {mathSafe ? (
-              <ReactMarkdown
-                remarkPlugins={[remarkMath]}
-                rehypePlugins={[rehypeKatex]}
-                components={{
-                  p: ({ children }) => (
-                    <div className="kivraa-formula-math">
-                      {children}
-                    </div>
-                  ),
-                }}
-              >
-                {`$$${formula}$$`}
-              </ReactMarkdown>
+            {isLikelyFormula(formulaText) ? (
+              <div className="kivraa-formula-math">
+                <ReactMarkdown
+                  remarkPlugins={[remarkMath]}
+                  rehypePlugins={[rehypeKatex]}
+                >
+                  {`$$${formulaText}$$`}
+                </ReactMarkdown>
+              </div>
             ) : (
               <div className="kivraa-formula-plain">
-                {formula}
+                {formulaText}
               </div>
             )}
           </div>
 
-          {meaning.length ? (
+          {meaningful.length > 0 ? (
             <div className="kivraa-formula-meaning">
-              {meaning.map((item, index) => (
+              {meaningful.map((line, index) => (
                 <div
-                  key={`${item}-${index}`}
+                  key={`${line}-${index}`}
                   className="kivraa-formula-meaning-line"
                 >
-                  <span
-                    className="kivraa-formula-arrow"
-                    aria-hidden="true"
-                  >
+                  <span className="kivraa-formula-arrow">
                     →
                   </span>
 
-                  <span>{item}</span>
+                  <span>{line}</span>
                 </div>
               ))}
             </div>

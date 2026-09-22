@@ -2085,3 +2085,1101 @@ body {
 #generated-notes.mk-one-page .kivraa-visual{margin-top:5px;margin-bottom:5px}#generated-notes.mk-one-page .kivraa-student-paragraph{margin-bottom:4px}#generated-notes.mk-one-page .kivraa-study-annotation{margin:4px 0}#generated-notes.mk-one-page .kivraa-student-formula{margin:5px auto}#generated-notes.mk-one-page .kivraa-comparison-wrap{margin:5px 0}
 #generated-notes .kivraa-visual *,#generated-notes .kivraa-study-annotation *,#generated-notes .kivraa-comparison-wrap *,#generated-notes .kivraa-student-formula *{min-width:0;max-width:100%;box-sizing:border-box}
 #generated-notes .kivraa-visual,#generated-notes .kivraa-study-annotation,#generated-notes .kivraa-comparison-wrap,#generated-notes .kivraa-student-formula{overflow-wrap:anywhere;word-break:break-word}
+/* =========================================================
+   KIVRAA — REAL STUDENT NOTEBOOK RENDERER
+   Final visual layer
+   ========================================================= */
+
+#generated-notes,
+.kivraa-markdown,
+.kivraa-notebook-content {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #172033;
+  line-height: 1.65;
+}
+
+/* ---------------------------------------------------------
+   NOTEBOOK PAPER
+   --------------------------------------------------------- */
+
+#generated-notes .kivraa-notebook-content {
+  position: relative;
+  overflow: hidden;
+
+  background-color: #fffdf7;
+
+  background-image:
+    linear-gradient(
+      to right,
+      transparent 0,
+      transparent 48px,
+      rgba(231, 91, 103, 0.38) 49px,
+      rgba(231, 91, 103, 0.38) 50px,
+      transparent 51px
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 31px,
+      rgba(82, 137, 190, 0.18) 32px,
+      transparent 33px
+    );
+
+  border: 0;
+  border-radius: 0;
+
+  box-shadow: none;
+
+  padding: 42px 42px 52px 72px;
+
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ---------------------------------------------------------
+   NORMAL NOTE CONTENT
+   --------------------------------------------------------- */
+
+#generated-notes .kivraa-note-paragraph {
+  margin: 0 0 13px;
+  font-size: 16px;
+  line-height: 1.85;
+  letter-spacing: 0.005em;
+}
+
+#generated-notes .kivraa-note-list {
+  margin: 8px 0 16px;
+  padding-left: 25px;
+}
+
+#generated-notes .kivraa-note-list-item {
+  margin: 3px 0;
+  line-height: 1.75;
+}
+
+#generated-notes .kivraa-note-numbered-list {
+  padding-left: 29px;
+}
+
+/* ---------------------------------------------------------
+   HEADINGS — STUDENT NOTE HIERARCHY
+   --------------------------------------------------------- */
+
+#generated-notes .kivraa-note-h1 {
+  position: relative;
+
+  margin: 4px 0 20px;
+  padding-bottom: 8px;
+
+  color: #152b55;
+
+  font-size: clamp(26px, 4vw, 38px);
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+#generated-notes .kivraa-note-h1::after {
+  content: "";
+
+  display: block;
+
+  width: min(270px, 72%);
+  height: 3px;
+
+  margin-top: 7px;
+
+  background: #263f77;
+
+  border-radius: 50%;
+
+  transform: rotate(-1deg);
+}
+
+#generated-notes .kivraa-note-h2 {
+  margin: 25px 0 11px;
+
+  color: #253e78;
+
+  font-size: clamp(20px, 3vw, 27px);
+  line-height: 1.2;
+  font-weight: 800;
+}
+
+#generated-notes .kivraa-note-h2::after {
+  content: "";
+
+  display: block;
+
+  width: 105px;
+  height: 2px;
+
+  margin-top: 5px;
+
+  background: #5b67a8;
+
+  transform: rotate(-1deg);
+}
+
+#generated-notes .kivraa-note-h3 {
+  margin: 19px 0 7px;
+
+  color: #24304e;
+
+  font-size: 18px;
+  line-height: 1.3;
+  font-weight: 800;
+}
+
+#generated-notes .kivraa-note-h4 {
+  margin: 15px 0 6px;
+
+  color: #35446b;
+
+  font-size: 16px;
+  font-weight: 800;
+}
+
+/* ---------------------------------------------------------
+   KEYWORDS
+   --------------------------------------------------------- */
+
+#generated-notes .kivraa-note-strong {
+  color: #172b5b;
+  font-weight: 800;
+
+  text-decoration-line: underline;
+  text-decoration-color: rgba(224, 77, 77, 0.62);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+#generated-notes .kivraa-inline-keyword {
+  padding: 0 3px;
+
+  background: transparent;
+
+  color: #713d82;
+
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 750;
+}
+
+/* ---------------------------------------------------------
+   BLOCKQUOTE / SIDE NOTE
+   --------------------------------------------------------- */
+
+#generated-notes .kivraa-note-blockquote {
+  position: relative;
+
+  margin: 16px 0;
+  padding: 7px 0 7px 18px;
+
+  border-left: 3px solid #d65c72;
+
+  color: #35415d;
+
+  font-style: italic;
+}
+
+/* ---------------------------------------------------------
+   DIVIDER
+   --------------------------------------------------------- */
+
+#generated-notes .kivraa-note-divider {
+  width: 72%;
+  height: 1px;
+
+  margin: 20px auto;
+
+  background: rgba(45, 70, 110, 0.25);
+
+  transform: rotate(-0.4deg);
+}
+
+/* =========================================================
+   VISUAL BLOCK BASE
+   ========================================================= */
+
+#generated-notes .kivraa-visual {
+  position: relative;
+
+  margin: 20px 0 23px;
+
+  background: transparent;
+
+  border: 0;
+  border-radius: 0;
+
+  box-shadow: none;
+
+  break-inside: avoid;
+}
+
+#generated-notes .kivraa-visual-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+
+  margin-bottom: 8px;
+}
+
+#generated-notes .kivraa-visual-label {
+  color: #b84454;
+
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+#generated-notes .kivraa-visual-title {
+  color: #243b6c;
+
+  font-size: 17px;
+  font-weight: 800;
+}
+
+#generated-notes .kivraa-visual-content {
+  position: relative;
+}
+
+/* =========================================================
+   INK COLORS
+   ========================================================= */
+
+#generated-notes .kivraa-ink-blue {
+  --kivraa-ink: #244d88;
+}
+
+#generated-notes .kivraa-ink-purple {
+  --kivraa-ink: #70458f;
+}
+
+#generated-notes .kivraa-ink-red {
+  --kivraa-ink: #b74754;
+}
+
+#generated-notes .kivraa-ink-orange {
+  --kivraa-ink: #b96832;
+}
+
+/* =========================================================
+   FLOWCHART
+   ========================================================= */
+
+#generated-notes .kivraa-student-flow {
+  width: min(100%, 610px);
+  margin: 4px auto 8px;
+}
+
+#generated-notes .kivraa-flow-step-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#generated-notes .kivraa-flow-step {
+  position: relative;
+
+  width: min(100%, 500px);
+
+  padding: 11px 18px 11px 46px;
+
+  background: rgba(255, 255, 255, 0.48);
+
+  border: 1.5px solid currentColor;
+  border-radius: 8px 13px 9px 11px;
+
+  color: #244d88;
+
+  box-shadow:
+    2px 2px 0 rgba(36, 77, 136, 0.07);
+
+  transform: rotate(-0.25deg);
+}
+
+#generated-notes .kivraa-flow-step:nth-child(even) {
+  transform: rotate(0.3deg);
+}
+
+#generated-notes .kivraa-flow-step-mark {
+  position: absolute;
+  left: 13px;
+  top: 50%;
+
+  display: grid;
+  place-items: center;
+
+  width: 22px;
+  height: 22px;
+
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+
+  font-size: 11px;
+  font-weight: 800;
+
+  transform: translateY(-50%) rotate(-7deg);
+}
+
+#generated-notes .kivraa-flow-step-text {
+  display: block;
+
+  color: #202c43;
+
+  font-size: 15px;
+  line-height: 1.55;
+  font-weight: 650;
+}
+
+#generated-notes .kivraa-flow-connector {
+  height: 27px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #405e91;
+}
+
+#generated-notes .kivraa-down-arrow {
+  font-size: 21px;
+  line-height: 1;
+}
+
+/* =========================================================
+   DIAGRAM
+   ========================================================= */
+
+#generated-notes .kivraa-student-diagram {
+  width: min(100%, 650px);
+  margin: 4px auto;
+}
+
+#generated-notes .kivraa-diagram-paper {
+  position: relative;
+
+  min-height: 260px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#generated-notes .kivraa-diagram-center {
+  position: relative;
+  z-index: 2;
+
+  display: grid;
+  place-items: center;
+
+  width: 145px;
+  min-height: 82px;
+
+  padding: 13px 16px;
+
+  background: rgba(255, 250, 218, 0.82);
+
+  border: 2px solid currentColor;
+  border-radius: 48% 52% 45% 55%;
+
+  color: #244d88;
+
+  transform: rotate(-2deg);
+}
+
+#generated-notes .kivraa-diagram-center-text {
+  color: #1f2e4a;
+
+  font-size: 15px;
+  line-height: 1.3;
+  font-weight: 800;
+  text-align: center;
+}
+
+#generated-notes .kivraa-diagram-label {
+  position: absolute;
+
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  max-width: 190px;
+
+  color: #244d88;
+}
+
+#generated-notes .kivraa-diagram-label-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  color: #25334d;
+
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+#generated-notes .kivraa-diagram-label-text strong {
+  font-weight: 800;
+}
+
+#generated-notes .kivraa-diagram-label-text small {
+  font-size: 11px;
+  line-height: 1.3;
+  color: #5a6477;
+}
+
+#generated-notes .kivraa-diagram-line {
+  width: 38px;
+  height: 1.5px;
+
+  flex: 0 0 auto;
+
+  background: currentColor;
+}
+
+#generated-notes .kivraa-diagram-label-0 {
+  top: 13%;
+  left: 2%;
+}
+
+#generated-notes .kivraa-diagram-label-1 {
+  top: 13%;
+  right: 2%;
+}
+
+#generated-notes .kivraa-diagram-label-2 {
+  bottom: 13%;
+  left: 2%;
+}
+
+#generated-notes .kivraa-diagram-label-3 {
+  bottom: 13%;
+  right: 2%;
+}
+
+/* =========================================================
+   CYCLE
+   ========================================================= */
+
+#generated-notes .kivraa-student-cycle {
+  width: min(100%, 620px);
+  margin: 0 auto;
+}
+
+#generated-notes .kivraa-cycle-desktop {
+  position: relative;
+
+  width: 300px;
+  height: 300px;
+
+  margin: 8px auto;
+}
+
+#generated-notes .kivraa-cycle-ring {
+  position: absolute;
+  inset: 31px;
+
+  border: 2px dashed rgba(48, 72, 117, 0.35);
+  border-radius: 50%;
+
+  transform: rotate(-2deg);
+}
+
+#generated-notes .kivraa-cycle-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  display: grid;
+  place-items: center;
+
+  width: 82px;
+  height: 58px;
+
+  background: rgba(255, 249, 216, 0.85);
+
+  border: 2px solid #405e91;
+  border-radius: 50%;
+
+  color: #243b6c;
+
+  transform: translate(-50%, -50%) rotate(-2deg);
+
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: lowercase;
+}
+
+#generated-notes .kivraa-cycle-node {
+  position: absolute;
+
+  width: 90px;
+  min-height: 46px;
+
+  display: grid;
+  place-items: center;
+
+  padding: 7px 8px;
+
+  background: rgba(255, 255, 255, 0.68);
+
+  border: 1.5px solid currentColor;
+  border-radius: 47% 53% 50% 46%;
+
+  color: #244d88;
+
+  font-size: 12px;
+  line-height: 1.25;
+  font-weight: 750;
+  text-align: center;
+
+  transform: translate(-50%, -50%) rotate(-1deg);
+}
+
+#generated-notes .kivraa-cycle-arrow-ring {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  pointer-events: none;
+}
+
+#generated-notes .kivraa-cycle-arrow-ring path {
+  fill: none;
+  stroke: rgba(55, 79, 121, 0.55);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+#generated-notes .kivraa-cycle-arrow-ring
+  .kivraa-cycle-arrow-head {
+  fill: none;
+}
+
+#generated-notes .kivraa-cycle-mobile {
+  display: none;
+}
+
+/* =========================================================
+   FORMULA
+   ========================================================= */
+
+#generated-notes .kivraa-student-formula {
+  width: min(100%, 620px);
+  margin: 10px auto;
+}
+
+#generated-notes .kivraa-formula-paper {
+  position: relative;
+
+  padding: 17px 22px 20px;
+
+  background: rgba(255, 249, 219, 0.5);
+
+  border: 2px solid #394f80;
+  border-radius: 6px 17px 8px 13px;
+
+  transform: rotate(-0.35deg);
+}
+
+#generated-notes .kivraa-formula-heading {
+  color: #b74754;
+
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+}
+
+#generated-notes .kivraa-formula-main {
+  margin: 10px 0 7px;
+
+  color: #172b52;
+}
+
+#generated-notes .kivraa-formula-math {
+  overflow-x: auto;
+  padding: 4px 0;
+}
+
+#generated-notes .kivraa-formula-math .katex-display {
+  margin: 0.25em 0;
+}
+
+#generated-notes .kivraa-formula-math .katex {
+  color: #172b52;
+  font-size: 1.2em;
+}
+
+#generated-notes .kivraa-formula-plain {
+  font-size: 19px;
+  line-height: 1.45;
+  font-weight: 800;
+}
+
+#generated-notes .kivraa-formula-meaning {
+  margin-top: 8px;
+}
+
+#generated-notes .kivraa-formula-meaning-line {
+  display: flex;
+  gap: 8px;
+
+  margin: 3px 0;
+
+  color: #39455c;
+
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+#generated-notes .kivraa-formula-arrow {
+  color: #b74754;
+  font-weight: 800;
+}
+
+#generated-notes .kivraa-formula-doodle {
+  position: absolute;
+  right: 13px;
+  bottom: 8px;
+
+  width: 45px;
+  height: 12px;
+
+  border-bottom: 2px solid rgba(112, 69, 143, 0.55);
+  border-radius: 50%;
+
+  transform: rotate(-5deg);
+}
+
+/* =========================================================
+   IMPORTANT / REMEMBER / EXAMPLE
+   ========================================================= */
+
+#generated-notes .kivraa-study-annotation {
+  position: relative;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+
+  width: min(100%, 700px);
+
+  margin: 13px auto;
+
+  padding: 8px 10px 10px 4px;
+
+  background: transparent;
+
+  border: 0;
+
+  color: #26334b;
+}
+
+#generated-notes .kivraa-study-annotation-symbol {
+  flex: 0 0 auto;
+
+  display: grid;
+  place-items: center;
+
+  width: 27px;
+  height: 27px;
+
+  border: 2px solid currentColor;
+  border-radius: 50%;
+
+  font-size: 13px;
+  font-weight: 850;
+
+  transform: rotate(-7deg);
+}
+
+#generated-notes .kivraa-study-annotation-body {
+  flex: 1;
+}
+
+#generated-notes .kivraa-study-annotation-title {
+  margin-bottom: 3px;
+
+  font-size: 15px;
+  font-weight: 850;
+}
+
+#generated-notes .kivraa-study-annotation-line {
+  display: flex;
+  gap: 7px;
+
+  margin: 2px 0;
+
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+#generated-notes .kivraa-study-annotation-mark {
+  color: currentColor;
+  font-weight: 800;
+}
+
+#generated-notes .kivraa-study-annotation-important {
+  color: #b74754;
+}
+
+#generated-notes .kivraa-study-annotation-remember {
+  color: #70458f;
+}
+
+#generated-notes .kivraa-study-annotation-example {
+  color: #b96832;
+}
+
+#generated-notes .kivraa-study-annotation-stroke {
+  position: absolute;
+
+  left: 42px;
+  right: 12px;
+  bottom: 1px;
+
+  height: 2px;
+
+  background: currentColor;
+
+  opacity: 0.18;
+
+  transform: rotate(-0.5deg);
+}
+
+/* =========================================================
+   COMPARISON
+   ========================================================= */
+
+#generated-notes .kivraa-comparison-wrap {
+  margin: 18px 0 22px;
+}
+
+#generated-notes .kivraa-comparison-label {
+  margin-bottom: 7px;
+
+  color: #b74754;
+
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+}
+
+#generated-notes .kivraa-comparison-scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+
+#generated-notes .kivraa-comparison-table {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  color: #25344e;
+
+  font-size: 13px;
+}
+
+#generated-notes .kivraa-comparison-table th,
+#generated-notes .kivraa-comparison-table td {
+  padding: 8px 10px;
+
+  border-bottom: 1.5px solid rgba(46, 72, 112, 0.28);
+
+  text-align: left;
+  vertical-align: top;
+}
+
+#generated-notes .kivraa-comparison-table th {
+  color: #243e75;
+  font-weight: 850;
+}
+
+/* =========================================================
+   TABLES
+   ========================================================= */
+
+#generated-notes .kivraa-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  margin: 18px 0;
+}
+
+#generated-notes .kivraa-note-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+#generated-notes .kivraa-note-table-cell {
+  padding: 7px 9px;
+  border-bottom: 1px solid rgba(42, 65, 103, 0.22);
+  text-align: left;
+  vertical-align: top;
+}
+
+#generated-notes .kivraa-note-table-header {
+  color: #243e75;
+  font-weight: 800;
+}
+
+/* =========================================================
+   IMAGES
+   ========================================================= */
+
+#generated-notes .kivraa-note-image {
+  margin: 18px auto;
+
+  text-align: center;
+}
+
+#generated-notes .kivraa-note-image img {
+  max-width: 100%;
+  height: auto;
+}
+
+#generated-notes .kivraa-note-image figcaption {
+  margin-top: 5px;
+
+  color: #697386;
+
+  font-size: 11px;
+  font-style: italic;
+}
+
+/* =========================================================
+   CODE SAFETY
+   ========================================================= */
+
+#generated-notes .kivraa-code-block {
+  overflow-x: auto;
+
+  margin: 14px 0;
+  padding: 12px;
+
+  background: rgba(245, 240, 225, 0.65);
+
+  border-left: 3px solid #53698e;
+
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 12px;
+}
+
+/* =========================================================
+   ONE PAGE
+   ========================================================= */
+
+#generated-notes .kivraa-one-page-content {
+  min-height: 650px;
+
+  padding-top: 34px;
+  padding-bottom: 34px;
+}
+
+#generated-notes .kivraa-one-page-content
+  .kivraa-note-paragraph {
+  font-size: 14px;
+  line-height: 1.55;
+  margin-bottom: 7px;
+}
+
+#generated-notes .kivraa-one-page-content
+  .kivraa-note-h1 {
+  font-size: 28px;
+  margin-bottom: 13px;
+}
+
+#generated-notes .kivraa-one-page-content
+  .kivraa-note-h2 {
+  font-size: 19px;
+  margin-top: 15px;
+}
+
+#generated-notes .kivraa-one-page-content
+  .kivraa-visual {
+  margin-top: 11px;
+  margin-bottom: 12px;
+}
+
+/* =========================================================
+   MOBILE — SAME NOTEBOOK, SMALLER SCALE
+   ========================================================= */
+
+@media (max-width: 700px) {
+  #generated-notes .kivraa-notebook-content {
+    max-width: none;
+
+    padding: 28px 18px 38px 52px;
+
+    background-image:
+      linear-gradient(
+        to right,
+        transparent 0,
+        transparent 34px,
+        rgba(231, 91, 103, 0.36) 35px,
+        rgba(231, 91, 103, 0.36) 36px,
+        transparent 37px
+      ),
+      repeating-linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent 28px,
+        rgba(82, 137, 190, 0.17) 29px,
+        transparent 30px
+      );
+  }
+
+  #generated-notes .kivraa-note-paragraph {
+    font-size: 14px;
+    line-height: 1.72;
+  }
+
+  #generated-notes .kivraa-note-h1 {
+    font-size: 25px;
+  }
+
+  #generated-notes .kivraa-note-h2 {
+    font-size: 19px;
+  }
+
+  #generated-notes .kivraa-note-h3 {
+    font-size: 16px;
+  }
+
+  #generated-notes .kivraa-flow-step {
+    width: 100%;
+  }
+
+  #generated-notes .kivraa-diagram-paper {
+    min-height: 340px;
+  }
+
+  #generated-notes .kivraa-diagram-label {
+    max-width: 125px;
+  }
+
+  #generated-notes .kivraa-diagram-label-0 {
+    top: 8%;
+    left: 0;
+  }
+
+  #generated-notes .kivraa-diagram-label-1 {
+    top: 8%;
+    right: 0;
+  }
+
+  #generated-notes .kivraa-diagram-label-2 {
+    bottom: 8%;
+    left: 0;
+  }
+
+  #generated-notes .kivraa-diagram-label-3 {
+    bottom: 8%;
+    right: 0;
+  }
+
+  #generated-notes .kivraa-cycle-desktop {
+    display: none;
+  }
+
+  #generated-notes .kivraa-cycle-mobile {
+    display: block;
+  }
+
+  #generated-notes .kivraa-cycle-mobile-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #generated-notes .kivraa-cycle-mobile-node {
+    width: min(100%, 280px);
+
+    padding: 9px 12px;
+
+    border: 1.5px solid currentColor;
+    border-radius: 46% 54% 50% 48%;
+
+    background: rgba(255, 255, 255, 0.58);
+
+    font-size: 13px;
+    line-height: 1.4;
+    text-align: center;
+  }
+
+  #generated-notes .kivraa-cycle-mobile-arrow {
+    margin: 4px 0;
+
+    color: #405e91;
+  }
+
+  #generated-notes .kivraa-cycle-return {
+    margin-top: 7px;
+
+    color: #70458f;
+
+    font-size: 11px;
+    font-style: italic;
+  }
+
+  #generated-notes .kivraa-formula-paper {
+    padding: 14px 15px 17px;
+  }
+
+  #generated-notes .kivraa-formula-math .katex {
+    font-size: 1em;
+  }
+
+  #generated-notes .kivraa-study-annotation-line {
+    font-size: 12.5px;
+  }
+}
+
+/* =========================================================
+   VERY SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 390px) {
+  #generated-notes .kivraa-notebook-content {
+    padding-left: 47px;
+    padding-right: 13px;
+  }
+
+  #generated-notes .kivraa-note-paragraph {
+    font-size: 13.5px;
+  }
+
+  #generated-notes .kivraa-diagram-center {
+    width: 125px;
+  }
+
+  #generated-notes .kivraa-diagram-label {
+    max-width: 108px;
+  }
+
+  #generated-notes .kivraa-diagram-label-text {
+    font-size: 11px;
+  }
+}
+
+/* =========================================================
+   PRINT / PDF
+   ========================================================= */
+
+@media print {
+  #generated-notes .kivraa-notebook-content {
+    box-shadow: none;
+    max-width: none;
+  }
+
+  #generated-notes .kivraa-visual {
+    break-inside: avoid;
+  }
+}

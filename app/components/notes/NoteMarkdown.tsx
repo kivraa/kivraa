@@ -1,480 +1,295 @@
 "use client";
 
-import type { ReactNode } from "react";
+import React from "react";
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
+
 import "katex/dist/katex.min.css";
 
-import ComparisonBlock from "./visual/ComparisonBlock";
 import VisualBlock from "./VisualBlock";
+import type { NoteStyle } from "./types";
 
-import {
-  ExampleBlock,
-  ImportantBlock,
-  RememberBlock,
-} from "./visual/StudyCards";
+type NoteMarkdownProps = {
+  content: string;
+  onePage?: boolean;
+  style?: NoteStyle;
+};
 
-import {
-  asStringArray,
-  type NoteStyle,
-  type VisualKind,
-} from "./types";
+const VISUAL_KINDS = new Set([
+  "flowchart",
+  "diagram",
+  "cycle",
+  "formula",
+  "important",
+  "remember",
+  "example",
+]);
 
-function childText(children: ReactNode): string {
-  if (children == null || children === false) {
-    return "";
-  }
-
-  if (
-    typeof children === "string" ||
-    typeof children === "number"
-  ) {
-    return String(children);
-  }
-
-  if (Array.isArray(children)) {
-    return children.map(childText).join("");
-  }
-
-  if (
-    typeof children === "object" &&
-    children &&
-    "props" in children
-  ) {
-    return childText(
-      (
-        children as {
-          props?: {
-            children?: ReactNode;
-          };
-        }
-      ).props?.children
-    );
-  }
-
-  return "";
-}
-
-function cleanLabelContent(
-  text: string,
-  children: ReactNode
-) {
-  const trimmed = String(text || "").trim();
-
-  const cleaned = trimmed
-    .replace(
-      /^(important|remember|example)\s*[:\-–]?\s*/i,
-      ""
-    )
-    .trim();
-
-  return cleaned || childText(children);
-}
-
-function getVisualKind(
-  className?: string
-): VisualKind | null {
+function getVisualKind(className?: string) {
   if (!className) return null;
 
-  const match =
-    /language-(flowchart|diagram|cycle|formula|important|remember|example)/i.exec(
-      className
-    );
+  const match = className.match(/language-([a-zA-Z0-9_-]+)/);
 
-  if (!match?.[1]) return null;
+  if (!match) return null;
 
-  return match[1].toLowerCase() as VisualKind;
+  const kind = match[1].toLowerCase();
+
+  return VISUAL_KINDS.has(kind) ? kind : null;
 }
 
-function parseVisualCode(
-  text: string
-) {
-  const lines = asStringArray(
-    String(text || "")
-      .replace(/\r/g, "")
-      .split("\n")
+function cleanText(value: string) {
+  return value
+    .replace(/\r\n/g, "\n")
+    .replace(/\u00a0/g, " ")
+    .trim();
+}
+
+function parseVisualBody(body: string) {
+  const lines = cleanText(body)
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  let title = "";
+  let items = [...lines];
+
+  /*
+   * Supports:
+   *
+   * title: Photosynthesis Process
+   * Sunlight
+   * Chlorophyll
+   * CO2
+   * Glucose
+   */
+  const titleIndex = items.findIndex((line) =>
+    /^title\s*:/i.test(line)
   );
 
-  let title: string | undefined;
-  const items: string[] = [];
+  if (titleIndex !== -1) {
+    title = items[titleIndex]
+      .replace(/^title\s*:/i, "")
+      .trim();
 
-  for (const rawLine of lines) {
-    const line = rawLine.trim();
-
-    if (!line) continue;
-
-    const titleMatch =
-      line.match(/^title\s*:\s*(.+)$/i);
-
-    if (titleMatch && !title) {
-      title = titleMatch[1].trim();
-      continue;
-    }
-
-    items.push(line);
+    items.splice(titleIndex, 1);
   }
 
+  /*
+   * Remove accidental metadata lines which Gemini
+   * may sometimes place inside a visual block.
+   */
+  items = items.filter((item) => {
+    const lower = item.toLowerCase();
+
+    return (
+      !lower.startsWith("kind:") &&
+      !lower.startsWith("style:") &&
+      !lower.startsWith("visual:")
+    );
+  });
+
   return {
-    title,
+    title: title || undefined,
     items,
   };
 }
 
-function renderLabelCard(
-  text: string,
-  children: ReactNode
-) {
-  const trimmed = String(text || "").trim();
+function MarkdownCodeBlock({
+  className,
+  children,
+  style,
+}: {
+  className?: string;
+  children: React.ReactNode;
+  style: NoteStyle;
+}) {
+  const value = cleanText(String(children ?? ""));
+  const kind = getVisualKind(className);
 
-  if (/^important\b/i.test(trimmed)) {
+  if (kind) {
+    const parsed = parseVisualBody(value);
+
     return (
-      <ImportantBlock
-        items={[
-          cleanLabelContent(
-            trimmed,
-            children
-          ),
-        ]}
+      <VisualBlock
+        kind={kind}
+        title={parsed.title}
+        items={parsed.items}
+        style={style}
       />
     );
   }
 
-  if (/^remember\b/i.test(trimmed)) {
-    return (
-      <RememberBlock
-        items={[
-          cleanLabelContent(
-            trimmed,
-            children
-          ),
-        ]}
-      />
-    );
-  }
-
-  if (/^example\b/i.test(trimmed)) {
-    return (
-      <ExampleBlock
-        items={[
-          cleanLabelContent(
-            trimmed,
-            children
-          ),
-        ]}
-      />
-    );
-  }
-
-  return null;
+  return (
+    <pre className="kivraa-code-block">
+      <code>{value}</code>
+    </pre>
+  );
 }
 
 export default function NoteMarkdown({
   content,
+  onePage = false,
   style,
-}: {
-  content: string;
-  style: NoteStyle;
-}) {
-  if (!content?.trim()) {
-    return null;
-  }
+}: NoteMarkdownProps) {
+  const safeContent = content || "";
 
-  const compact = style === "One Page";
+  /*
+   * VisualBlock already expects the project's NoteStyle type.
+   * "simple" is used only as a safe renderer fallback when
+   * this component is used without an explicit style.
+   */
+  const resolvedStyle =
+    style ?? ("simple" as NoteStyle);
 
   return (
-    <div
+    <article
       className={[
         "kivraa-markdown",
-        compact
-          ? "kivraa-markdown-compact"
-          : "kivraa-markdown-normal",
-      ].join(" ")}
+        "kivraa-notebook-content",
+        onePage ? "kivraa-one-page-content" : "",
+      ]
+        .filter(Boolean)
+        .join(" ")}
     >
       <ReactMarkdown
         remarkPlugins={[remarkMath]}
         rehypePlugins={[rehypeKatex]}
         components={{
-          /*
-           * =====================================================
-           * MAIN TITLE
-           * =====================================================
-           *
-           * One clean handwritten-study-copy heading.
-           * No giant yellow web-card.
-           */
           h1: ({ children }) => (
-            <h1 className="kivraa-student-title">
+            <h1 className="kivraa-note-h1">
               {children}
             </h1>
           ),
 
-          /*
-           * =====================================================
-           * MAJOR SECTION
-           * =====================================================
-           */
           h2: ({ children }) => (
-            <div className="kivraa-student-subtitle">
-              <span
-                className="kivraa-heading-marker"
-                aria-hidden="true"
-              >
-                ↳
-              </span>
-
-              <h2>{children}</h2>
-            </div>
+            <h2 className="kivraa-note-h2">
+              {children}
+            </h2>
           ),
 
-          /*
-           * =====================================================
-           * SMALL SUBSECTION
-           * =====================================================
-           */
           h3: ({ children }) => (
-            <h3 className="kivraa-student-mini-heading">
+            <h3 className="kivraa-note-h3">
               {children}
             </h3>
           ),
 
-          /*
-           * =====================================================
-           * PARAGRAPH
-           * =====================================================
-           *
-           * Normal study-copy writing should sit directly
-           * on the notebook page.
-           */
-          p: ({ children }) => {
-            const text = childText(children);
+          h4: ({ children }) => (
+            <h4 className="kivraa-note-h4">
+              {children}
+            </h4>
+          ),
 
-            const card = renderLabelCard(
-              text,
-              children
-            );
+          p: ({ children }) => (
+            <p className="kivraa-note-paragraph">
+              {children}
+            </p>
+          ),
 
-            if (card) {
-              return card;
-            }
-
-            return (
-              <p className="kivraa-student-paragraph">
-                {children}
-              </p>
-            );
-          },
-
-          /*
-           * =====================================================
-           * UNORDERED LIST
-           * =====================================================
-           */
           ul: ({ children }) => (
-            <ul className="kivraa-student-list">
+            <ul className="kivraa-note-list">
               {children}
             </ul>
           ),
 
-          /*
-           * =====================================================
-           * NUMBERED LIST
-           * =====================================================
-           */
           ol: ({ children }) => (
-            <ol className="kivraa-student-numbered-list">
+            <ol className="kivraa-note-list kivraa-note-numbered-list">
               {children}
             </ol>
           ),
 
-          /*
-           * =====================================================
-           * LIST ITEM
-           * =====================================================
-           *
-           * Arrow is kept subtle and notebook-like.
-           */
           li: ({ children }) => (
-            <li className="kivraa-student-list-item">
-              <span
-                className="kivraa-note-arrow"
-                aria-hidden="true"
-              >
-                →
-              </span>
-
-              <span className="kivraa-list-content">
-                {children}
-              </span>
+            <li className="kivraa-note-list-item">
+              {children}
             </li>
           ),
 
-          /*
-           * =====================================================
-           * IMPORTANT WORD
-           * =====================================================
-           *
-           * Markdown **important term**
-           * becomes a visual emphasis, not a card.
-           */
           strong: ({ children }) => (
             <strong className="kivraa-note-strong">
               {children}
             </strong>
           ),
 
-          /*
-           * =====================================================
-           * SECONDARY EMPHASIS
-           * =====================================================
-           */
           em: ({ children }) => (
             <em className="kivraa-note-em">
               {children}
             </em>
           ),
 
-          /*
-           * =====================================================
-           * BLOCKQUOTE / MARGIN NOTE
-           * =====================================================
-           *
-           * Useful for:
-           * - exam tips
-           * - common mistakes
-           * - remember cues
-           * - side annotations
-           */
-          blockquote: ({ children }) => {
-            const text = childText(children);
+          blockquote: ({ children }) => (
+            <blockquote className="kivraa-note-blockquote">
+              {children}
+            </blockquote>
+          ),
 
-            const card = renderLabelCard(
-              text,
-              children
-            );
+          hr: () => (
+            <div className="kivraa-note-divider" />
+          ),
 
-            if (card) {
-              return card;
+          pre: ({ children }) => {
+            if (!React.isValidElement(children)) {
+              return <pre>{children}</pre>;
             }
 
-            return (
-              <blockquote className="kivraa-margin-note">
-                <span
-                  className="kivraa-margin-note-mark"
-                  aria-hidden="true"
-                >
-                  ★
-                </span>
+            const childProps = children.props as {
+              className?: string;
+              children?: React.ReactNode;
+            };
 
-                <div className="kivraa-margin-note-content">
-                  {children}
-                </div>
-              </blockquote>
+            return (
+              <MarkdownCodeBlock
+                className={childProps.className}
+                style={resolvedStyle}
+              >
+                {childProps.children}
+              </MarkdownCodeBlock>
             );
           },
-
-          /*
-           * =====================================================
-           * CODE / VISUAL BLOCKS
-           * =====================================================
-           *
-           * Visual blocks remain inside the existing
-           * KIVRAA visual architecture.
-           */
-          pre: ({ children }) => (
-            <div className="kivraa-note-code-wrapper">
-              {children}
-            </div>
-          ),
 
           code: ({
             className,
             children,
+            ...props
           }) => {
-            const text = String(
-              children ?? ""
-            ).replace(/\n$/, "");
-
-            const visualKind =
-              getVisualKind(className);
+            const value = String(children ?? "");
 
             /*
-             * FLOWCHART / DIAGRAM / CYCLE /
-             * FORMULA / IMPORTANT / REMEMBER / EXAMPLE
+             * Inline code is treated as a study keyword,
+             * not as a programming-code box.
              */
-            if (visualKind) {
-              const parsed =
-                parseVisualCode(text);
-
+            if (!className) {
               return (
-                <VisualBlock
-                  kind={visualKind}
-                  title={parsed.title}
-                  items={parsed.items}
-                  style={style}
-                />
-              );
-            }
-
-            /*
-             * Multiline code-like content.
-             * Kept visually restrained.
-             */
-            if (
-              className ||
-              text.includes("\n")
-            ) {
-              return (
-                <code className="kivraa-note-code">
-                  {text}
+                <code
+                  className="kivraa-inline-keyword"
+                  {...props}
+                >
+                  {value}
                 </code>
               );
             }
 
-            /*
-             * Inline code.
-             */
             return (
-              <code className="kivraa-note-inline-code">
+              <code
+                className={className}
+                {...props}
+              >
                 {children}
               </code>
             );
           },
 
-          /*
-           * =====================================================
-           * SMALL NOTE DIVIDER
-           * =====================================================
-           *
-           * Used only where Markdown provides an HR.
-           * It should remain subtle, not become a UI separator.
-           */
-          hr: () => (
-            <div className="kivraa-note-divider">
-              <span aria-hidden="true">
-                ✦
-              </span>
-            </div>
-          ),
-
-          /*
-           * =====================================================
-           * COMPARISONS
-           * =====================================================
-           *
-           * Keep the existing ComparisonBlock architecture.
-           * CSS controls the notebook appearance.
-           */
           table: ({ children }) => (
-            <div className="kivraa-comparison-wrap">
-              <ComparisonBlock>
+            <div className="kivraa-table-wrap">
+              <table className="kivraa-note-table">
                 {children}
-              </ComparisonBlock>
+              </table>
             </div>
           ),
 
           thead: ({ children }) => (
-            <thead>{children}</thead>
+            <thead className="kivraa-note-table-head">
+              {children}
+            </thead>
           ),
 
           tbody: ({ children }) => (
@@ -482,64 +297,55 @@ export default function NoteMarkdown({
           ),
 
           tr: ({ children }) => (
-            <tr>{children}</tr>
+            <tr className="kivraa-note-table-row">
+              {children}
+            </tr>
           ),
 
           th: ({ children }) => (
-            <th className="kivraa-comparison-heading">
+            <th className="kivraa-note-table-cell kivraa-note-table-header">
               {children}
             </th>
           ),
 
           td: ({ children }) => (
-            <td className="kivraa-comparison-cell">
+            <td className="kivraa-note-table-cell">
               {children}
             </td>
           ),
 
-          /*
-           * =====================================================
-           * IMAGES / DIAGRAMS
-           * =====================================================
-           *
-           * If AI or future content provides an actual image,
-           * display it as a student's study drawing.
-           */
-          img: ({ src, alt }) => (
-            <figure className="kivraa-student-drawing">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={
-                  typeof src === "string"
-                    ? src
-                    : ""
-                }
-                alt={
-                  alt ||
-                  "Study diagram"
-                }
-              />
+          img: ({ src, alt }) => {
+            if (!src) return null;
 
-              {alt ? (
-                <figcaption>
-                  {alt}
-                </figcaption>
-              ) : null}
-            </figure>
+            return (
+              <figure className="kivraa-note-image">
+                <img
+                  src={src}
+                  alt={alt || ""}
+                  loading="lazy"
+                />
+
+                {alt ? (
+                  <figcaption>{alt}</figcaption>
+                ) : null}
+              </figure>
+            );
+          },
+
+          a: ({ href, children }) => (
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="kivraa-note-link"
+            >
+              {children}
+            </a>
           ),
-
-          /*
-           * =====================================================
-           * LINE BREAKS
-           * =====================================================
-           *
-           * Preserve deliberate short note-line breaks.
-           */
-          br: () => <br />,
         }}
       >
-        {content}
+        {safeContent}
       </ReactMarkdown>
-    </div>
+    </article>
   );
 }
