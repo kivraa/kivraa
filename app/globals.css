@@ -3183,3 +3183,97 @@ body {
     break-inside: avoid;
   }
 }
+
+/* ---------------------------------------------------------
+   STUDY-COPY SPREAD  (NotePageContent)
+   ---------------------------------------------------------
+   Turns a generated notebook page into a student's own
+   study copy instead of a continuous article:
+
+     • a pinned “core idea” strip pulled from the lead copy,
+     • short natural study chunks that flow into TWO
+       ASYMMETRIC COLUMNS on wider screens (right column is
+       narrower, like a real notebook spread) and ONE column
+       on mobile,
+     • flowcharts / diagrams / cycles / formulas / important /
+       remember / example blocks render FULL-WIDTH as
+       pull-out “make it click” flourishes between columns,
+     • Geist only — no cursive, no handwriting fonts, no
+       giant rounded cards, no giant yellow headings.
+
+   Swatch/paper tokens intentionally reuse the ruled note
+   sheet already used by StudentNotebook (see the page/flow
+   rules above) so the spread sits inside the same sheet.
+   --------------------------------------------------------- */
+
+#generated-notes .kivraa-note-study-columns {
+  display: grid;
+
+  grid-template-columns: minmax(0, 1franon);
+  gap: 14px 24px;
+
+  align-items: start;
+}
+
+@media (min-width: 640px) {
+  #generated-notes .kivraa-note-study-columns {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+  }
+}
+
+/* short natural study chunks stay whole inside their column */
+#generated-notes .kivraa-note-chunk {
+  break-inside: avoid;
+  page-break-inside: avoid;
+
+  -webkit-column-break-inside: avoid;
+}
+
+/* pinned core idea — compact strip, NOT a giant heading card */
+#generated-notes .kivraa-note-core-idea {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 3px;
+
+  grid-column: 1 / -1;
+
+  margin: 2px 0 4px;
+  padding: 6px 2px 10px;
+
+  border-bottom: 2px solid #f5b700;
+}
+
+#generated-notes .kivraa-note-core-kicker {
+  color: #9c8c57;
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+#generated-notes .kivraa-note-core-title {
+  color: #152b55;
+
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+
+  line-height: 1.15;
+}
+
+@media (min-width: 640px) {
+  #generated-notes .kivraa-note-core-title {
+    font-size: 22px;
+  }
+}
+
+/* flowcharts / diagrams / cycles / formulas / important /
+   remember / example blocks act as full-width pull-outs */
+#generated-notes .kivraa-note-flow .kivraa-note-visual {
+  grid-column: 1 / -1;
+}
