@@ -31,7 +31,7 @@ function cleanGeneratedNotes(text: string) {
       "$1"
     )
     .replace(
-      /([A-Za-z0-9Â²Â³â´âµâ¶â·â¸â¹]+)\s+\1\b/gi,
+      /([A-Za-z0-9²³⁴⁵⁶⁷⁸⁹]+)\s+\1\b/gi,
       "$1"
     )
     .trim();
@@ -42,7 +42,7 @@ function cleanGeneratedNotes(text: string) {
 
   Rules:
   - One Page = 1 page
-  - Other styles = topic-sized (small 2â€“3, medium 3â€“4, large up to 5â€“6)
+  - Other styles = topic-sized (small 2–3, medium 3–4, large up to 5–6)
   - Never create empty pages
   - Prefer heading/section boundaries
   - Avoid tiny pages
@@ -317,23 +317,23 @@ function KnowledgeCore() {
         </div>
       </div>
 
-      {/* floating cards â€” desktop only */}
+      {/* floating cards — desktop only */}
       <FloatingCard
         className="left-[0%] top-[20%] -rotate-3"
-        icon="âœ¦"
+        icon="✦"
         title="Hidden idea"
         subtitle="Find the connection"
       />
       <FloatingCard
         className="right-[0%] top-[17%] rotate-2"
-        icon="ðŸ§ "
+        icon="🧠"
         title="Understand"
         subtitle="Not just memorize"
         delay="1s"
       />
       <FloatingCard
         className="bottom-[12%] left-[7%] rotate-2"
-        icon="âš¡"
+        icon="⚡"
         title="Learn faster"
         subtitle="Less effort. More clarity."
         yellow
@@ -341,7 +341,7 @@ function KnowledgeCore() {
       />
       <FloatingCard
         className="bottom-[9%] right-[2%] -rotate-2"
-        icon="â—Ž"
+        icon="◎"
         title="See the pattern"
         subtitle="Make the idea click"
         delay="3s"
@@ -616,7 +616,7 @@ export default function Hero() {
   return (
     <section className="relative z-0 overflow-hidden bg-[#09090B] text-white">
 
-      {/* DESKTOP UI (unchanged) â€” lg and above */}
+      {/* DESKTOP UI (unchanged) — lg and above */}
       <div className="hidden lg:block">
 
       {/* background */}
@@ -673,7 +673,7 @@ export default function Hero() {
 
             <p className="mt-7 max-w-[570px] text-[16px] leading-7 text-slate-500 sm:text-[17px]">
               Turn difficult topics into visual,
-              memorable notes â€” so you understand
+              memorable notes — so you understand
               the idea instead of just memorizing
               the words.
             </p>
@@ -689,7 +689,7 @@ export default function Hero() {
                   key={item}
                   className="rounded-full border border-white/[0.07] bg-white/[0.025] px-3.5 py-2 text-[10px] font-bold text-slate-500"
                 >
-                  âœ“ {item}
+                  ✓ {item}
                 </div>
               ))}
 
@@ -716,7 +716,7 @@ export default function Hero() {
               <div className="flex h-[66px] min-h-[66px] flex-1 items-center rounded-[16px] bg-[#09090D] px-5">
 
                 <span className="mr-4 text-lg text-[#F5B700]">
-                  âœ¦
+                  ✦
                 </span>
 
                 <input
@@ -750,7 +750,7 @@ export default function Hero() {
               >
                 {loading
                   ? "Creating..."
-                  : "Create Notes â†’"}
+                  : "Create Notes →"}
               </button>
 
             </div>
@@ -882,8 +882,8 @@ export default function Hero() {
               <div className="grid grid-cols-3 gap-2">
 
                 {[
-                  ["âœ¦", "Simple", "Focused"],
-                  ["â–¤", "One Page", "Quick"],
+                  ["✦", "Simple", "Focused"],
+                  ["▤", "One Page", "Quick"],
                 ].map(
                   ([
                     icon,
@@ -927,16 +927,16 @@ export default function Hero() {
 
                 <button
                   type="button"
-                  aria-label="Colorful â€” Premium feature (locked)"
+                  aria-label="Colorful — Premium feature (locked)"
                   onClick={notifyPremium}
                   className="mk-premium-chip flex min-h-[82px] cursor-not-allowed touch-manipulation flex-col items-start justify-between rounded-xl border border-dashed border-[#F5B700]/20 bg-[#F5B700]/[0.03] p-3 text-left text-slate-500"
                 >
-                  <span className="text-base opacity-70">ðŸŒˆ</span>
+                  <span className="text-base opacity-70">🌈</span>
                   <span className="text-[10px] font-black text-slate-400">
                     Colorful
                   </span>
                   <span className="mk-premium-badge rounded-full bg-[#F5B700]/15 px-2 py-0.5 text-[7px] font-black uppercase tracking-[0.12em] text-[#F5B700]">
-                    ðŸ”’ Premium
+                    🔒 Premium
                   </span>
                 </button>
 
@@ -944,8 +944,8 @@ export default function Hero() {
 
               {premiumNotice && (
                 <div className="mk-premium-note mt-2 flex items-center gap-2 rounded-xl border border-[#F5B700]/25 bg-[#F5B700]/[0.07] px-3 py-2 text-[11px] font-bold text-[#F5B700]">
-                  <span>ðŸ”’</span>
-                  <span>Colorful is a Premium feature â€” coming soon.</span>
+                  <span>🔒</span>
+                  <span>Colorful is a Premium feature — coming soon.</span>
                 </div>
               )}
             </div>
@@ -1001,9 +1001,9 @@ export default function Hero() {
               <div className="grid grid-cols-3 gap-2">
 
                 {[
-                  ["ðŸ§ ", "Understand"],
-                  ["ðŸŽ¯", "Exam Prep"],
-                  ["âš¡", "Revision"],
+                  ["🧠", "Understand"],
+                  ["🎯", "Exam Prep"],
+                  ["⚡", "Revision"],
                 ].map(
                   ([icon, name]) => {
                     const active =
@@ -1043,7 +1043,7 @@ export default function Hero() {
           </div>
 
           <div className="mt-3 text-center text-[8px] font-black uppercase tracking-[0.25em] text-slate-700">
-            Choose what feels right Â· nothing selected by default
+            Choose what feels right · nothing selected by default
           </div>
 
         </div>
@@ -1052,7 +1052,7 @@ export default function Hero() {
 
       </div>
 
-      {/* MOBILE â€” dedicated MobileHero (below lg). Desktop (>= lg) untouched. */}
+      {/* MOBILE — dedicated MobileHero (below lg). Desktop (>= lg) untouched. */}
       <div className="relative isolate block overflow-hidden lg:hidden">
         <MobileHero />
       </div>
@@ -1070,6 +1070,8 @@ export default function Hero() {
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
             style={style ?? "Colorful"}
+            classLevel={classLevel}
+            purpose={purpose}
           />
         </div>
       )}

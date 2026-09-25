@@ -1,1 +1,0 @@
-export { RememberBlock as default, RememberBlock } from "./StudyCards";

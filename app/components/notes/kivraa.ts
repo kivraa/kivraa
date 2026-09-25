@@ -10,12 +10,6 @@ export const quickTopics = [
   "Data Structures",
 ];
 
-export const STYLE_OPTIONS: { icon: string; name: Style; desc: string }[] = [
-  { icon: "🌈", name: "Colorful", desc: "Visual" },
-  { icon: "✦", name: "Simple", desc: "Focused" },
-  { icon: "▤", name: "One Page", desc: "Quick" },
-];
-
 export const LANGUAGE_OPTIONS: Language[] = ["English", "Hinglish", "Hindi"];
 
 export const PURPOSE_OPTIONS: { icon: string; name: Purpose }[] = [
@@ -40,55 +34,6 @@ export function cleanGeneratedNotes(text: string) {
       "$1"
     )
     .trim();
-}
-
-export function readableVisualText(value: string) {
-  return String(value || "")
-    .replace(/\$\$/g, "")
-    .replace(/\$/g, "")
-    .replace(/\*{1,2}/g, "")
-    .replace(/__(.*?)__/g, "$1")
-    .replace(/^#+\s*/gm, "")
-    .replace(/`/g, "")
-    .replace(/\\text\s*\{([^{}]*)\}/g, "$1")
-    .replace(/\\mathrm\s*\{([^{}]*)\}/g, "$1")
-    .replace(/\\frac\s*\{([^{}]*)\}\s*\{([^{}]*)\}/g, "$1 / $2")
-    .replace(/\\times/g, "×")
-    .replace(/\\rightarrow/g, "→")
-    .replace(/\\to/g, "→")
-    .replace(/\\leq/g, "≤")
-    .replace(/\\geq/g, "≥")
-    .replace(/\\Delta/g, "Δ")
-    .replace(/\\cdot/g, "·")
-    .replace(/\\%/g, "%")
-    .replace(/\{([^{}]*)\}/g, "$1")
-    .replace(/_\{([^{}]*)\}/g, "₍$1₎")
-    .replace(/\s{2,}/g, " ")
-    .trim();
-}
-
-export function visualItems(kind: string, rawItems: string[]) {
-  const result: string[] = [];
-
-  for (const raw of rawItems) {
-    const line = readableVisualText(raw);
-    if (!line) continue;
-
-    if (kind === "flowchart") {
-      const parts = line
-        .split(/\s*(?:-->|->|=>|→|➜|➝)\s*/g)
-        .map((part) => part.trim())
-        .filter((part) => part && !/^[↓↑←→➜➝]+$/.test(part));
-
-      result.push(...parts);
-    } else {
-      result.push(line);
-    }
-  }
-
-  return result
-    .filter((item, index) => item && result.indexOf(item) === index)
-    .slice(0, 10);
 }
 
 /*
@@ -210,99 +155,4 @@ export function splitNotesIntoPages(
   return pages.filter(
     (page) => page.trim().length > 0
   );
-}
-
-/*
-  Distills a full note into a last-minute revision sheet for One Page mode.
-
-  Keeps only high-value material:
-  - headings
-  - list items / short factual lines
-  - compact fenced blocks (formula, important, remember, comparison)
-  - short paragraphs
-
-  Drops long prose paragraphs and bulky visual fences (flowchart / diagram /
-  cycle) — a revision sheet is a quick-reference, not a layout page. The
-  result is a concise cheat sheet that fits a single mobile viewport.
-*/
-export function prepareOnePage(markdown: string) {
-  const clean = String(markdown ?? "")
-    .replace(/\r/g, "")
-    .trim();
-
-  if (!clean) return "";
-
-  const maxSheetChars = 640;
-  const longParagraphLimit = 180;
-  const shortLineLimit = 130;
-
-  const blocks = clean.split(/\n{2,}/);
-
-  const kept: string[] = [];
-
-  for (const rawBlock of blocks) {
-    const block = rawBlock.trim();
-    if (!block) continue;
-
-    if (
-      kept.reduce((total, b) => total + b.length, 0) >
-      maxSheetChars
-    ) {
-      break;
-    }
-
-    const isFence = /^```/.test(block);
-    const isHeading = /^#{1,3}\s/.test(block);
-    const lines = block.split("\n");
-
-    if (isFence) {
-      const lang =
-        /^```([a-z0-9-]+)/i.exec(lines[0])?.[1] || "";
-
-      if (/^(formula|important|remember|comparison)$/i.test(lang)) {
-        kept.push(block);
-      }
-      continue;
-    }
-
-    if (isHeading) {
-      kept.push(block);
-      continue;
-    }
-
-    const isList =
-      lines.length > 0 &&
-      lines.every(
-        (line) =>
-          /^\s*(?:[-*•]|\d+[.)])\s/.test(line) ||
-          /^\s*$/.test(line)
-      );
-
-    if (isList) {
-      if (block.length <= maxSheetChars - 600) {
-        kept.push(block);
-      }
-      continue;
-    }
-
-    const allShort = lines.every(
-      (line) => line.trim().length <= shortLineLimit
-    );
-
-    if (block.length <= longParagraphLimit) {
-      kept.push(block);
-      continue;
-    }
-
-    if (
-      allShort &&
-      block.length <= maxSheetChars - 600 &&
-      lines.length <= 4
-    ) {
-      kept.push(block);
-      continue;
-    }
-  }
-
-  return kept.join("\n\n").trim();
 }

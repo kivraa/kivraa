@@ -1,31 +1,28 @@
 "use client";
 
-import type { Dispatch, SetStateAction } from "react";
-import NotePageContent from "./NotePageContent";
+import { useMemo, type Dispatch, SetStateAction } from "react";
+import { buildNotebook, NotebookPageView } from "./NotePageContent";
 import { prepareNotePage } from "./prepareNotePage";
-import { prepareOnePage } from "./kivraa";
-import type { NoteStyle } from "./types";
-import { KivraaLogoStatic } from "../KivraaLogo";
+import type { ClassLevel, NotePurpose, NoteStyle } from "./types";
 
 /* ============================================================
-   StudentNotebook — THE single shared Kivraa notebook renderer.
+   StudentNotebook - THE single shared Kivraa notebook renderer.
 
    Used by BOTH the desktop hero (Hero.tsx) and the mobile hero
-   (MobileHero.tsx). It is the ONE place where a generated note is
-   painted, so the notebook always looks identical everywhere:
+   (MobileHero.tsx), so the notebook is identical on every screen.
 
-     • ONE fixed sheet, identical size on desktop and mobile.
-     • No sliding rail — only the active page is shown, and navigating
-       swaps the sheet in place (prev / next + page dots).
-     • "One Page" is a single fixed sheet with no navigation at all.
-     • Geist sans only — no Kalam, no handwritten/cursive fonts. The
-       entire Kalam stack was removed from the app, so this renderer
-       carries no `hand` / `var(--font-kivraa-hand)` anywhere.
+   What it owns:
+     - the physical sheet: cream paper, subtle blue ruling, a thin red
+       left margin, a clean page edge and one restrained shadow,
+     - content-driven pagination: the page count comes from how much
+       study material the topic actually produced,
+     - navigation: Previous / page indicators / Next, and nothing at all
+       for One Page.
 
-   The sheet itself is intentionally viewport-agnostic: identical
-   padding, identical font stack, identical page container on every
-   screen. Only the outer card width adapts so the paper never feels
-   cramped on a phone.
+   What it never owns: the content. The renderer composes every page.
+
+   Typography is Geist/system only. There is no Kalam, no cursive and no
+   handwriting font anywhere in this component or in the renderer behind it.
    ============================================================ */
 
 export default function StudentNotebook({
@@ -34,58 +31,71 @@ export default function StudentNotebook({
   currentPage,
   setCurrentPage,
   style,
+  classLevel,
+  purpose,
 }: {
   topic: string;
   pages: string[];
   currentPage: number;
   setCurrentPage: Dispatch<SetStateAction<number>>;
   style: NoteStyle;
+  classLevel?: ClassLevel | null;
+  purpose?: NotePurpose | null;
 }) {
   const safePages = (Array.isArray(pages) ? pages : [])
-    .map((p) => String(p ?? "").trim())
+    .map((page) => String(page ?? "").trim())
     .filter(Boolean);
 
-  if (!safePages.length) return null;
-
-  const pageCount = safePages.length;
   const isOnePage = style === "One Page";
 
-  /* One Page renders every generated page merged into a single fixed sheet.
-     Otherwise the active page comes straight from the shell's state, so
-     prev / next / dots always agree with the surrounding hero. */
+  const source = useMemo(() => safePages.join("\n\n"), [safePages]);
+  const cleaned = useMemo(() => prepareNotePage(source), [source]);
+
+  /*
+   * The generated pages are rejoined and handed to the renderer, which owns
+   * the real page count. The shell simply navigates what the renderer built.
+   */
+  const notebook = useMemo(
+    () =>
+      buildNotebook({
+        content: cleaned,
+        topic,
+        style,
+        classLevel: classLevel ?? null,
+        purpose: purpose ?? null,
+      }),
+    [cleaned, topic, style, classLevel, purpose]
+  );
+
+  const pageCount = notebook.pages.length;
+
+  if (!pageCount) return null;
+
   const index = isOnePage
     ? 0
     : Math.min(Math.max(0, currentPage), pageCount - 1);
-  const page = safePages[index];
+
   const goTo = (next: number) =>
     setCurrentPage(Math.min(Math.max(0, next), pageCount - 1));
 
-  const content = isOnePage
-    ? prepareOnePage(safePages.join("\n\n"))
-    : prepareNotePage(page);
+  const showNav = !isOnePage && pageCount > 1;
 
   return (
     <section
       id="generated-notes"
       className="relative border-t border-white/[0.05] bg-transparent px-4 py-12 sm:px-6 lg:px-8"
     >
-      <div className="mx-auto w-full max-w-[860px]">
-        {/* header */}
-        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <div className="text-[10px] font-black uppercase tracking-[0.3em] text-[#F5B700]">
-              Your Kivraa notes
-            </div>
-            <h2 className="mt-2 text-2xl font-black tracking-[-0.04em] text-white sm:text-3xl">
-              {topic}
-            </h2>
+      <div className="mx-auto w-full max-w-[880px]">
+        <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div className="text-[10px] font-black uppercase tracking-[0.3em] text-[#F5B700]">
+            Your Kivraa notes
           </div>
 
           <div className="flex items-center gap-2">
             <span className="rounded-full border border-white/[0.07] px-3 py-1.5 text-[9px] font-black uppercase tracking-[0.18em] text-slate-500">
               {style}
             </span>
-            {!isOnePage && pageCount > 1 ? (
+            {showNav ? (
               <span className="rounded-full border border-white/[0.07] px-3 py-1.5 text-[9px] font-black uppercase tracking-[0.18em] text-slate-500">
                 {index + 1} / {pageCount}
               </span>
@@ -93,63 +103,51 @@ export default function StudentNotebook({
           </div>
         </div>
 
-        {/* ONE FIXED SHEET — identical on desktop and mobile */}
         <div className="relative">
-          <div className="pointer-events-none absolute inset-x-6 bottom-[-12px] h-10 rounded-full bg-black/60 blur-2xl" />
+          {/* one restrained shadow, like a real page resting on a desk */}
+          <div className="pointer-events-none absolute inset-x-8 bottom-[-10px] h-8 rounded-full bg-black/50 blur-2xl" />
 
-          <article className="relative overflow-hidden rounded-[26px] border border-[#D8CFAE] bg-[#F8F1DE] shadow-[0_1px_2px_rgba(43,33,10,.14),0_10px_30px_rgba(0,0,0,.32),0_34px_80px_rgba(0,0,0,.5)]">
-            {/* paper top edge */}
-            <div className="absolute inset-x-0 top-0 h-1.5 bg-[#F5B700]" />
+          <article className="kv-sheet relative overflow-hidden rounded-[10px] border border-[#D9D0B2] bg-[#F8F4E6] shadow-[0_1px_2px_rgba(43,33,10,.12),0_12px_28px_rgba(0,0,0,.30)]">
+            {/* thin coloured tab along the top edge */}
+            <div className="absolute inset-x-0 top-0 h-[3px] bg-[#E8B44A]" />
 
-            {/* faint notebook ruling */}
+            {/* subtle blue ruled lines */}
             <div
               aria-hidden="true"
-              className="absolute inset-0 opacity-[0.4]"
+              className="pointer-events-none absolute inset-0 opacity-[0.55]"
               style={{
                 backgroundImage:
-                  "repeating-linear-gradient(to bottom, transparent 0px, transparent 35px, rgba(70,90,110,.09) 36px)",
+                  "repeating-linear-gradient(to bottom, transparent 0px, transparent 27px, rgba(74,104,138,.13) 28px)",
               }}
             />
 
-            {/* red margin line */}
-            <div className="pointer-events-none absolute bottom-0 left-[46px] top-0 w-px bg-red-300/40" />
+            {/* thin red left margin - desktop only, the narrow sheet has no gutter */}
+            <div className="kv-margin-rule pointer-events-none absolute bottom-0 left-[38px] top-0 w-px bg-[#E08A8A]/45" />
 
-            <div className="relative px-6 pb-8 pt-9 sm:pl-[74px] sm:pr-12 sm:pt-10">
-              {/* header */}
-              <div className="mb-6 flex items-start gap-3">
-                <KivraaLogoStatic className="shrink-0 -rotate-2" size={40} />
-                <div className="min-w-0">
-                  <div className="text-[9px] font-black uppercase tracking-[0.22em] text-[#9C8C57]">
-                    study note
-                  </div>
-                  <div className="mt-1 text-[26px] font-bold leading-[1.05] tracking-[-0.01em] text-[#142C49] sm:text-[28px]">
-                    {topic}
-                  </div>
-                  <div className="mt-0.5 text-[9px] font-bold uppercase tracking-[0.18em] text-[#9B927D]">
-                    learn it · connect it · remember it
-                  </div>
-                </div>
+            <div className="relative px-4 pb-5 pt-7 sm:pl-[62px] sm:pr-8">
+              <div className="kv-sheet-page">
+                <NotebookPageView
+                  notebook={notebook}
+                  pageIndex={index}
+                  style={style}
+                />
               </div>
 
-              <div className="kivraa-note-page overflow-x-hidden break-words">
-                <NotePageContent content={content} style={style} />
-              </div>
-
-              <div className="mt-8 flex items-end justify-between border-t border-dashed border-[#D7CEB3] pt-3">
-                <span className="text-[12px] italic text-[#9D947D]">
-                  Kivraa · make the idea click
+              <div className="kv-sheet-foot">
+                <span className="kv-sheet-foot-mark" aria-hidden="true">
+                  {"\u2605"}
                 </span>
-                <span className="text-[12px] font-bold text-[#9D947D]">
+                <span className="kv-sheet-foot-text">{topic}</span>
+                <span className="kv-sheet-foot-page">
                   {index + 1}
-                  {!isOnePage && pageCount > 1 ? ` / ${pageCount}` : ""}
+                  {showNav ? ` / ${pageCount}` : ""}
                 </span>
               </div>
             </div>
           </article>
         </div>
 
-        {/* prev / next + dots — only when there is more than one page */}
-        {!isOnePage && pageCount > 1 ? (
+        {showNav ? (
           <div className="mt-6 flex items-center justify-between gap-3">
             <button
               type="button"
@@ -161,7 +159,7 @@ export default function StudentNotebook({
             </button>
 
             <div className="flex items-center gap-1.5">
-              {safePages.map((_, pageIndex) => (
+              {notebook.pages.map((_, pageIndex) => (
                 <button
                   key={pageIndex}
                   type="button"

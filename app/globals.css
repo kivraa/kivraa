@@ -30,34 +30,9 @@ body {
    Scoped to #generated-notes so desktop layout outside notes is untouched.
    ========================================================================== */
 
-#generated-notes .katex {
-  color: #142c49;
-}
-
 #generated-notes .katex-error,
 #generated-notes .katex-error * {
   color: #142c49 !important;
-}
-
-#generated-notes .formula-plain {
-  color: #142c49;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
-/* ============================================================================
-   KIVRAA — HANDWRITTEN NOTE FONT (Kalam)
-   Note content on every viewport uses the Kalam handwritten family.
-   Scoped to note surfaces so website typography outside notes is untouched.
-   ========================================================================== */
-
-.kivraa-note-page,
-.kivraa-page-body {
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
-}
-
-.font-\[cursive\] {
-  font-family: var(--font-geist-sans), system-ui, sans-serif !important;
 }
 
 /* ============================================================================
@@ -66,130 +41,11 @@ body {
    vertical top-to-bottom flow or overflow its container horizontally.
    ========================================================================== */
 
-.mk-flow,
-.mk-flow-node,
-.mk-node,
-.mk-diagram {
-  min-width: 0;
-  max-width: 100%;
-}
-
-.mk-node {
-  overflow-wrap: anywhere;
-  word-break: break-word;
-  white-space: normal;
-}
-
-.mk-vshell-head {
-  min-width: 0;
-}
-
-.mk-vshell-head h3 {
-  min-width: 0;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
 /* ---- comparison table (raw pipes → responsive blocks) ---- */
-
-#generated-notes .cmp-card {
-  overflow: hidden;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 14px;
-  background: #fcfbf7;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
-  margin: 1.25rem 0;
-}
-
-#generated-notes .cmp-head {
-  display: grid;
-  background: #fff3c0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-#generated-notes .cmp-head-cell {
-  padding: 0.55rem 0.9rem;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: #302700;
-  border-right: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-#generated-notes .cmp-head-cell:last-child {
-  border-right: none;
-}
-
-#generated-notes .cmp-row {
-  display: grid;
-}
-
-#generated-notes .cmp-row + .cmp-row {
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-#generated-notes .cmp-cell {
-  padding: 0.6rem 0.9rem;
-  font-size: 14px;
-  line-height: 1.6;
-  color: #3f4650;
-  border-right: 1px solid rgba(0, 0, 0, 0.04);
-  overflow-wrap: anywhere;
-}
-
-#generated-notes .cmp-cell:last-child {
-  border-right: none;
-}
-
-#generated-notes .cmp-cell-label {
-  font-weight: 800;
-  color: #172d48;
-  background: rgba(245, 216, 91, 0.14);
-}
-
-#generated-notes .cmp-celabel {
-  display: none;
-}
 
 /* ---- Colorful premium lock ---- */
 
-.mk-premium-chip {
-  cursor: not-allowed;
-}
-
-.mk-premium-badge {
-  white-space: nowrap;
-}
-
-.mk-premium-note {
-  animation: mkPremiumIn 0.28s cubic-bezier(0.22, 0.8, 0.24, 1);
-}
-
-@keyframes mkPremiumIn {
-  from {
-    opacity: 0;
-    transform: translateY(-4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 /* styled scoped to the hero so authentication pages never see it */
-.kivraa-mobile-hero .mk-premium-chip {
-  animation: mkPremiumChipPulse 7s ease-in-out infinite;
-}
-
-@keyframes mkPremiumChipPulse {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(245, 183, 0, 0);
-  }
-  50% {
-    box-shadow: 0 0 14px 0 rgba(245, 183, 0, 0.08);
-  }
-}
 
 /* ============================================================================
    KIVRAA — MOBILE ONLY (max-width 1023px)
@@ -205,45 +61,12 @@ body {
     overflow-x: clip;
   }
 
-  #generated-notes .kivraa-page-body {
-    padding: 26px 18px 30px;
-  }
-
-  #generated-notes .kivraa-note-title {
-    font-family: var(--font-geist-sans), system-ui, sans-serif;
-    font-size: 26px;
-    line-height: 1.08;
-  }
-
   #generated-notes button.rounded-xl {
     min-height: 44px;
     touch-action: manipulation;
   }
 
   /* ---- mobile note typography & compactness ---- */
-  .mk-note-body {
-    font-family: var(--font-geist-sans), system-ui, sans-serif;
-    font-size: 16.5px;
-    line-height: 1.6;
-    color: #26384b;
-    min-width: 0;
-  }
-
-  .mk-table {
-    font-family: var(--font-geist-sans), system-ui, sans-serif;
-  }
-
-  #generated-notes .mk-note-body h1 {
-    font-size: 23px;
-  }
-
-  #generated-notes .mk-note-body h2 {
-    font-size: 19px;
-  }
-
-  #generated-notes .mk-note-body h3 {
-    font-size: 16.5px;
-  }
 
   #generated-notes .katex {
     font-size: 1em;
@@ -252,54 +75,12 @@ body {
   /* ---- mobile visual-card presentation (components untouched) ---- */
 
   /* medium page rhythm — one visual block between notes stays compact */
-  #generated-notes .my-5 {
-    margin-top: 0.85rem;
-    margin-bottom: 0.85rem;
-  }
-
-  #generated-notes > .overflow-hidden.rounded-\[18px\] > div:last-child,
-  #generated-notes .my-5.overflow-hidden.rounded-\[18px\] > div:last-child {
-    padding: 0.6rem 0.55rem;
-  }
 
   /* formula — balanced, not dominant */
-  #generated-notes .rounded-\[18px\] .text-2xl {
-    font-size: 18px;
-  }
-
-  #generated-notes .rounded-\[18px\] .overflow-x-auto {
-    max-width: 100%;
-  }
-
-  #generated-notes .rounded-\[18px\] .katex-display {
-    font-size: 0.92em;
-  }
-
-  #generated-notes .rounded-\[18px\] .max-w-\[680px\] p {
-    font-family: var(--font-geist-sans), system-ui, sans-serif;
-    font-size: 12.5px;
-    line-height: 1.55;
-  }
 
   /* flowchart boxes — compact, consistent, never clipped */
-  #generated-notes .rounded-\[16px\] {
-    padding: 0.5rem 0.55rem;
-    font-size: 12px;
-    line-height: 1.45rem;
-    overflow-wrap: anywhere;
-    word-break: break-word;
-  }
-
-  #generated-notes .rounded-\[16px\] + div.flex {
-    height: 1.5rem;
-  }
 
   /* diagram + cycle mobile nodes — compact labels */
-  #generated-notes .rounded-\[14px\] {
-    padding: 0.5rem 0.55rem;
-    overflow-wrap: anywhere;
-    word-break: break-word;
-  }
 
   /* let flex rows inside cards shrink before overflowing */
   #generated-notes .flex-1 {
@@ -307,35 +88,10 @@ body {
   }
 
   /* visual-shell + card headers compact, never overflow their shell */
-  #generated-notes .my-5.overflow-hidden.rounded-\[18px\] > div:first-child {
-    padding: 0.5rem 0.7rem;
-  }
-
-  #generated-notes .rounded-\[18px\] h3 {
-    min-width: 0;
-  }
 
   /* study cards — compact internal text */
-  #generated-notes .rounded-\[18px\] .text-\[13px\] {
-    font-size: 12.5px;
-    line-height: 1.5rem;
-  }
-
-  #generated-notes .rounded-\[18px\] .space-y-1\.5 > :not(:last-child) {
-    margin-bottom: 0.2rem;
-  }
-
-  #generated-notes .rounded-\[12px\] {
-    font-family: var(--font-geist-sans), system-ui, sans-serif;
-    font-size: 12px;
-  }
 
   /* formula card scrolls inside only — never the page */
-  #generated-notes .my-5.overflow-hidden.rounded-\[18px\] {
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-  }
 
   /* reliable touch targets across all generated-note controls */
   #generated-notes button {
@@ -527,11 +283,6 @@ body {
   }
 
   /* notebook width safety net */
-  #generated-notes .mk-notes,
-  #generated-notes .mk-page-body {
-    max-width: 100%;
-    box-sizing: border-box;
-  }
 
   /* ============================================================ */
   /* MOBILE NOTES — premium "smart notebook" WOW polish           */
@@ -563,168 +314,24 @@ body {
   }
 
   /* floating paper sheet: layered premium shadow */
-  #generated-notes .mk-note-card {
-    border-radius: 22px;
-    box-shadow:
-      0 1px 2px rgba(43, 33, 10, 0.12),
-      0 8px 18px rgba(0, 0, 0, 0.22),
-      0 22px 52px rgba(0, 0, 0, 0.45),
-      0 0 0 1px rgba(216, 207, 174, 0.6);
-  }
 
   /* fine paper grain — pure CSS noise, nearly invisible */
-  #generated-notes .mk-paper-grain {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
-    opacity: 0.045;
-  }
 
   /* page entrance — soft rise, fade, gentle scale (replays per page) */
-  #generated-notes .mk-note-card {
-    animation: mkNotePageIn 0.38s cubic-bezier(0.22, 0.8, 0.24, 1);
-    transform-origin: 50% 32%;
-    will-change: transform, opacity;
-  }
-
-  @keyframes mkNotePageIn {
-    from {
-      opacity: 0;
-      transform: translateY(14px) scale(0.985);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-  }
 
   /* handwritten heading — subtle marker stroke under h2 words */
-  #generated-notes .mk-note-body h2 {
-    padding: 0 0.12em 0.04em;
-    border-radius: 0.14em;
-    background: linear-gradient(
-      transparent 58%,
-      rgba(245, 183, 0, 0.3) 58%,
-      rgba(245, 183, 0, 0.3) 97%,
-      transparent 97%
-    );
-  }
 
   /* highlighter swipe on key terms — student-marked look */
-  #generated-notes .mk-note-body strong {
-    background: linear-gradient(
-      104deg,
-      rgba(255, 232, 117, 0.2) 0.7%,
-      rgba(255, 232, 117, 0.62) 2.4%,
-      #ffe875 5.9%,
-      rgba(255, 232, 117, 0.9) 93.5%,
-      rgba(255, 232, 117, 0.28) 96.4%
-    );
-    border-radius: 0.18em;
-    padding: 0.06em 0.18em;
-    box-decoration-break: clone;
-    -webkit-box-decoration-break: clone;
-  }
 
   /* lift visual boxes slightly off the paper */
-  #generated-notes .my-5.overflow-hidden.rounded-\[18px\] {
-    box-shadow:
-      0 1px 2px rgba(17, 24, 39, 0.05),
-      0 12px 26px rgba(17, 24, 39, 0.1);
-  }
 
   /* flowchart nodes: soft depth + connected vertical spine */
-  #generated-notes .rounded-\[16px\] {
-    border-radius: 14px;
-    box-shadow:
-      0 2px 5px rgba(17, 24, 39, 0.07),
-      inset 0 1px 0 rgba(255, 255, 255, 0.7);
-  }
-  #generated-notes .rounded-\[16px\] + div.flex {
-    position: relative;
-  }
-  #generated-notes .rounded-\[16px\] + div.flex::before {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    transform: translateX(-50%);
-    background: linear-gradient(
-      rgba(245, 183, 0, 0) 0%,
-      rgba(245, 183, 0, 0.55) 30%,
-      rgba(245, 183, 0, 0.55) 70%,
-      rgba(245, 183, 0, 0) 100%
-    );
-  }
 
   /* ============================================================ */
   /* MOBILE — comparison table becomes stacked notebook cards     */
   /* ============================================================ */
 
-  #generated-notes .cmp-card {
-    margin: 0.85rem 0;
-    border-radius: 0;
-    border: none;
-    background: transparent;
-    box-shadow: none;
-  }
-
-  #generated-notes .cmp-head {
-    display: none;
-  }
-
-  #generated-notes .cmp-row {
-    display: block;
-    padding: 0.4rem 0;
-  }
-
-  #generated-notes .cmp-row + .cmp-row {
-    border-top: 1px dashed rgba(215, 207, 174, 0.9);
-  }
-
-  #generated-notes .cmp-cell {
-    display: block;
-    padding: 0.22rem 0.85rem;
-    border: none;
-    font-size: 15.5px;
-    line-height: 1.55;
-    color: #26384b;
-  }
-
-  #generated-notes .cmp-cell + .cmp-cell {
-    margin-top: 0.15rem;
-  }
-
-  #generated-notes .cmp-cell-label {
-    background: linear-gradient(
-      transparent 62%,
-      rgba(245, 183, 0, 0.32) 62%,
-      rgba(245, 183, 0, 0.32) 97%,
-      transparent 97%
-    );
-    color: #142c49;
-    font-size: 15px;
-    font-weight: 800;
-    padding: 0.15rem 0.55rem 0.2rem;
-    border-radius: 0.2em;
-  }
-
-  #generated-notes .cmp-celabel {
-    display: block;
-    font-size: 9.5px;
-    font-weight: 800;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: #8a7a45;
-    margin-bottom: 2px;
-    opacity: 0.95;
-  }
-
   /* keep the formula block ink-dark (never red) */
-  #generated-notes .rounded-\[18px\] .katex,
-  #generated-notes .rounded-\[18px\] .formula-plain {
-    color: #142c49;
-  }
 
   /* ============================================================ */
   /* V1 — FIXED-SIZE NOTEBOOK PAGE                                */
@@ -732,400 +339,54 @@ body {
 
   /* the page is a fixed medium sheet; content is spread across pages,
      so the page never scrolls and nothing overflows outside it */
-  #generated-notes .mk-note-card {
-    height: var(--mk-card-h, min(640px, calc(100dvh - 200px)));
-    min-height: 420px;
-  }
 
   /* One Page = last-minute revision sheet, uses the whole viewport */
-  #generated-notes.mk-one-page .mk-note-card {
-    height: var(--mk-card-h-onepage, min(640px, calc(100dvh - 150px)));
-  }
 
   /* One Page = compact revision sheet: tighter ink, no visual bulk */
-  #generated-notes.mk-one-page .mk-note-body p {
-    font-size: 15px !important;
-    line-height: 1.5 !important;
-    margin-bottom: 0.4rem;
-  }
-  #generated-notes.mk-one-page .mk-note-body ul,
-  #generated-notes.mk-one-page .mk-note-body ol {
-    font-size: 14.75px !important;
-    line-height: 1.5 !important;
-    margin-bottom: 0.5rem;
-    margin-top: 0.15rem;
-  }
-  #generated-notes.mk-one-page .mk-note-body h2 {
-    margin-top: 0.6rem;
-    margin-bottom: 0.35rem;
-  }
-  #generated-notes.mk-one-page .mk-note-body h3 {
-    margin-top: 0.5rem;
-    margin-bottom: 0.25rem;
-    font-size: 15px;
-  }
-  #generated-notes.mk-one-page .mk-note-body blockquote {
-    margin: 0.45rem 0;
-    padding: 0.45rem 0.85rem;
-  }
-  #generated-notes.mk-one-page .mk-note-body .mk-study {
-    margin: 0.35rem 0;
-  }
-  #generated-notes.mk-one-page .mk-note-body .mk-study p {
-    margin-bottom: 0.15rem;
-  }
-  #generated-notes.mk-one-page .mk-note-body .mk-formula {
-    margin: 0.4rem 0;
-  }
-  #generated-notes.mk-one-page .mk-note-body hr {
-    margin: 0.4rem 0;
-  }
-
-  #generated-notes .mk-note-body {
-    flex: 1 1 0% !important;
-    min-height: 0 !important;
-    overflow: hidden;
-    overscroll-behavior: none;
-  }
 
   /* multi-page notes are packed into fixed sheets by the app layer (each
      sheet = one phone page). The rail just slides left/right by one sheet
      width; sheets never clip because packing guarantees a fit. */
-  #generated-notes .mk-pages {
-    display: flex;
-    align-items: flex-start;
-    transition: transform 0.32s cubic-bezier(0.22, 0.8, 0.24, 1);
-    will-change: transform;
-  }
-
-  #generated-notes .mk-pages .mk-sheet {
-    flex: 0 0 auto;
-    margin-right: 56px;
-    overflow: hidden;
-  }
-
-  #generated-notes .mk-note-body .mk-measure {
-    position: fixed;
-    left: -9999px;
-    top: 0;
-    z-index: -1;
-    pointer-events: none;
-  }
 
   /* visual blocks should not be torn in half at a column boundary */
-  #generated-notes .mk-note-body .mk-formula,
-  #generated-notes .mk-note-body .mk-study,
-  #generated-notes .mk-note-body .mk-vshell,
-  #generated-notes .mk-note-body img,
-  #generated-notes .mk-note-body table,
-  #generated-notes .mk-note-body blockquote,
-  #generated-notes .mk-note-body hr {
-    break-inside: avoid;
-    page-break-inside: avoid;
-    -webkit-column-break-inside: avoid;
-  }
 
   /* dense paper — used only when a very long note would otherwise exceed the
      compact short page count; tightens type so sheets hold a bit more */
-  #generated-notes.mk-dense .mk-note-body p,
-  #generated-notes.mk-dense .mk-note-body li {
-    font-size: 12.9px !important;
-    line-height: 1.36 !important;
-  }
-  #generated-notes.mk-dense .mk-note-body h2 {
-    font-size: 15.5px !important;
-    margin-top: 0.5rem !important;
-    margin-bottom: 0.25rem !important;
-  }
-  #generated-notes.mk-dense .mk-note-body h3 {
-    font-size: 14px !important;
-    margin-top: 0.4rem !important;
-    margin-bottom: 0.2rem !important;
-  }
-  #generated-notes.mk-dense .mk-note-body blockquote {
-    padding-top: 0.4rem !important;
-    padding-bottom: 0.4rem !important;
-    margin: 0.4rem 0 !important;
-  }
-  #generated-notes.mk-dense .mk-note-body .mk-study-entries {
-    row-gap: 0.35rem !important;
-  }
-  #generated-notes.mk-dense .mk-note-body .mk-formula {
-    margin: 0.35rem 0 !important;
-  }
 
   /* extra-dense paper — final fallback for exceptionally long notes */
-  #generated-notes.mk-dense-2 .mk-note-body p,
-  #generated-notes.mk-dense-2 .mk-note-body li {
-    font-size: 11.8px !important;
-    line-height: 1.28 !important;
-  }
-  #generated-notes.mk-dense-2 .mk-note-body h2 {
-    font-size: 13.5px !important;
-    margin-top: 0.35rem !important;
-    margin-bottom: 0.15rem !important;
-  }
-  #generated-notes.mk-dense-2 .mk-note-body h3 {
-    font-size: 12.2px !important;
-    margin-top: 0.28rem !important;
-    margin-bottom: 0.12rem !important;
-  }
-  #generated-notes.mk-dense-2 .mk-note-body blockquote {
-    padding-top: 0.3rem !important;
-    padding-bottom: 0.3rem !important;
-    margin: 0.28rem 0 !important;
-  }
-  #generated-notes.mk-dense-2 .mk-note-body .mk-formula,
-  #generated-notes.mk-dense-2 .mk-note-body .mk-study,
-  #generated-notes.mk-dense-2 .mk-note-body .mk-vshell {
-    margin-top: 0.22rem !important;
-    margin-bottom: 0.22rem !important;
-  }
 
   /* ink never escapes the paper: long unbreakable tokens must wrap */
-  #generated-notes .mk-note-body p,
-  #generated-notes .mk-note-body li,
-  #generated-notes .mk-note-body .mk-caption,
-  #generated-notes .mk-note-body .mk-study *,
-  #generated-notes .mk-note-body .formula-plain,
-  #generated-notes .cmp-cell {
-    overflow-wrap: anywhere;
-    word-break: break-word;
-  }
 
   /* wide inline math must scroll inside its sheet instead of widening the page */
-  #generated-notes .mk-formula .max-w-\[680px\] {
-    max-width: 100%;
-    overflow-x: auto;
-  }
 
   /* ============================================================ */
   /* V1 — NO MORE BOX-OVERLOAD: content lives on the paper        */
   /* ============================================================ */
 
   /* visual shells (Flow / Diagram / Cycle) become paper notes */
-  #generated-notes .mk-vshell {
-    background: transparent !important;
-    border: none !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    margin: 0.3rem 0;
-  }
-
-  #generated-notes .mk-vshell-head {
-    border-bottom: 1px dashed rgba(215, 207, 174, 0.9);
-    padding: 0.05rem 0.1rem 0.2rem;
-  }
-
-  #generated-notes .mk-vshell-head > span {
-    font-size: 8px;
-    padding: 0.1rem 0.5rem;
-  }
-
-  #generated-notes .mk-vshell-body {
-    padding: 0.15rem 0.1rem 0.05rem;
-  }
 
   /* study annotations (Important / Remember / Example): paper notes
      with a colored left edge instead of full slide-style cards */
-  #generated-notes .mk-study {
-    background: transparent !important;
-    box-shadow: none !important;
-    border-radius: 8px;
-    border-left-width: 3px;
-    margin: 0.3rem 0;
-  }
-
-  #generated-notes .mk-study > div:first-child {
-    margin: 0 0.6rem;
-    padding: 0.2rem 0 0.1rem;
-    background: transparent !important;
-  }
-
-  #generated-notes .mk-study > div:last-child {
-    padding: 0.1rem 0.5rem 0.1rem;
-  }
-
-  #generated-notes .mk-study p {
-    margin-bottom: 0.15rem;
-  }
-
-  #generated-notes .mk-study li {
-    margin-top: 0.1rem;
-  }
 
   /* the formula panel stays a yellow sheet but compact */
-  #generated-notes .mk-formula {
-    border-radius: 12px;
-    box-shadow: none;
-  }
-
-  #generated-notes .mk-formula > div:first-child {
-    padding: 0.25rem 0.6rem;
-  }
-
-  #generated-notes .mk-formula > div:last-child {
-    padding: 0.25rem 0.45rem 0.25rem;
-  }
-
-  #generated-notes .mk-formula {
-    overflow-x: auto;
-  }
-
-  #generated-notes .mk-note-body blockquote {
-    margin: 0.35rem 0 !important;
-    padding: 0.35rem 0.8rem !important;
-  }
 
   /* ============================================================ */
   /* V1 — FLOWCHART: compact numbered left-aligned steps          */
   /* ============================================================ */
 
-  #generated-notes .mk-flow {
-    width: 92%;
-    margin: 0 0 0 auto;
-    counter-reset: mkflow;
-  }
-
-  #generated-notes .mk-flow .mk-node {
-    counter-increment: mkflow;
-    display: flex;
-    align-items: flex-start;
-    gap: 6px;
-    text-align: left;
-    padding: 0.12rem 0.6rem;
-    font-size: 12px;
-    line-height: 1.38;
-  }
-
-  #generated-notes .mk-flow .mk-node::before {
-    content: counter(mkflow, decimal-leading-zero);
-    flex: none;
-    width: 17px;
-    height: 17px;
-    border-radius: 9999px;
-    background: #f5b700;
-    color: #0b0b0b;
-    font-size: 8.5px;
-    font-weight: 800;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 1px;
-    font-family: var(--font-geist-sans, system-ui), system-ui, sans-serif;
-  }
-
-  #generated-notes .mk-flow-arrow {
-    height: 0.3rem !important;
-  }
-
-  #generated-notes .mk-flow-arrow svg {
-    width: 13px;
-    height: 13px;
-  }
-
-  #generated-notes .mk-flow-tip {
-    display: none !important;
-  }
-
   /* diagram / cycle steps get the same compact rhythm */
-  #generated-notes .mk-diagram {
-    max-width: 100%;
-  }
 
   /* ============================================================ */
   /* PAPER REFINEMENTS — labels are handwritten, no UI chips       */
   /* ============================================================ */
 
   /* visual-shell label chips become highlighter bands */
-  #generated-notes .mk-vshell-head > span {
-    background: linear-gradient(
-      transparent 55%,
-      rgba(245, 183, 0, 0.4) 55%,
-      rgba(245, 183, 0, 0.4) 96%,
-      transparent 96%
-    ) !important;
-    border-radius: 0.2em !important;
-    color: #7a5a00 !important;
-    padding: 0 0.2em !important;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
 
   /* formula panel: "Formula" becomes a handwritten band label */
-  #generated-notes .mk-formula-pill {
-    background: linear-gradient(
-      transparent 55%,
-      rgba(245, 183, 0, 0.4) 55%,
-      rgba(245, 183, 0, 0.4) 96%,
-      transparent 96%
-    ) !important;
-    border-radius: 0.2em !important;
-    color: #7a5a00 !important;
-    padding: 0 0.25em !important;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-size: 8.5px;
-  }
 
   /* study annotations: no dot, no header rule — pure margin notes */
-  #generated-notes .mk-study-dot {
-    display: none;
-  }
-
-  #generated-notes .mk-study > div:first-child {
-    border-bottom: none;
-  }
-
-  #generated-notes .mk-study-label {
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-size: 9px;
-    font-weight: 700;
-    padding: 0 0.3em 0 0.15em;
-    border-radius: 0.2em;
-  }
-
-  #generated-notes .mk-study-important .mk-study-label {
-    background: linear-gradient(
-      transparent 58%,
-      rgba(245, 183, 0, 0.45) 58%,
-      rgba(245, 183, 0, 0.45) 97%,
-      transparent 97%
-    );
-    color: #6b4c00;
-  }
-
-  #generated-notes .mk-study-remember .mk-study-label {
-    background: linear-gradient(
-      transparent 58%,
-      rgba(79, 178, 124, 0.35) 58%,
-      rgba(79, 178, 124, 0.35) 97%,
-      transparent 97%
-    );
-    color: #17603c;
-  }
-
-  #generated-notes .mk-study-example .mk-study-label {
-    background: linear-gradient(
-      transparent 58%,
-      rgba(222, 124, 169, 0.32) 58%,
-      rgba(222, 124, 169, 0.32) 97%,
-      transparent 97%
-    );
-    color: #8a2f56;
-  }
 
   /* blockquotes become margin annotations, never boxes */
-  #generated-notes .mk-note-body blockquote {
-    margin: 0.45rem 0 0.45rem 0.2rem;
-    padding: 0.15rem 0.5rem !important;
-    background: transparent !important;
-    border: none !important;
-    border-left: 3px dashed #e7b22a;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-  }
 
   @media (prefers-reduced-motion: reduce) {
     .kivraa-mobile-hero,
@@ -1134,8 +395,7 @@ body {
     .kivraa-atmos-ring,
     .kivraa-atmos-crystal,
     .kivraa-atmos-dust,
-    .kivraa-hero-stage,
-    #generated-notes .mk-note-card {
+    .kivraa-hero-stage {
       animation: none !important;
     }
   }
@@ -1149,326 +409,38 @@ body {
    ========================================================================== */
 @media (min-width: 1024px) {
   /* ---- paper frame ---- */
-  #generated-notes .mk-desktop-paper {
-    border-radius: 20px;
-  }
-
-  #generated-notes .mk-paper-grain {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
-    opacity: 0.05;
-  }
-
-  #generated-notes .kivraa-note-page {
-    color: #26384b;
-  }
 
   /* ---- handwritten ink ---- */
-  #generated-notes .kivraa-note-page p,
-  #generated-notes .kivraa-note-page li,
-  #generated-notes .kivraa-note-page td {
-    color: #26384b;
-    overflow-wrap: anywhere;
-    word-break: break-word;
-  }
 
   /* highlighter swipe on key terms — student-marked look */
-  #generated-notes .kivraa-note-page strong,
-  #generated-notes .mk-ink-strong {
-    background: linear-gradient(
-      104deg,
-      rgba(255, 232, 117, 0.2) 0.7%,
-      rgba(255, 232, 117, 0.62) 2.4%,
-      #ffe875 5.9%,
-      rgba(255, 232, 117, 0.9) 93.5%,
-      rgba(255, 232, 117, 0.28) 96.4%
-    );
-    border-radius: 0.18em;
-    padding: 0.06em 0.18em;
-    box-decoration-break: clone;
-    -webkit-box-decoration-break: clone;
-  }
 
   /* blockquote = teacher's margin annotation */
-  #generated-notes .kivraa-note-page blockquote {
-    padding: 0.15rem 0.6rem 0.15rem 0.9rem;
-    font-size: 15px;
-    line-height: 1.6;
-  }
 
   /* table cells inside comparison blocks on paper */
-  #generated-notes .mk-table-th {
-    background: linear-gradient(
-      transparent 55%,
-      rgba(245, 216, 91, 0.5) 55%,
-      rgba(245, 216, 91, 0.5) 96%,
-      transparent 96%
-    );
-  }
 
   /* ============================================================ */
   /* COMPARISON — a handwritten comparison sheet, not a UI grid    */
   /* ============================================================ */
 
-  #generated-notes .cmp-card {
-    overflow: hidden;
-    border: 1px dashed rgba(200, 188, 150, 0.95);
-    border-radius: 14px;
-    background: rgba(255, 252, 240, 0.6);
-    box-shadow: none;
-    margin: 1.1rem 0;
-  }
-
-  #generated-notes .cmp-head {
-    background: linear-gradient(
-      transparent 55%,
-      rgba(245, 216, 91, 0.42) 55%,
-      rgba(245, 216, 91, 0.42) 96%,
-      transparent 96%
-    );
-    border-bottom: 1px dashed rgba(215, 207, 174, 0.9);
-  }
-
-  #generated-notes .cmp-head-cell {
-    padding: 0.55rem 0.9rem;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: none;
-    color: #17314f;
-    border-right: 1px dashed rgba(215, 207, 174, 0.55);
-  }
-
-  #generated-notes .cmp-row {
-    display: grid;
-  }
-
-  #generated-notes .cmp-row + .cmp-row {
-    border-top: 1px dashed rgba(215, 207, 174, 0.8);
-  }
-
-  #generated-notes .cmp-cell {
-    padding: 0.55rem 0.9rem;
-    font-size: 15px;
-    line-height: 1.55;
-    color: #26384b;
-    border-right: 1px dashed rgba(215, 207, 174, 0.45);
-  }
-
-  #generated-notes .cmp-cell:last-child {
-    border-right: none;
-  }
-
-  #generated-notes .cmp-cell-label {
-    font-weight: 700;
-    color: #142c49;
-    background: linear-gradient(
-      transparent 62%,
-      rgba(245, 183, 0, 0.3) 62%,
-      rgba(245, 183, 0, 0.3) 97%,
-      transparent 97%
-    );
-  }
-
   /* ============================================================ */
   /* VISUAL SHELLS — paper notes, not slide cards                 */
   /* ============================================================ */
-
-  #generated-notes .mk-vshell {
-    background: transparent;
-    border: none;
-    border-radius: 0;
-    box-shadow: none;
-    margin: 1.1rem 0;
-  }
-
-  #generated-notes .mk-vshell-head {
-    border-bottom: 1px dashed rgba(215, 207, 174, 0.9);
-    padding: 0 0.1rem 0.3rem;
-  }
-
-  #generated-notes .mk-vshell-pill {
-    background: linear-gradient(
-      transparent 55%,
-      rgba(245, 183, 0, 0.4) 55%,
-      rgba(245, 183, 0, 0.4) 96%,
-      transparent 96%
-    );
-    border-radius: 0.2em;
-    color: #7a5a00;
-    padding: 0 0.25em;
-    font-size: 10px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    box-shadow: none;
-  }
-
-  #generated-notes .mk-vshell-title {
-    color: #17314f;
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-  }
 
   /* ============================================================ */
   /* STUDY ANNOTATIONS — handwritten margin notes                 */
   /* ============================================================ */
 
-  #generated-notes .mk-study {
-    background: transparent;
-    box-shadow: none;
-    border: none;
-    border-radius: 0;
-    margin: 0.85rem 0;
-  }
-
-  #generated-notes .mk-study-dot {
-    display: none;
-  }
-
-  #generated-notes .mk-study > div:first-child {
-    border-bottom: none;
-    margin: 0 0.1rem;
-    padding: 0.25rem 0.1rem 0.15rem;
-  }
-
-  #generated-notes .mk-study-important {
-    border-left: 3px solid #e7b22a;
-  }
-
-  #generated-notes .mk-study-remember {
-    border-left: 3px solid #4fb27c;
-  }
-
-  #generated-notes .mk-study-example {
-    border-left: 3px solid #de7ca9;
-  }
-
-  #generated-notes .mk-study-label {
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-size: 10px;
-    font-weight: 700;
-    padding: 0 0.3em 0 0.15em;
-    border-radius: 0.2em;
-  }
-
-  #generated-notes .mk-study-important .mk-study-label {
-    background: linear-gradient(
-      transparent 58%,
-      rgba(245, 183, 0, 0.45) 58%,
-      rgba(245, 183, 0, 0.45) 97%,
-      transparent 97%
-    );
-    color: #6b4c00;
-  }
-
-  #generated-notes .mk-study-remember .mk-study-label {
-    background: linear-gradient(
-      transparent 58%,
-      rgba(79, 178, 124, 0.34) 58%,
-      rgba(79, 178, 124, 0.34) 97%,
-      transparent 97%
-    );
-    color: #17603c;
-  }
-
-  #generated-notes .mk-study-example .mk-study-label {
-    background: linear-gradient(
-      transparent 58%,
-      rgba(222, 124, 169, 0.32) 58%,
-      rgba(222, 124, 169, 0.32) 97%,
-      transparent 97%
-    );
-    color: #8a2f56;
-  }
-
-  #generated-notes .mk-study > div:last-child {
-    padding: 0.2rem 0.5rem 0.2rem 1.2rem;
-  }
-
-  #generated-notes .mk-study p {
-    margin-bottom: 0.2rem;
-  }
-
   /* ============================================================ */
   /* FORMULA — a warm yellow sticky sheet                          */
   /* ============================================================ */
-
-  #generated-notes .mk-formula {
-    border-radius: 16px;
-    border-color: rgba(231, 178, 42, 0.55);
-    background: #fdf6db;
-    box-shadow: 0 2px 8px rgba(120, 90, 10, 0.08);
-  }
-
-  #generated-notes .mk-formula-pill {
-    background: linear-gradient(
-      transparent 55%,
-      rgba(245, 183, 0, 0.4) 55%,
-      rgba(245, 183, 0, 0.4) 96%,
-      transparent 96%
-    );
-    border-radius: 0.2em;
-    color: #7a5a00;
-    padding: 0 0.3em;
-    font-size: 9px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-
-  #generated-notes .mk-formula-title {
-    color: #5b4a00;
-    font-weight: 700;
-  }
 
   /* ============================================================ */
   /* FLOW — numbered sticky chips on paper                         */
   /* ============================================================ */
 
-  #generated-notes .mk-flow {
-    max-width: 640px;
-  }
-
-  #generated-notes .mk-flow .mk-node {
-    border-width: 1.5px;
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.65),
-      0 3px 9px rgba(40, 30, 10, 0.08);
-    border-radius: 14px;
-  }
-
-  #generated-notes .mk-flow-tip {
-    border: none;
-    background: transparent;
-    box-shadow: none;
-    color: #8a7a55;
-    font-style: italic;
-    text-align: left;
-    padding: 0.15rem 0.2rem;
-  }
-
   /* diagram label nodes stay as tidy hand-tinted chips */
-  #generated-notes .mk-diagram .rounded-\[14px\] {
-    border-width: 1.5px;
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.65),
-      0 3px 9px rgba(40, 30, 10, 0.07);
-  }
 
   /* page entrance — soft rise on desktop too */
-  #generated-notes .mk-desktop-paper {
-    animation: mkNotePageIn 0.38s cubic-bezier(0.22, 0.8, 0.24, 1);
-    transform-origin: 50% 32%;
-    will-change: transform, opacity;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    #generated-notes .mk-desktop-paper {
-      animation: none !important;
-    }
-  }
 }
 
 /* ============================================================================
@@ -1480,1666 +452,83 @@ body {
      cascade where the generated-note renderer needs the final presentation.
    ========================================================================== */
 
-#generated-notes .kivraa-note-page,
-#generated-notes .kivraa-note-page *,
-#generated-notes .kivraa-page-body,
-#generated-notes .mk-note-body {
-  font-family: var(--font-geist-sans), system-ui, sans-serif !important;
-}
-
-#generated-notes .font-\[cursive\],
-#generated-notes [style*="font-kivraa-hand"] {
-  font-family: var(--font-geist-sans), system-ui, sans-serif !important;
-}
-
-#generated-notes .mk-note-card,
-#generated-notes.mk-one-page .mk-note-card {
-  height: 640px !important;
-  min-height: 640px !important;
-  max-height: 640px !important;
-  box-sizing: border-box;
-}
-
-#generated-notes .mk-note-body {
-  overflow: hidden !important;
-  overscroll-behavior: none !important;
-}
-
-#generated-notes .mk-pages {
-  transition: none !important;
-  animation: none !important;
-  scroll-behavior: auto !important;
-  will-change: auto !important;
-}
-
-#generated-notes .mk-pages .mk-sheet {
-  overflow: hidden !important;
-}
-
-/* ---- notebook paper / natural study-copy surface ---- */
-#generated-notes .kivraa-note-page {
-  position: relative;
-  box-sizing: border-box;
-  color: #293746;
-  background:
-    repeating-linear-gradient(
-      to bottom,
-      transparent 0,
-      transparent 31px,
-      rgba(72, 111, 145, 0.075) 32px
-    );
-  padding: 4px 8px 10px;
-}
-
-#generated-notes .kivraa-note-page::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 30px;
-  width: 1px;
-  background: rgba(215, 82, 82, 0.16);
-  pointer-events: none;
-}
-
-#generated-notes .kivraa-note-flow {
-  position: relative;
-  z-index: 1;
-  padding-left: 42px;
-  padding-right: 10px;
-}
-
-/* ---- headings: handwritten-study-copy feel, not giant UI cards ---- */
-#generated-notes .kivraa-student-title {
-  display: block;
-  margin: 2px 0 14px;
-  padding: 0;
-}
-
-#generated-notes .kivraa-student-title h1 {
-  display: inline;
-  margin: 0;
-  color: #182c43;
-  font-size: 27px;
-  line-height: 1.15;
-  font-weight: 800;
-  letter-spacing: -0.025em;
-  background: none !important;
-  box-shadow: none !important;
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
-  text-decoration-color: #d4a900;
-  text-underline-offset: 5px;
-}
-
-#generated-notes .kivraa-student-title::before {
-  content: "✎";
-  display: inline-block;
-  margin-right: 7px;
-  color: #d49d00;
-  font-size: 17px;
-  transform: rotate(-8deg);
-}
-
-#generated-notes .kivraa-student-subtitle {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-  margin: 17px 0 6px;
-}
-
-#generated-notes .kivraa-student-subtitle h2 {
-  margin: 0;
-  color: #1c334b;
-  font-size: 18px;
-  line-height: 1.25;
-  font-weight: 750;
-  background: none !important;
-  box-shadow: none !important;
-  text-decoration: underline;
-  text-decoration-thickness: 1.5px;
-  text-decoration-color: rgba(212, 169, 0, 0.8);
-  text-underline-offset: 4px;
-}
-
-#generated-notes .kivraa-heading-marker {
-  color: #d49d00;
-  font-size: 17px;
-  font-weight: 700;
-  transform: rotate(-8deg);
-}
-
-#generated-notes .kivraa-student-mini-heading {
-  margin: 12px 0 4px;
-  color: #27394c;
-  font-size: 15.5px;
-  line-height: 1.3;
-  font-weight: 750;
-  background: none !important;
-  box-shadow: none !important;
-}
-
-/* ---- normal note writing ---- */
-#generated-notes .kivraa-student-paragraph {
-  margin: 0 0 7px;
-  color: #293746;
-  font-size: 15px;
-  line-height: 1.55;
-  letter-spacing: 0;
-}
-
-#generated-notes .kivraa-student-list,
-#generated-notes .kivraa-student-numbered-list {
-  margin: 5px 0 9px;
-  padding: 0;
-  list-style: none;
-}
-
-#generated-notes .kivraa-student-list-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 7px;
-  margin: 3px 0;
-  color: #293746;
-  font-size: 14.7px;
-  line-height: 1.5;
-}
-
-#generated-notes .kivraa-note-arrow {
-  flex: 0 0 auto;
-  color: #d19d00;
-  font-weight: 800;
-  margin-top: 1px;
-}
-
-#generated-notes .kivraa-student-numbered-list {
-  list-style-position: inside;
-  padding-left: 3px;
-}
-
-/* ---- key terms: small student highlighter strokes ---- */
-#generated-notes .kivraa-note-strong {
-  color: #172b42;
-  font-weight: 800;
-  background:
-    linear-gradient(
-      transparent 64%,
-      rgba(255, 225, 75, 0.62) 64%,
-      rgba(255, 225, 75, 0.62) 94%,
-      transparent 94%
-    ) !important;
-  padding: 0 2px;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
-}
-
-#generated-notes .kivraa-note-em {
-  color: #596574;
-}
-
-/* ---- margin annotations, never large cards ---- */
-#generated-notes .kivraa-margin-note {
-  display: flex;
-  align-items: flex-start;
-  gap: 7px;
-  margin: 9px 0;
-  padding: 4px 8px;
-  border-left: 2px solid #e0ad1a;
-  background: transparent !important;
-  color: #4a4b42;
-  font-size: 13.5px;
-  line-height: 1.48;
-  box-shadow: none !important;
-}
-
-#generated-notes .kivraa-margin-note-mark {
-  color: #d6a200;
-  flex: 0 0 auto;
-  transform: rotate(-9deg);
-}
-
-/* ---- all visual shells are flattened onto the paper ---- */
-#generated-notes .mk-vshell,
-#generated-notes .mk-vshell-head,
-#generated-notes .mk-vshell-body {
-  background: transparent !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-}
-
-#generated-notes .mk-vshell {
-  margin: 9px 0 !important;
-}
-
-#generated-notes .mk-vshell-head {
-  padding: 0 0 3px !important;
-}
-
-#generated-notes .mk-vshell-body {
-  padding: 4px 0 !important;
-}
-
-#generated-notes .mk-vshell-pill,
-#generated-notes .mk-vshell-head > span {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-  color: #5e5b4e !important;
-  font-size: 10px !important;
-  text-transform: none !important;
-  letter-spacing: 0 !important;
-}
-
-/* ---- compact vertical flowcharts ---- */
-#generated-notes .mk-flow {
-  width: 100%;
-  max-width: 620px;
-  margin: 5px auto;
-}
-
-#generated-notes .mk-flow .mk-node {
-  min-width: 0;
-  max-width: 100%;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-  white-space: normal;
-  background: rgba(255, 255, 255, 0.32) !important;
-  border: 1.5px solid rgba(67, 84, 99, 0.45) !important;
-  border-radius: 5px !important;
-  box-shadow: none !important;
-  padding: 6px 10px !important;
-  color: #273746 !important;
-  font-size: 13px !important;
-  line-height: 1.4 !important;
-}
-
-#generated-notes .mk-flow-arrow {
-  height: 14px !important;
-}
-
-/* ---- formulas: clean dark ink, no oversized card ---- */
-#generated-notes .mk-formula {
-  background: transparent !important;
-  border: 0 !important;
-  border-left: 3px solid rgba(214, 169, 0, 0.75) !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  margin: 9px 0 !important;
-  padding: 3px 10px !important;
-}
-
-#generated-notes .mk-formula-pill {
-  background: transparent !important;
-  padding: 0 !important;
-  color: #786000 !important;
-  font-size: 9px !important;
-  text-transform: none !important;
-  letter-spacing: 0 !important;
-}
-
-#generated-notes .mk-formula-title {
-  color: #554900 !important;
-}
-
-#generated-notes .mk-formula .katex,
-#generated-notes .formula-plain,
-#generated-notes .katex,
-#generated-notes .katex-error,
-#generated-notes .katex-error * {
-  color: #172b42 !important;
-}
-
-/* ---- Important / Remember / Example: annotations, not cards ---- */
-#generated-notes .mk-study {
-  background: transparent !important;
-  border: 0 !important;
-  border-left: 3px solid #d6a200 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  margin: 9px 0 !important;
-  padding: 2px 0 2px 10px !important;
-}
-
-#generated-notes .mk-study-remember {
-  border-left-color: #4e9b6c !important;
-}
-
-#generated-notes .mk-study-example {
-  border-left-color: #8a79a9 !important;
-}
-
-#generated-notes .mk-study > div:first-child,
-#generated-notes .mk-study > div:last-child {
-  background: transparent !important;
-  padding: 0 !important;
-  margin: 0 !important;
-}
-
-#generated-notes .mk-study-label {
-  background: transparent !important;
-  padding: 0 !important;
-  color: #665500 !important;
-  font-size: 9px !important;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-#generated-notes .mk-study p {
-  margin: 3px 0 !important;
-}
-
-/* ---- comparison: simple notebook table ---- */
-#generated-notes .cmp-card {
-  background: transparent !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  margin: 10px 0 !important;
-  overflow: hidden;
-}
-
-#generated-notes .cmp-head {
-  background: transparent !important;
-  border-bottom: 1px dashed rgba(70, 80, 90, 0.35) !important;
-}
-
-#generated-notes .cmp-head-cell {
-  background:
-    linear-gradient(
-      transparent 62%,
-      rgba(255, 225, 75, 0.55) 62%,
-      rgba(255, 225, 75, 0.55) 94%,
-      transparent 94%
-    ) !important;
-  border: 0 !important;
-  color: #26394d !important;
-  padding: 4px 7px !important;
-  font-size: 12px !important;
-  text-transform: none !important;
-  letter-spacing: 0 !important;
-}
-
-#generated-notes .cmp-row + .cmp-row {
-  border-top: 1px dashed rgba(80, 90, 100, 0.28);
-}
-
-#generated-notes .cmp-cell {
-  background: transparent !important;
-  border: 0 !important;
-  padding: 6px 7px !important;
-  color: #293746 !important;
-  font-size: 13.5px !important;
-  line-height: 1.48 !important;
-}
-
-#generated-notes .cmp-cell-label {
-  background:
-    linear-gradient(
-      transparent 63%,
-      rgba(255, 225, 75, 0.48) 63%,
-      rgba(255, 225, 75, 0.48) 94%,
-      transparent 94%
-    ) !important;
-}
-
-/* ---- diagrams/images ---- */
-#generated-notes .kivraa-student-drawing {
-  margin: 10px auto;
-  padding: 0;
-  text-align: center;
-}
-
-#generated-notes .kivraa-student-drawing img {
-  max-width: 100%;
-  max-height: 260px;
-  object-fit: contain;
-  border: 0;
-  border-radius: 0;
-  box-shadow: none;
-}
-
-#generated-notes .kivraa-student-drawing figcaption {
-  margin-top: 2px;
-  color: #6d6a5d;
-  font-size: 10px;
-  font-style: italic;
-}
-
-/* ---- inline code / dividers ---- */
-#generated-notes .kivraa-note-code-wrapper {
-  overflow-x: auto;
-  max-width: 100%;
-}
-
-#generated-notes .kivraa-note-code,
-#generated-notes .kivraa-note-inline-code {
-  font-family: var(--font-geist-mono), ui-monospace, monospace !important;
-}
-
-#generated-notes .kivraa-note-divider {
-  margin: 8px 0;
-  color: #d3a600;
-  text-align: center;
-}
-
-/* ---- responsive note-only adjustments ---- */
-@media (max-width: 1023px) {
-  #generated-notes .mk-note-card,
-  #generated-notes.mk-one-page .mk-note-card {
-    height: 640px !important;
-    min-height: 640px !important;
-    max-height: 640px !important;
-  }
-
-  #generated-notes .kivraa-note-page {
-    padding-top: 3px;
-    padding-bottom: 8px;
-  }
-
-  #generated-notes .kivraa-note-page::before {
-    left: 25px;
-  }
-
-  #generated-notes .kivraa-note-flow {
-    padding-left: 36px;
-    padding-right: 7px;
-  }
-
-  #generated-notes .kivraa-student-title h1 {
-    font-size: 23px;
-  }
-
-  #generated-notes .kivraa-student-subtitle h2 {
-    font-size: 17px;
-  }
-
-  #generated-notes .kivraa-student-paragraph {
-    font-size: 14px;
-    line-height: 1.5;
-  }
-
-  #generated-notes .kivraa-student-list-item {
-    font-size: 13.7px;
-  }
-
-  #generated-notes .mk-flow .mk-node {
-    font-size: 12px !important;
-  }
-
-  #generated-notes .mk-formula {
-    margin: 7px 0 !important;
-  }
-
-  #generated-notes .mk-note-body,
-  #generated-notes .mk-formula,
-  #generated-notes .mk-formula .max-w-\[680px\] {
-    overflow: hidden !important;
-  }
-}
-
-@media (min-width: 1024px) {
-  #generated-notes .mk-note-card,
-  #generated-notes.mk-one-page .mk-note-card {
-    height: 640px !important;
-    min-height: 640px !important;
-    max-height: 640px !important;
-  }
-
-  #generated-notes .kivraa-note-flow {
-    padding-left: 44px;
-    padding-right: 14px;
-  }
-}
-
-/* ============================================================
-   KIVRAA — FINAL STUDENT NOTEBOOK RENDERER
-   Scoped ONLY to #generated-notes. Hero/site UI untouched.
-   ============================================================ */
-#generated-notes .kivraa-note-page,
-#generated-notes .kivraa-note-page *,
-#generated-notes .kivraa-page-body,
-#generated-notes .mk-note-body{font-family:var(--font-geist-sans),system-ui,sans-serif!important}
-#generated-notes .font-\[cursive\],#generated-notes [style*="font-kivraa-hand"]{font-family:var(--font-geist-sans),system-ui,sans-serif!important}
-
-#generated-notes .kivraa-student-paragraph{color:#293746;font-size:15px;line-height:1.52;margin:0 0 7px}
-#generated-notes .kivraa-student-title h1{color:#182c43;font-weight:800}
-#generated-notes .kivraa-student-subtitle h2,#generated-notes .kivraa-student-mini-heading{color:#1d344d}
-
-/* visual shell = content on paper, never a UI card */
-#generated-notes .kivraa-visual{width:100%;max-width:100%;margin:12px 0;min-width:0}
-#generated-notes .kivraa-visual-heading{display:flex;align-items:baseline;flex-wrap:wrap;gap:7px;margin:0 0 5px;min-width:0}
-#generated-notes .kivraa-visual-label{color:#806500;font-size:9px;line-height:1.2;font-weight:800;text-transform:uppercase;letter-spacing:.11em;background:linear-gradient(transparent 55%,rgba(245,183,0,.38) 55%,rgba(245,183,0,.38) 94%,transparent 94%)}
-#generated-notes .kivraa-visual-title{margin:0;color:#20354c;font-size:15px;line-height:1.3;font-weight:750;overflow-wrap:anywhere}
-#generated-notes .kivraa-visual-content{min-width:0;width:100%}
-
-/* flowchart */
-#generated-notes .kivraa-student-flow{width:min(100%,620px);margin:5px auto 4px;min-width:0}
-#generated-notes .kivraa-flow-step{position:relative;width:100%;min-width:0;display:flex;justify-content:center}
-#generated-notes .kivraa-flow-step-inner{position:relative;width:min(100%,520px);min-width:0;padding:5px 13px 6px;color:#24384f;text-align:center;font-size:13.5px;line-height:1.42;overflow-wrap:anywhere;word-break:break-word;background:transparent;border:1.4px solid rgba(49,79,106,.58);border-radius:4px 8px 5px 7px;transform:rotate(-.25deg);box-shadow:none}
-#generated-notes .kivraa-flow-step:nth-child(even) .kivraa-flow-step-inner{transform:rotate(.3deg)}
-#generated-notes .kivraa-flow-step-text{display:block}
-#generated-notes .kivraa-flow-connector{display:flex;justify-content:center;align-items:center;height:20px;color:#b88a00}
-#generated-notes .kivraa-down-arrow{width:17px;height:17px;color:#b88a00}
-#generated-notes .kivraa-student-flow-colorful .kivraa-flow-step:nth-child(3n+1) .kivraa-flow-step-inner{border-color:rgba(49,90,130,.58)}
-#generated-notes .kivraa-student-flow-colorful .kivraa-flow-step:nth-child(3n+2) .kivraa-flow-step-inner{border-color:rgba(123,73,112,.5)}
-#generated-notes .kivraa-student-flow-colorful .kivraa-flow-step:nth-child(3n) .kivraa-flow-step-inner{border-color:rgba(55,117,82,.55)}
-#generated-notes .kivraa-student-flow-compact .kivraa-flow-step-inner{padding-top:3px;padding-bottom:4px;font-size:12.5px}
-#generated-notes .kivraa-student-flow-compact .kivraa-flow-connector{height:14px}
-
-/* diagram */
-#generated-notes .kivraa-student-diagram{width:min(100%,620px);margin:7px auto;min-width:0}
-#generated-notes .kivraa-diagram-paper{position:relative;width:min(100%,520px);min-height:210px;margin:0 auto;overflow:visible}
-#generated-notes .kivraa-diagram-center{position:absolute;left:50%;top:50%;width:min(38%,190px);min-height:54px;transform:translate(-50%,-50%) rotate(-.5deg);display:flex;align-items:center;justify-content:center;padding:9px 13px;border:1.6px solid #27445f;border-radius:46% 54% 50% 48%;color:#203a55;text-align:center;background:rgba(255,255,255,.18);box-shadow:none}
-#generated-notes .kivraa-diagram-center-text{font-size:13px;line-height:1.35;font-weight:750;overflow-wrap:anywhere}
-#generated-notes .kivraa-diagram-label{position:absolute;width:min(31%,145px);min-width:90px;padding:4px 7px;color:#30465b;font-size:11.5px;line-height:1.35;overflow-wrap:anywhere;text-align:center;border-bottom:1.2px solid rgba(62,83,103,.55)}
-#generated-notes .kivraa-diagram-label-0{left:1%;top:8%}#generated-notes .kivraa-diagram-label-1{right:1%;top:8%}#generated-notes .kivraa-diagram-label-2{left:1%;bottom:8%}#generated-notes .kivraa-diagram-label-3{right:1%;bottom:8%}
-#generated-notes .kivraa-diagram-line{position:absolute;height:1px;background:rgba(72,89,105,.48);transform-origin:left center;pointer-events:none}
-#generated-notes .kivraa-diagram-label-text{display:block}#generated-notes .kivraa-diagram-label-description{display:block;margin-top:2px;color:#69727d;font-size:10px}
-
-/* cycle */
-#generated-notes .kivraa-student-cycle{width:min(100%,620px);margin:5px auto;min-width:0}
-#generated-notes .kivraa-cycle-desktop{position:relative;width:300px;height:300px;margin:0 auto}
-#generated-notes .kivraa-cycle-ring{position:absolute;inset:50px;border:1.3px dashed rgba(73,89,103,.55);border-radius:50%;transform:rotate(-2deg)}
-#generated-notes .kivraa-cycle-center{position:absolute;left:50%;top:50%;width:68px;height:48px;transform:translate(-50%,-50%) rotate(-2deg);display:flex;align-items:center;justify-content:center;border-bottom:2px solid #d0a200;color:#765d00;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
-#generated-notes .kivraa-cycle-node{position:absolute;transform:translate(-50%,-50%);width:min(118px,31%);min-height:34px;padding:4px 7px;border:1.2px solid currentColor;border-radius:44% 56% 48% 52%;background:transparent;color:#30465b;text-align:center;font-size:11.5px;line-height:1.3;overflow-wrap:anywhere;box-shadow:none}
-#generated-notes .kivraa-cycle-node:nth-child(odd){transform:translate(-50%,-50%) rotate(-1deg)}#generated-notes .kivraa-cycle-node:nth-child(even){transform:translate(-50%,-50%) rotate(.8deg)}
-#generated-notes .kivraa-cycle-arrow-ring{position:absolute;inset:0;width:100%;height:100%;overflow:visible;fill:none;stroke:#b28a08;stroke-width:1.35;stroke-linecap:round;stroke-dasharray:4 5;pointer-events:none}
-#generated-notes .kivraa-cycle-arrow-head{fill:none;stroke-width:1.35}
-#generated-notes .kivraa-cycle-mobile{display:none}
-#generated-notes .kivraa-ink-yellow{color:#765d00}.kivraa-ink-blue{color:#244d73}.kivraa-ink-green{color:#286047}.kivraa-ink-pink{color:#87405d}.kivraa-ink-orange{color:#875322}.kivraa-ink-neutral{color:#30465b}
-
-/* formula */
-#generated-notes .kivraa-student-formula{width:min(100%,620px);margin:10px auto}
-#generated-notes .kivraa-formula-paper{position:relative;width:fit-content;max-width:100%;min-width:180px;margin:0 auto;padding:9px 16px 10px;border:1.5px solid rgba(196,157,31,.72);border-radius:7px 4px 9px 5px;background:rgba(255,246,184,.34);transform:rotate(-.35deg);box-shadow:none}
-#generated-notes .kivraa-formula-heading{margin-bottom:3px;color:#765d00;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.11em}
-#generated-notes .kivraa-formula-main{max-width:100%;overflow-x:auto;overflow-y:hidden;text-align:center}
-#generated-notes .kivraa-formula-math,#generated-notes .kivraa-formula-plain{color:#142c49;font-size:1.18rem;font-weight:700;overflow-wrap:anywhere}.kivraa-formula-plain{white-space:normal}
-#generated-notes .kivraa-formula-meaning{margin-top:6px;color:#4a5968;font-size:11.5px;line-height:1.45}.kivraa-formula-meaning-line{margin-top:2px}.kivraa-formula-arrow{color:#a67e00;margin-right:3px}.kivraa-formula-doodle{position:absolute;right:-8px;bottom:-6px;width:35px;height:10px;border-bottom:1px solid rgba(180,135,0,.55);border-radius:50%;transform:rotate(-7deg)}
-
-/* study annotations */
-#generated-notes .kivraa-study-annotation{position:relative;margin:9px 0;padding:2px 5px 5px 11px;background:transparent;border-left:2px solid #d5a51b;color:#344250;font-size:12.5px;line-height:1.48}
-#generated-notes .kivraa-study-annotation-remember{border-left-color:#4f9a70}#generated-notes .kivraa-study-annotation-example{border-left-color:#c06b8e}
-#generated-notes .kivraa-study-annotation-label{display:inline-flex;align-items:center;gap:4px;margin-bottom:2px;color:#725700;font-size:9px;line-height:1.2;font-weight:800;text-transform:uppercase;letter-spacing:.09em}
-#generated-notes .kivraa-study-annotation-remember .kivraa-study-annotation-label{color:#31704e}#generated-notes .kivraa-study-annotation-example .kivraa-study-annotation-label{color:#91405f}
-#generated-notes .kivraa-study-annotation-symbol{font-size:11px;transform:rotate(-5deg)}#generated-notes .kivraa-study-annotation-title{color:#26384b;font-weight:750;margin-bottom:2px}#generated-notes .kivraa-study-annotation-body{display:grid;gap:1px}#generated-notes .kivraa-study-annotation-line{display:flex;align-items:flex-start;gap:4px}#generated-notes .kivraa-study-annotation-mini-mark{color:#b98d08;flex:none}#generated-notes .kivraa-study-annotation-stroke{display:block;width:55px;height:5px;margin-top:1px;border-bottom:1px solid rgba(179,141,35,.5);transform:rotate(-1deg)}
-
-/* comparison */
-#generated-notes .kivraa-comparison-wrap{width:100%;margin:11px 0;min-width:0}#generated-notes .kivraa-comparison-label{display:flex;align-items:center;gap:5px;width:fit-content;margin-bottom:3px;color:#806500;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em}
-#generated-notes .kivraa-comparison-scroll{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}#generated-notes .kivraa-comparison-table{width:100%;min-width:280px;border-collapse:collapse;color:#293746;font-size:12.5px;line-height:1.45}
-#generated-notes .kivraa-comparison-table th{padding:5px 8px;color:#203a55;font-weight:800;text-align:left;border-top:1px dashed rgba(93,103,111,.5);border-bottom:1px dashed rgba(93,103,111,.5);background:linear-gradient(transparent 55%,rgba(255,226,86,.35) 55%,rgba(255,226,86,.35) 95%,transparent 95%)}
-#generated-notes .kivraa-comparison-table td{padding:5px 8px;vertical-align:top;border-bottom:1px dashed rgba(151,155,157,.38);border-right:1px dashed rgba(151,155,157,.3);overflow-wrap:anywhere}#generated-notes .kivraa-comparison-table td:last-child,#generated-notes .kivraa-comparison-table th:last-child{border-right:0}
-
-/* responsive */
-@media(max-width:1023px){
-#generated-notes .kivraa-visual{margin:8px 0}#generated-notes .kivraa-visual-title{font-size:13px}#generated-notes .kivraa-visual-label{font-size:8px}
-#generated-notes .kivraa-flow-step-inner{width:min(100%,430px);padding:4px 10px 5px;font-size:11.5px;line-height:1.35}#generated-notes .kivraa-flow-connector{height:15px}#generated-notes .kivraa-down-arrow{width:14px;height:14px}
-#generated-notes .kivraa-diagram-paper{min-height:175px;transform:scale(.94);transform-origin:center}#generated-notes .kivraa-diagram-center{width:34%;min-height:45px;padding:6px 8px}#generated-notes .kivraa-diagram-center-text{font-size:10.5px}#generated-notes .kivraa-diagram-label{width:29%;min-width:72px;font-size:9.5px;line-height:1.3}#generated-notes .kivraa-diagram-label-description{font-size:8px}
-#generated-notes .kivraa-cycle-desktop{display:none}#generated-notes .kivraa-cycle-mobile{display:flex;flex-direction:column;align-items:center;width:100%}#generated-notes .kivraa-cycle-mobile-step{display:flex;flex-direction:column;align-items:center;width:100%}#generated-notes .kivraa-cycle-mobile-node{width:min(100%,360px);padding:5px 9px;border:1.2px solid currentColor;border-radius:45% 55% 50% 48%;background:transparent;color:#30465b;text-align:center;font-size:11px;line-height:1.35;overflow-wrap:anywhere}#generated-notes .kivraa-cycle-mobile-arrow{height:17px;display:flex;align-items:center;justify-content:center;color:#a98108}#generated-notes .kivraa-cycle-return{margin-top:3px;color:#887342;font-size:8px;font-style:italic}
-#generated-notes .kivraa-formula-paper{max-width:100%;padding:7px 10px 8px}#generated-notes .kivraa-formula-math,#generated-notes .kivraa-formula-plain{font-size:1rem}#generated-notes .kivraa-formula-meaning{font-size:10.5px}
-#generated-notes .kivraa-study-annotation{font-size:11px;line-height:1.42;margin:7px 0;padding-left:9px}#generated-notes .kivraa-study-annotation-label{font-size:8px}
-#generated-notes .kivraa-comparison-table{font-size:10.5px;line-height:1.4}#generated-notes .kivraa-comparison-table th,#generated-notes .kivraa-comparison-table td{padding:4px 6px}
-}
-
-#generated-notes.mk-one-page .kivraa-visual{margin-top:5px;margin-bottom:5px}#generated-notes.mk-one-page .kivraa-student-paragraph{margin-bottom:4px}#generated-notes.mk-one-page .kivraa-study-annotation{margin:4px 0}#generated-notes.mk-one-page .kivraa-student-formula{margin:5px auto}#generated-notes.mk-one-page .kivraa-comparison-wrap{margin:5px 0}
-#generated-notes .kivraa-visual *,#generated-notes .kivraa-study-annotation *,#generated-notes .kivraa-comparison-wrap *,#generated-notes .kivraa-student-formula *{min-width:0;max-width:100%;box-sizing:border-box}
-#generated-notes .kivraa-visual,#generated-notes .kivraa-study-annotation,#generated-notes .kivraa-comparison-wrap,#generated-notes .kivraa-student-formula{overflow-wrap:anywhere;word-break:break-word}
-/* =========================================================
-   KIVRAA — REAL STUDENT NOTEBOOK RENDERER
-   Final visual layer
-   ========================================================= */
-
-#generated-notes,
-.kivraa-markdown,
-.kivraa-notebook-content {
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system,
-    BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: #172033;
-  line-height: 1.65;
-}
-
 /* ---------------------------------------------------------
    NOTEBOOK PAPER
    --------------------------------------------------------- */
-
-#generated-notes .kivraa-notebook-content {
-  position: relative;
-  overflow: hidden;
-
-  background-color: #fffdf7;
-
-  background-image:
-    linear-gradient(
-      to right,
-      transparent 0,
-      transparent 48px,
-      rgba(231, 91, 103, 0.38) 49px,
-      rgba(231, 91, 103, 0.38) 50px,
-      transparent 51px
-    ),
-    repeating-linear-gradient(
-      to bottom,
-      transparent 0,
-      transparent 31px,
-      rgba(82, 137, 190, 0.18) 32px,
-      transparent 33px
-    );
-
-  border: 0;
-  border-radius: 0;
-
-  box-shadow: none;
-
-  padding: 42px 42px 52px 72px;
-
-  max-width: 900px;
-  margin: 0 auto;
-}
 
 /* ---------------------------------------------------------
    NORMAL NOTE CONTENT
    --------------------------------------------------------- */
 
-#generated-notes .kivraa-note-paragraph {
-  margin: 0 0 13px;
-  font-size: 16px;
-  line-height: 1.85;
-  letter-spacing: 0.005em;
-}
-
-#generated-notes .kivraa-note-list {
-  margin: 8px 0 16px;
-  padding-left: 25px;
-}
-
-#generated-notes .kivraa-note-list-item {
-  margin: 3px 0;
-  line-height: 1.75;
-}
-
-#generated-notes .kivraa-note-numbered-list {
-  padding-left: 29px;
-}
-
 /* ---------------------------------------------------------
    HEADINGS — STUDENT NOTE HIERARCHY
    --------------------------------------------------------- */
-
-#generated-notes .kivraa-note-h1 {
-  position: relative;
-
-  margin: 4px 0 20px;
-  padding-bottom: 8px;
-
-  color: #152b55;
-
-  font-size: clamp(26px, 4vw, 38px);
-  line-height: 1.15;
-  font-weight: 800;
-  letter-spacing: -0.025em;
-}
-
-#generated-notes .kivraa-note-h1::after {
-  content: "";
-
-  display: block;
-
-  width: min(270px, 72%);
-  height: 3px;
-
-  margin-top: 7px;
-
-  background: #263f77;
-
-  border-radius: 50%;
-
-  transform: rotate(-1deg);
-}
-
-#generated-notes .kivraa-note-h2 {
-  margin: 25px 0 11px;
-
-  color: #253e78;
-
-  font-size: clamp(20px, 3vw, 27px);
-  line-height: 1.2;
-  font-weight: 800;
-}
-
-#generated-notes .kivraa-note-h2::after {
-  content: "";
-
-  display: block;
-
-  width: 105px;
-  height: 2px;
-
-  margin-top: 5px;
-
-  background: #5b67a8;
-
-  transform: rotate(-1deg);
-}
-
-#generated-notes .kivraa-note-h3 {
-  margin: 19px 0 7px;
-
-  color: #24304e;
-
-  font-size: 18px;
-  line-height: 1.3;
-  font-weight: 800;
-}
-
-#generated-notes .kivraa-note-h4 {
-  margin: 15px 0 6px;
-
-  color: #35446b;
-
-  font-size: 16px;
-  font-weight: 800;
-}
 
 /* ---------------------------------------------------------
    KEYWORDS
    --------------------------------------------------------- */
 
-#generated-notes .kivraa-note-strong {
-  color: #172b5b;
-  font-weight: 800;
-
-  text-decoration-line: underline;
-  text-decoration-color: rgba(224, 77, 77, 0.62);
-  text-decoration-thickness: 2px;
-  text-underline-offset: 3px;
-}
-
-#generated-notes .kivraa-inline-keyword {
-  padding: 0 3px;
-
-  background: transparent;
-
-  color: #713d82;
-
-  font-family: inherit;
-  font-size: inherit;
-  font-weight: 750;
-}
-
 /* ---------------------------------------------------------
    BLOCKQUOTE / SIDE NOTE
    --------------------------------------------------------- */
-
-#generated-notes .kivraa-note-blockquote {
-  position: relative;
-
-  margin: 16px 0;
-  padding: 7px 0 7px 18px;
-
-  border-left: 3px solid #d65c72;
-
-  color: #35415d;
-
-  font-style: italic;
-}
 
 /* ---------------------------------------------------------
    DIVIDER
    --------------------------------------------------------- */
 
-#generated-notes .kivraa-note-divider {
-  width: 72%;
-  height: 1px;
-
-  margin: 20px auto;
-
-  background: rgba(45, 70, 110, 0.25);
-
-  transform: rotate(-0.4deg);
-}
-
 /* =========================================================
    VISUAL BLOCK BASE
    ========================================================= */
-
-#generated-notes .kivraa-visual {
-  position: relative;
-
-  margin: 20px 0 23px;
-
-  background: transparent;
-
-  border: 0;
-  border-radius: 0;
-
-  box-shadow: none;
-
-  break-inside: avoid;
-}
-
-#generated-notes .kivraa-visual-heading {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-
-  margin-bottom: 8px;
-}
-
-#generated-notes .kivraa-visual-label {
-  color: #b84454;
-
-  font-size: 11px;
-  font-weight: 850;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-#generated-notes .kivraa-visual-title {
-  color: #243b6c;
-
-  font-size: 17px;
-  font-weight: 800;
-}
-
-#generated-notes .kivraa-visual-content {
-  position: relative;
-}
 
 /* =========================================================
    INK COLORS
    ========================================================= */
 
-#generated-notes .kivraa-ink-blue {
-  --kivraa-ink: #244d88;
-}
-
-#generated-notes .kivraa-ink-purple {
-  --kivraa-ink: #70458f;
-}
-
-#generated-notes .kivraa-ink-red {
-  --kivraa-ink: #b74754;
-}
-
-#generated-notes .kivraa-ink-orange {
-  --kivraa-ink: #b96832;
-}
-
 /* =========================================================
    FLOWCHART
    ========================================================= */
-
-#generated-notes .kivraa-student-flow {
-  width: min(100%, 610px);
-  margin: 4px auto 8px;
-}
-
-#generated-notes .kivraa-flow-step-group {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-#generated-notes .kivraa-flow-step {
-  position: relative;
-
-  width: min(100%, 500px);
-
-  padding: 11px 18px 11px 46px;
-
-  background: rgba(255, 255, 255, 0.48);
-
-  border: 1.5px solid currentColor;
-  border-radius: 8px 13px 9px 11px;
-
-  color: #244d88;
-
-  box-shadow:
-    2px 2px 0 rgba(36, 77, 136, 0.07);
-
-  transform: rotate(-0.25deg);
-}
-
-#generated-notes .kivraa-flow-step:nth-child(even) {
-  transform: rotate(0.3deg);
-}
-
-#generated-notes .kivraa-flow-step-mark {
-  position: absolute;
-  left: 13px;
-  top: 50%;
-
-  display: grid;
-  place-items: center;
-
-  width: 22px;
-  height: 22px;
-
-  border: 1.5px solid currentColor;
-  border-radius: 50%;
-
-  font-size: 11px;
-  font-weight: 800;
-
-  transform: translateY(-50%) rotate(-7deg);
-}
-
-#generated-notes .kivraa-flow-step-text {
-  display: block;
-
-  color: #202c43;
-
-  font-size: 15px;
-  line-height: 1.55;
-  font-weight: 650;
-}
-
-#generated-notes .kivraa-flow-connector {
-  height: 27px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  color: #405e91;
-}
-
-#generated-notes .kivraa-down-arrow {
-  font-size: 21px;
-  line-height: 1;
-}
 
 /* =========================================================
    DIAGRAM
    ========================================================= */
 
-#generated-notes .kivraa-student-diagram {
-  width: min(100%, 650px);
-  margin: 4px auto;
-}
-
-#generated-notes .kivraa-diagram-paper {
-  position: relative;
-
-  min-height: 260px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#generated-notes .kivraa-diagram-center {
-  position: relative;
-  z-index: 2;
-
-  display: grid;
-  place-items: center;
-
-  width: 145px;
-  min-height: 82px;
-
-  padding: 13px 16px;
-
-  background: rgba(255, 250, 218, 0.82);
-
-  border: 2px solid currentColor;
-  border-radius: 48% 52% 45% 55%;
-
-  color: #244d88;
-
-  transform: rotate(-2deg);
-}
-
-#generated-notes .kivraa-diagram-center-text {
-  color: #1f2e4a;
-
-  font-size: 15px;
-  line-height: 1.3;
-  font-weight: 800;
-  text-align: center;
-}
-
-#generated-notes .kivraa-diagram-label {
-  position: absolute;
-
-  display: flex;
-  align-items: center;
-  gap: 7px;
-
-  max-width: 190px;
-
-  color: #244d88;
-}
-
-#generated-notes .kivraa-diagram-label-text {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-
-  color: #25334d;
-
-  font-size: 13px;
-  line-height: 1.35;
-}
-
-#generated-notes .kivraa-diagram-label-text strong {
-  font-weight: 800;
-}
-
-#generated-notes .kivraa-diagram-label-text small {
-  font-size: 11px;
-  line-height: 1.3;
-  color: #5a6477;
-}
-
-#generated-notes .kivraa-diagram-line {
-  width: 38px;
-  height: 1.5px;
-
-  flex: 0 0 auto;
-
-  background: currentColor;
-}
-
-#generated-notes .kivraa-diagram-label-0 {
-  top: 13%;
-  left: 2%;
-}
-
-#generated-notes .kivraa-diagram-label-1 {
-  top: 13%;
-  right: 2%;
-}
-
-#generated-notes .kivraa-diagram-label-2 {
-  bottom: 13%;
-  left: 2%;
-}
-
-#generated-notes .kivraa-diagram-label-3 {
-  bottom: 13%;
-  right: 2%;
-}
-
 /* =========================================================
    CYCLE
    ========================================================= */
-
-#generated-notes .kivraa-student-cycle {
-  width: min(100%, 620px);
-  margin: 0 auto;
-}
-
-#generated-notes .kivraa-cycle-desktop {
-  position: relative;
-
-  width: 300px;
-  height: 300px;
-
-  margin: 8px auto;
-}
-
-#generated-notes .kivraa-cycle-ring {
-  position: absolute;
-  inset: 31px;
-
-  border: 2px dashed rgba(48, 72, 117, 0.35);
-  border-radius: 50%;
-
-  transform: rotate(-2deg);
-}
-
-#generated-notes .kivraa-cycle-center {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-
-  display: grid;
-  place-items: center;
-
-  width: 82px;
-  height: 58px;
-
-  background: rgba(255, 249, 216, 0.85);
-
-  border: 2px solid #405e91;
-  border-radius: 50%;
-
-  color: #243b6c;
-
-  transform: translate(-50%, -50%) rotate(-2deg);
-
-  font-size: 14px;
-  font-weight: 800;
-  text-transform: lowercase;
-}
-
-#generated-notes .kivraa-cycle-node {
-  position: absolute;
-
-  width: 90px;
-  min-height: 46px;
-
-  display: grid;
-  place-items: center;
-
-  padding: 7px 8px;
-
-  background: rgba(255, 255, 255, 0.68);
-
-  border: 1.5px solid currentColor;
-  border-radius: 47% 53% 50% 46%;
-
-  color: #244d88;
-
-  font-size: 12px;
-  line-height: 1.25;
-  font-weight: 750;
-  text-align: center;
-
-  transform: translate(-50%, -50%) rotate(-1deg);
-}
-
-#generated-notes .kivraa-cycle-arrow-ring {
-  position: absolute;
-  inset: 0;
-
-  width: 100%;
-  height: 100%;
-
-  pointer-events: none;
-}
-
-#generated-notes .kivraa-cycle-arrow-ring path {
-  fill: none;
-  stroke: rgba(55, 79, 121, 0.55);
-  stroke-width: 2;
-  stroke-linecap: round;
-}
-
-#generated-notes .kivraa-cycle-arrow-ring
-  .kivraa-cycle-arrow-head {
-  fill: none;
-}
-
-#generated-notes .kivraa-cycle-mobile {
-  display: none;
-}
 
 /* =========================================================
    FORMULA
    ========================================================= */
 
-#generated-notes .kivraa-student-formula {
-  width: min(100%, 620px);
-  margin: 10px auto;
-}
-
-#generated-notes .kivraa-formula-paper {
-  position: relative;
-
-  padding: 17px 22px 20px;
-
-  background: rgba(255, 249, 219, 0.5);
-
-  border: 2px solid #394f80;
-  border-radius: 6px 17px 8px 13px;
-
-  transform: rotate(-0.35deg);
-}
-
-#generated-notes .kivraa-formula-heading {
-  color: #b74754;
-
-  font-size: 11px;
-  font-weight: 850;
-  letter-spacing: 0.12em;
-}
-
-#generated-notes .kivraa-formula-main {
-  margin: 10px 0 7px;
-
-  color: #172b52;
-}
-
-#generated-notes .kivraa-formula-math {
-  overflow-x: auto;
-  padding: 4px 0;
-}
-
-#generated-notes .kivraa-formula-math .katex-display {
-  margin: 0.25em 0;
-}
-
-#generated-notes .kivraa-formula-math .katex {
-  color: #172b52;
-  font-size: 1.2em;
-}
-
-#generated-notes .kivraa-formula-plain {
-  font-size: 19px;
-  line-height: 1.45;
-  font-weight: 800;
-}
-
-#generated-notes .kivraa-formula-meaning {
-  margin-top: 8px;
-}
-
-#generated-notes .kivraa-formula-meaning-line {
-  display: flex;
-  gap: 8px;
-
-  margin: 3px 0;
-
-  color: #39455c;
-
-  font-size: 13px;
-  line-height: 1.55;
-}
-
-#generated-notes .kivraa-formula-arrow {
-  color: #b74754;
-  font-weight: 800;
-}
-
-#generated-notes .kivraa-formula-doodle {
-  position: absolute;
-  right: 13px;
-  bottom: 8px;
-
-  width: 45px;
-  height: 12px;
-
-  border-bottom: 2px solid rgba(112, 69, 143, 0.55);
-  border-radius: 50%;
-
-  transform: rotate(-5deg);
-}
-
 /* =========================================================
    IMPORTANT / REMEMBER / EXAMPLE
    ========================================================= */
-
-#generated-notes .kivraa-study-annotation {
-  position: relative;
-
-  display: flex;
-  align-items: flex-start;
-  gap: 11px;
-
-  width: min(100%, 700px);
-
-  margin: 13px auto;
-
-  padding: 8px 10px 10px 4px;
-
-  background: transparent;
-
-  border: 0;
-
-  color: #26334b;
-}
-
-#generated-notes .kivraa-study-annotation-symbol {
-  flex: 0 0 auto;
-
-  display: grid;
-  place-items: center;
-
-  width: 27px;
-  height: 27px;
-
-  border: 2px solid currentColor;
-  border-radius: 50%;
-
-  font-size: 13px;
-  font-weight: 850;
-
-  transform: rotate(-7deg);
-}
-
-#generated-notes .kivraa-study-annotation-body {
-  flex: 1;
-}
-
-#generated-notes .kivraa-study-annotation-title {
-  margin-bottom: 3px;
-
-  font-size: 15px;
-  font-weight: 850;
-}
-
-#generated-notes .kivraa-study-annotation-line {
-  display: flex;
-  gap: 7px;
-
-  margin: 2px 0;
-
-  font-size: 13px;
-  line-height: 1.55;
-}
-
-#generated-notes .kivraa-study-annotation-mark {
-  color: currentColor;
-  font-weight: 800;
-}
-
-#generated-notes .kivraa-study-annotation-important {
-  color: #b74754;
-}
-
-#generated-notes .kivraa-study-annotation-remember {
-  color: #70458f;
-}
-
-#generated-notes .kivraa-study-annotation-example {
-  color: #b96832;
-}
-
-#generated-notes .kivraa-study-annotation-stroke {
-  position: absolute;
-
-  left: 42px;
-  right: 12px;
-  bottom: 1px;
-
-  height: 2px;
-
-  background: currentColor;
-
-  opacity: 0.18;
-
-  transform: rotate(-0.5deg);
-}
 
 /* =========================================================
    COMPARISON
    ========================================================= */
 
-#generated-notes .kivraa-comparison-wrap {
-  margin: 18px 0 22px;
-}
-
-#generated-notes .kivraa-comparison-label {
-  margin-bottom: 7px;
-
-  color: #b74754;
-
-  font-size: 11px;
-  font-weight: 850;
-  letter-spacing: 0.1em;
-}
-
-#generated-notes .kivraa-comparison-scroll {
-  width: 100%;
-  overflow-x: auto;
-}
-
-#generated-notes .kivraa-comparison-table {
-  width: 100%;
-
-  border-collapse: collapse;
-
-  color: #25344e;
-
-  font-size: 13px;
-}
-
-#generated-notes .kivraa-comparison-table th,
-#generated-notes .kivraa-comparison-table td {
-  padding: 8px 10px;
-
-  border-bottom: 1.5px solid rgba(46, 72, 112, 0.28);
-
-  text-align: left;
-  vertical-align: top;
-}
-
-#generated-notes .kivraa-comparison-table th {
-  color: #243e75;
-  font-weight: 850;
-}
-
 /* =========================================================
    TABLES
    ========================================================= */
-
-#generated-notes .kivraa-table-wrap {
-  width: 100%;
-  overflow-x: auto;
-  margin: 18px 0;
-}
-
-#generated-notes .kivraa-note-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 13px;
-}
-
-#generated-notes .kivraa-note-table-cell {
-  padding: 7px 9px;
-  border-bottom: 1px solid rgba(42, 65, 103, 0.22);
-  text-align: left;
-  vertical-align: top;
-}
-
-#generated-notes .kivraa-note-table-header {
-  color: #243e75;
-  font-weight: 800;
-}
 
 /* =========================================================
    IMAGES
    ========================================================= */
 
-#generated-notes .kivraa-note-image {
-  margin: 18px auto;
-
-  text-align: center;
-}
-
-#generated-notes .kivraa-note-image img {
-  max-width: 100%;
-  height: auto;
-}
-
-#generated-notes .kivraa-note-image figcaption {
-  margin-top: 5px;
-
-  color: #697386;
-
-  font-size: 11px;
-  font-style: italic;
-}
-
 /* =========================================================
    CODE SAFETY
    ========================================================= */
 
-#generated-notes .kivraa-code-block {
-  overflow-x: auto;
-
-  margin: 14px 0;
-  padding: 12px;
-
-  background: rgba(245, 240, 225, 0.65);
-
-  border-left: 3px solid #53698e;
-
-  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-  font-size: 12px;
-}
-
 /* =========================================================
    ONE PAGE
    ========================================================= */
-
-#generated-notes .kivraa-one-page-content {
-  min-height: 650px;
-
-  padding-top: 34px;
-  padding-bottom: 34px;
-}
-
-#generated-notes .kivraa-one-page-content
-  .kivraa-note-paragraph {
-  font-size: 14px;
-  line-height: 1.55;
-  margin-bottom: 7px;
-}
-
-#generated-notes .kivraa-one-page-content
-  .kivraa-note-h1 {
-  font-size: 28px;
-  margin-bottom: 13px;
-}
-
-#generated-notes .kivraa-one-page-content
-  .kivraa-note-h2 {
-  font-size: 19px;
-  margin-top: 15px;
-}
-
-#generated-notes .kivraa-one-page-content
-  .kivraa-visual {
-  margin-top: 11px;
-  margin-bottom: 12px;
-}
 
 /* =========================================================
    MOBILE — SAME NOTEBOOK, SMALLER SCALE
    ========================================================= */
 
 @media (max-width: 700px) {
-  #generated-notes .kivraa-notebook-content {
-    max-width: none;
-
-    padding: 28px 18px 38px 52px;
-
-    background-image:
-      linear-gradient(
-        to right,
-        transparent 0,
-        transparent 34px,
-        rgba(231, 91, 103, 0.36) 35px,
-        rgba(231, 91, 103, 0.36) 36px,
-        transparent 37px
-      ),
-      repeating-linear-gradient(
-        to bottom,
-        transparent 0,
-        transparent 28px,
-        rgba(82, 137, 190, 0.17) 29px,
-        transparent 30px
-      );
-  }
-
-  #generated-notes .kivraa-note-paragraph {
-    font-size: 14px;
-    line-height: 1.72;
-  }
-
-  #generated-notes .kivraa-note-h1 {
-    font-size: 25px;
-  }
-
-  #generated-notes .kivraa-note-h2 {
-    font-size: 19px;
-  }
-
-  #generated-notes .kivraa-note-h3 {
-    font-size: 16px;
-  }
-
-  #generated-notes .kivraa-flow-step {
-    width: 100%;
-  }
-
-  #generated-notes .kivraa-diagram-paper {
-    min-height: 340px;
-  }
-
-  #generated-notes .kivraa-diagram-label {
-    max-width: 125px;
-  }
-
-  #generated-notes .kivraa-diagram-label-0 {
-    top: 8%;
-    left: 0;
-  }
-
-  #generated-notes .kivraa-diagram-label-1 {
-    top: 8%;
-    right: 0;
-  }
-
-  #generated-notes .kivraa-diagram-label-2 {
-    bottom: 8%;
-    left: 0;
-  }
-
-  #generated-notes .kivraa-diagram-label-3 {
-    bottom: 8%;
-    right: 0;
-  }
-
-  #generated-notes .kivraa-cycle-desktop {
-    display: none;
-  }
-
-  #generated-notes .kivraa-cycle-mobile {
-    display: block;
-  }
-
-  #generated-notes .kivraa-cycle-mobile-step {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  #generated-notes .kivraa-cycle-mobile-node {
-    width: min(100%, 280px);
-
-    padding: 9px 12px;
-
-    border: 1.5px solid currentColor;
-    border-radius: 46% 54% 50% 48%;
-
-    background: rgba(255, 255, 255, 0.58);
-
-    font-size: 13px;
-    line-height: 1.4;
-    text-align: center;
-  }
-
-  #generated-notes .kivraa-cycle-mobile-arrow {
-    margin: 4px 0;
-
-    color: #405e91;
-  }
-
-  #generated-notes .kivraa-cycle-return {
-    margin-top: 7px;
-
-    color: #70458f;
-
-    font-size: 11px;
-    font-style: italic;
-  }
-
-  #generated-notes .kivraa-formula-paper {
-    padding: 14px 15px 17px;
-  }
-
-  #generated-notes .kivraa-formula-math .katex {
-    font-size: 1em;
-  }
-
-  #generated-notes .kivraa-study-annotation-line {
-    font-size: 12.5px;
-  }
 }
 
 /* =========================================================
@@ -3147,26 +536,6 @@ body {
    ========================================================= */
 
 @media (max-width: 390px) {
-  #generated-notes .kivraa-notebook-content {
-    padding-left: 47px;
-    padding-right: 13px;
-  }
-
-  #generated-notes .kivraa-note-paragraph {
-    font-size: 13.5px;
-  }
-
-  #generated-notes .kivraa-diagram-center {
-    width: 125px;
-  }
-
-  #generated-notes .kivraa-diagram-label {
-    max-width: 108px;
-  }
-
-  #generated-notes .kivraa-diagram-label-text {
-    font-size: 11px;
-  }
 }
 
 /* =========================================================
@@ -3174,14 +543,6 @@ body {
    ========================================================= */
 
 @media print {
-  #generated-notes .kivraa-notebook-content {
-    box-shadow: none;
-    max-width: none;
-  }
-
-  #generated-notes .kivraa-visual {
-    break-inside: avoid;
-  }
 }
 
 /* ---------------------------------------------------------
@@ -3206,77 +567,18 @@ body {
    rules above) so the spread sits inside the same sheet.
    --------------------------------------------------------- */
 
-#generated-notes .kivraa-note-study-columns {
-  display: grid;
-
-  grid-template-columns: minmax(0, 1fr);
-  gap: 14px 24px;
-
-  align-items: start;
-}
-
 @media (min-width: 640px) {
-  #generated-notes .kivraa-note-study-columns {
-    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
-  }
 }
 
 /* short natural study chunks stay whole inside their column */
-#generated-notes .kivraa-note-chunk {
-  break-inside: avoid;
-  page-break-inside: avoid;
-
-  -webkit-column-break-inside: avoid;
-}
 
 /* pinned core idea — compact strip, NOT a giant heading card */
-#generated-notes .kivraa-note-core-idea {
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 3px;
-
-  grid-column: 1 / -1;
-
-  margin: 2px 0 4px;
-  padding: 6px 2px 10px;
-
-  border-bottom: 2px solid #f5b700;
-}
-
-#generated-notes .kivraa-note-core-kicker {
-  color: #9c8c57;
-
-  font-size: 9px;
-  font-weight: 800;
-  letter-spacing: 0.18em;
-
-  line-height: 1;
-  text-transform: uppercase;
-}
-
-#generated-notes .kivraa-note-core-title {
-  color: #152b55;
-
-  font-size: 20px;
-  font-weight: 800;
-  letter-spacing: -0.01em;
-
-  line-height: 1.15;
-}
 
 @media (min-width: 640px) {
-  #generated-notes .kivraa-note-core-title {
-    font-size: 22px;
-  }
 }
 
 /* flowcharts / diagrams / cycles / formulas / important /
    remember / example blocks act as full-width pull-outs */
-#generated-notes .kivraa-note-flow .kivraa-note-visual {
-  grid-column: 1 / -1;
-}
 
 /* ---------------------------------------------------------
    STUDY-COPY PENCIL STROKES  (NotePageContent)
@@ -3289,94 +591,18 @@ body {
 
 /* 1) Compact lead — short natural study chunks, not an article
       opening. Ruled-paper tokens only; keep ruled line intact. */
-#generated-notes .kivraa-note-study-columns .kivraa-note-chunk
-  .kivraa-note-paragraph {
-  max-width: 62ch;
-}
 
 /* 2) Keywords get the student's own underlines and highlight
       strokes — pencil yellow ONLY on selective keywords,
       never on whole headings or cards. */
-#generated-notes .kivraa-note-flow .kivraa-note-strong,
-#generated-notes .kivraa-note-flow .kivraa-inline-keyword {
-  background: linear-gradient(
-    to top,
-    rgba(245, 183, 0, 0.32) 0%,
-    rgba(245, 183, 0, 0.32) 34%,
-    transparent 34%
-  );
-
-  font-weight: 800;
-
-  color: #17283f;
-}
 
 /* 3) Flowcharts / diagrams / cycles stop being big SaaS boxes:
       thin ruled-note outlines, arrows, compact uneven shapes. */
-#generated-notes .kivraa-note-flow .kivraa-note-visual
-  .mk-flow,
-#generated-notes .kivraa-note-flow .kivraa-note-visual
-  .kivraa-flow-shape,
-#generated-notes .kivraa-note-flow .kivraa-note-visual
-  .kivraa-cycle-node {
-  box-shadow: none;
-}
-
-#generated-notes .kivraa-note-flow .kivraa-note-visual
-  .kivraa-flow-shape,
-#generated-notes .kivraa-note-flow .kivraa-note-visual
-  .kivraa-cycle-node {
-  border: 1.5px solid rgba(42, 60, 93, 0.55);
-
-  border-radius: 2px 7px 4px 9px;
-
-  background: rgba(255, 255, 255, 0.55 fare);
-
-  font-size: 12.5px;
-}
 
 /* 4) Lists already ruled like notes; keep arrow bullets the
       student would draw. */
-#generated-notes .kivraa-note-flow .kivraa-note-list-item,
-#generated-notes .kivraa-note-flow
-  .mk-note-list-item {
-  position: relative;
-}
-
-#generated-notes .kivraa-note-flow .kivraa-note-list
-  .kivraa-note-list-item::before {
-  content: "▹";
-
-  position: absolute;
-
-  left: -16px;
-
-  color: rgba(190, 53, 72, 0.85);
-}
 
 /* 5) number the numbered lists the way a student would. */
-#generated-notes .kivraa-note-flow
-  .kivraa-note-numbered-list {
-  counter-reset: kivraa-note-counter;
-}
-
-#generated-notes .kivraa-note-flow
-  .kivraa-note-numbered-list .kivraa-note-list-item {
-  counter-increment: kivraa-note-counter;
-}
-
-#generated-notes .kivraa-note-flow
-  .kivraa-note-numbered-list .kivraa-note-list-item::before {
-  content: counter(kivraa-note-counter) ".";
-
-  position: absolute;
-
-  left: -16px;
-
-  font-weight: 800;
-
-  color: rgba(43, 62, 94, 0.75);
-}
 
 /* =========================================================
  * STUDY-COPY CHUNKS  (StudySections)
@@ -3393,205 +619,22 @@ body {
  * ======================================================= */
 
 /* the two asymmetric notebook columns */
-#generated-notes .kivraa-note-column {
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
-  min-width: 0;
-}
-
-#generated-notes .kivraa-note-column:empty {
-  display: none;
-}
-
-#generated-notes .kivraa-note-column-left,
-#generated-notes .kivraa-note-column-right {
-  min-width: 0;
-}
-
-#generated-notes .kivraa-note-chunk-annotation {
-  break-inside: avoid;
-  page-break-inside: avoid;
-}
 
 /* a short concept / key point: 1-3 lines, never a wall of text */
-#generated-notes .kivraa-note-concept {
-  margin: 0;
-  color: #1d2f4b;
-  font-size: 13.5px;
-  line-height: 1.62;
-}
-
-#generated-notes .kivraa-note-concept-lines {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
 
 /* a student underline under a keyword, not a yellow card */
-#generated-notes .kivraa-note-keyword-line {
-  margin: 0;
-  color: #1d2f4b;
-  font-size: 13.5px;
-  line-height: 1.6;
-}
-
-#generated-notes .kivraa-note-keyword {
-  font-weight: 800;
-  color: #142c49;
-  background: linear-gradient(
-    to top,
-    rgba(245, 183, 0, 0.34) 0%,
-    rgba(245, 183, 0, 0.34) 36%,
-    transparent 36%
-  );
-  padding: 0 2px;
-}
-
-#generated-notes .kivraa-note-keyword-rest {
-  margin-left: 6px;
-}
 
 /* a small "step by step" label, the way a student titles a list */
-#generated-notes .kivraa-note-mini-heading {
-  display: block;
-  margin: 0 0 3px;
-  color: #9c8c57;
-  font-size: 8.5px;
-  font-weight: 800;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
 
 /* numbered process: small circled numbers, not a SaaS stepper */
-#generated-notes .kivraa-note-process {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-#generated-notes .kivraa-note-process li {
-  display: flex;
-  align-items: flex-start;
-  gap: 7px;
-  color: #1d2f4b;
-  font-size: 13px;
-  line-height: 1.55;
-}
-
-#generated-notes .kivraa-note-process-step {
-  flex: 0 0 auto;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 16px;
-  height: 16px;
-  margin-top: 1px;
-  border: 1.4px solid rgba(43, 62, 94, 0.55);
-  border-radius: 50%;
-  font-size: 9.5px;
-  font-weight: 800;
-  color: #2b3e5e;
-}
 
 /* definition line: term : meaning, written like a dictionary note */
-#generated-notes .kivraa-note-definition {
-  margin: 0;
-  font-size: 13.5px;
-  line-height: 1.6;
-  color: #1d2f4b;
-}
-
-#generated-notes .kivraa-note-definition-term {
-  font-weight: 800;
-  color: #142c49;
-  text-decoration: underline;
-  text-decoration-color: rgba(245, 183, 0, 0.75);
-  text-decoration-thickness: 2px;
-  text-underline-offset: 3px;
-}
-
-#generated-notes .kivraa-note-definition-arrow {
-  margin: 0 5px;
-  color: #9c8c57;
-}
-
-#generated-notes .kivraa-note-definition-meaning {
-  color: #26364f;
-}
 
 /* a compact "A vs B" ruled comparison, no card, no shadow */
-#generated-notes .kivraa-note-comparison {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-  padding: 4px 0 5px;
-  border-bottom: 1.5px dashed rgba(43, 62, 94, 0.28);
-  font-size: 13px;
-  line-height: 1.5;
-}
-
-#generated-notes .kivraa-note-comparison-side {
-  color: #1d2f4b;
-  font-weight: 600;
-}
-
-#generated-notes .kivraa-note-comparison-vs {
-  color: #b23a48;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
 
 /* relationship / cause-effect: a hand-drawn arrow between two ideas */
-#generated-notes .kivraa-note-relationship {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  flex-wrap: wrap;
-  margin: 0;
-  color: #1d2f4b;
-  font-size: 13.5px;
-  line-height: 1.5;
-}
-
-#generated-notes .kivraa-note-relationship-arrow {
-  color: #b23a48;
-  font-weight: 800;
-  letter-spacing: -0.04em;
-}
-
-#generated-notes .kivraa-note-relationship-cause
-  .kivraa-note-relationship-arrow {
-  color: #7c4dbe;
-}
 
 /* a formula sits naturally on the page, never in a UI card */
-#generated-notes .kivraa-note-formula-line {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  margin: 0;
-  padding: 3px 0 4px;
-  border-left: 2.5px solid rgba(43, 62, 94, 0.4);
-  padding-left: 9px;
-}
-
-#generated-notes .kivraa-note-formula {
-  color: #142c49;
-  font-size: 13.5px;
-  font-weight: 700;
-  line-height: 1.55;
-  overflow-wrap: anywhere;
-}
 
 /* =========================================================
  * SMALL MARGIN ANNOTATIONS
@@ -3601,78 +644,6 @@ body {
  * pencil notes in the margin: a tiny symbol, a tiny label, short
  * lines. NOT giant yellow cards, NOT rounded panels.
  * ======================================================= */
-
-#generated-notes .kivraa-note-annotation {
-  display: flex;
-  align-items: flex-start;
-  gap: 7px;
-  padding: 4px 0 5px;
-  border-left: 2px solid rgba(43, 62, 94, 0.35);
-  padding-left: 8px;
-}
-
-#generated-notes .kivraa-note-annotation-mark {
-  flex: 0 0 auto;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 15px;
-  height: 15px;
-  margin-top: 1px;
-  border: 1.4px solid currentColor;
-  border-radius: 50%;
-  font-size: 9px;
-  font-weight: 900;
-  line-height: 1;
-}
-
-#generated-notes .kivraa-note-annotation-body {
-  min-width: 0;
-}
-
-#generated-notes .kivraa-note-annotation-label {
-  display: block;
-  margin-bottom: 1px;
-  font-size: 8.5px;
-  font-weight: 800;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-
-#generated-notes .kivraa-note-annotation-lines {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-}
-
-#generated-notes .kivraa-note-annotation-lines li {
-  color: #26364f;
-  font-size: 12.5px;
-  line-height: 1.52;
-}
-
-#generated-notes .kivraa-note-annotation-important {
-  color: #b23a48;
-  border-left-color: rgba(178, 58, 72, 0.55);
-}
-
-#generated-notes .kivraa-note-annotation-remember {
-  color: #7c4dbe;
-  border-left-color: rgba(124, 77, 190, 0.5);
-}
-
-#generated-notes .kivraa-note-annotation-example {
-  color: #2f6f4f;
-  border-left-color: rgba(47, 111, 79, 0.5);
-}
-
-#generated-notes .kivraa-note-annotation-exam {
-  color: #b5721a;
-  border-left-color: rgba(181, 114, 26, 0.55);
-}
 
 /* =========================================================
  * FULL-WIDTH VISUAL PULL-OUTS
@@ -3684,37 +655,851 @@ body {
  * simple outlined shapes + arrows, never big SaaS boxes.
  * ======================================================= */
 
-#generated-notes .kivraa-note-visual {
-  grid-column: 1 / -1;
-  margin: 2px 0 4px;
-  break-inside: avoid;
-  page-break-inside: avoid;
-}
-
-#generated-notes .kivraa-note-visual .kivraa-visual {
-  border: none;
-  background: transparent;
-  box-shadow: none;
-}
-
-#generated-notes .kivraa-note-visual .kivraa-visual-heading {
-  background: transparent;
-  border: none;
-  padding: 0 0 2px;
-  margin: 0;
-}
-
 /* compact student flows: thin outlines, uneven shapes, no SaaS fill */
-#generated-notes .kivraa-note-visual .kivraa-flow-step,
-#generated-notes .kivraa-note-visual .kivraa-cycle-node,
-#generated-notes .kivraa-note-visual .kivraa-diagram-center {
-  box-shadow: none;
-  border-width: 1.5px;
-}
 
 /* empty-state line: quiet, not a big empty canvas */
-#generated-notes .kivraa-note-empty {
-  color: #6b6a5f;
+
+/* ===================================================================
+   KIVRAA NOTEBOOK - the single source of truth for note presentation.
+
+   Everything the study copy needs lives in this one block:
+   ruled-paper page, hand-marked titles, numbered section headings,
+   keyword marks, margin annotations, student sketches and formulas.
+
+   The visual language is created with LAYOUT and MARKS only - uneven
+   rules, soft rotations, asymmetric radii, brackets, circles - while
+   the type stays Geist/system so the copy is always readable.
+   =================================================================== */
+
+.kv-sheet {
+  --kv-paper: #f8f4e6;
+  --kv-ink: #1e2a38;
+  --kv-ink-soft: #4a5568;
+  --kv-ink-faint: #7b7565;
+  --kv-blue: #2c5fa8;
+  --kv-purple: #6b3fa0;
+  --kv-red: #c0392b;
+  --kv-orange: #c2701a;
+  --kv-green: #2e7d5b;
+  --kv-highlight: rgba(255, 212, 84, 0.5);
+  --kv-rule: rgba(58, 82, 112, 0.34);
+  --kv-tilt: 0deg;
+
+  color: var(--kv-ink);
+  font-family: var(--font-geist-sans), "Geist", "Geist Fallback", system-ui,
+    -apple-system, "Segoe UI", sans-serif;
+}
+
+.kv-sheet *,
+.kv-sheet *::before,
+.kv-sheet *::after {
+  box-sizing: border-box;
+}
+
+.kv-sheet-page {
+  min-height: 900px;
+  overflow-x: hidden;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  hyphens: auto;
+}
+
+/*
+ * The red gutter only makes sense once the sheet reserves space for it
+ * (sm:pl-[62px]). On a narrow sheet the text starts at the paper edge, so the
+ * rule would run straight through the first word.
+ */
+.kv-margin-rule {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .kv-margin-rule {
+    display: block;
+  }
+}
+
+.kv-sheet-foot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  padding-top: 8px;
+  border-top: 1px dashed rgba(58, 82, 112, 0.22);
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  color: var(--kv-ink-faint);
+}
+
+.kv-sheet-foot-mark {
+  color: var(--kv-orange);
+  font-size: 9px;
+}
+
+.kv-sheet-foot-text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.kv-sheet-foot-page {
+  font-weight: 700;
+  color: var(--kv-ink-soft);
+}
+
+/* ------------------------------------------------------------------ page */
+
+.kv-page {
+  position: relative;
+}
+
+.kv-page-head {
+  margin-bottom: 14px;
+}
+
+.kv-page-title {
+  position: relative;
+  display: inline-block;
+  margin: 0;
+  padding: 0 4px 2px 0;
+  font-size: 23px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--kv-ink);
+  transform: rotate(-0.5deg);
+}
+
+/* the marker swipe behind the title - a student highlighter, not a pill */
+.kv-page-title-stroke {
+  position: absolute;
+  left: -2px;
+  right: -6px;
+  bottom: 2px;
+  height: 11px;
+  background: linear-gradient(
+    100deg,
+    rgba(255, 212, 84, 0.62) 0%,
+    rgba(255, 212, 84, 0.5) 72%,
+    rgba(255, 212, 84, 0.12) 100%
+  );
+  border-radius: 3px 8px 2px 6px;
+  transform: rotate(-0.7deg);
+  z-index: -1;
+}
+
+.kv-page-title-text {
+  position: relative;
+}
+
+.kv-page-core {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  margin: 8px 0 0;
+  padding: 3px 0 3px 9px;
+  border-left: 2px solid rgba(44, 95, 168, 0.5);
   font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--kv-ink-soft);
+}
+
+.kv-page-core-label {
+  flex: none;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--kv-blue);
+  transform: rotate(-1.2deg);
+}
+
+.kv-page-core-text {
+  transform: rotate(0.15deg);
+}
+
+/* --------------------------------------------------------------- columns */
+
+.kv-page-columns {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px 18px;
+  align-items: start;
+}
+
+.kv-column {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  min-width: 0;
+}
+
+@media (min-width: 720px) {
+  .kv-page[data-layout="spread"] .kv-page-columns {
+    /* asymmetric, like a real notebook spread - never 50/50 */
+    grid-template-columns: 1.25fr 0.75fr;
+  }
+}
+
+/* -------------------------------------------------------------- sections */
+
+.kv-section {
+  break-inside: avoid;
+}
+
+.kv-section-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin: 2px 0 6px;
+  font-size: 14.5px;
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--kv-ink);
+}
+
+/* the section number in a loose hand-drawn ring */
+.kv-section-number {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 19px;
+  height: 19px;
+  padding: 0 3px;
+  font-size: 10.5px;
+  font-weight: 800;
+  color: var(--kv-blue);
+  border: 1.4px solid rgba(44, 95, 168, 0.6);
+  border-radius: 54% 46% 48% 52% / 46% 52% 48% 54%;
+  transform: rotate(-6deg);
+}
+
+.kv-section-title {
+  position: relative;
+  flex: none;
+  max-width: 72%;
+  text-transform: uppercase;
+  letter-spacing: 0.045em;
+}
+
+.kv-section-rule {
+  flex: 1;
+  height: 2px;
+  align-self: center;
+  background: linear-gradient(
+    90deg,
+    rgba(44, 95, 168, 0.72) 0%,
+    rgba(44, 95, 168, 0.45) 62%,
+    rgba(44, 95, 168, 0) 100%
+  );
+  border-radius: 2px;
+  transform: rotate(-0.25deg);
+}
+
+.kv-section-body {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.kv-chunk {
+  position: relative;
+  max-width: 100%;
+}
+
+/* ----------------------------------------------------------------- facts */
+
+.kv-facts {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.kv-fact {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.62;
+  color: var(--kv-ink);
+}
+
+/* a student indents the occasional line by hand */
+.kv-fact-indent {
+  padding-left: 12px;
+}
+
+.kv-fact-arrow {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding-left: 2px;
+}
+
+.kv-fact-arrow > span:last-child {
+  flex: 1;
+}
+
+.kv-fact-arrow-mark {
+  flex: none;
+  font-weight: 700;
+  color: var(--kv-blue);
+}
+
+.kv-chunk-example .kv-fact {
+  color: var(--kv-ink-soft);
+}
+
+.kv-chunk-example {
+  padding-left: 9px;
+  border-left: 2px solid rgba(46, 125, 91, 0.45);
+}
+
+/* --------------------------------------------------------------- keyword */
+
+.kv-keyword-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.kv-keyword-rest {
+  color: var(--kv-ink-soft);
+}
+
+.kv-term {
+  position: relative;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* introduced term: one yellow marker, used sparingly */
+.kv-term-marked {
+  padding: 0 2px;
+  background: linear-gradient(
+    102deg,
+    var(--kv-highlight) 0%,
+    rgba(255, 212, 84, 0.42) 78%,
+    rgba(255, 212, 84, 0.14) 100%
+  );
+  border-radius: 2px 4px 2px 3px;
+  transform: rotate(-0.5deg);
+}
+
+/* recurring term: a hand underline whose length varies with the word */
+.kv-term-underlined {
+  background-image: linear-gradient(
+    to right,
+    rgba(44, 95, 168, 0.85) 0%,
+    rgba(44, 95, 168, 0.85) 92%,
+    rgba(44, 95, 168, 0) 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 100% 1.6px;
+  background-position: 0 92%;
+  padding-bottom: 1px;
+}
+
+/* a few terms get a loose hand-drawn circle */
+.kv-term-circled {
+  padding: 0 4px;
+  border: 1.4px solid rgba(192, 57, 43, 0.55);
+  border-radius: 52% 48% 46% 54% / 48% 54% 46% 52%;
+  transform: rotate(-1.6deg);
+}
+
+/* ------------------------------------------------------------ definition */
+
+.kv-definition {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.kv-definition-rule {
+  flex: none;
+  width: 16px;
+  height: 1.5px;
+  background: rgba(58, 82, 112, 0.5);
+  transform: translateY(-3px) rotate(-1deg);
+}
+
+.kv-definition-meaning {
+  flex: 1;
+  min-width: 0;
+  color: var(--kv-ink-soft);
+}
+
+/* --------------------------------------------------------------- bullets */
+
+.kv-bullets,
+.kv-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kv-bullets li {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--kv-ink);
+}
+
+.kv-bullet-mark {
+  flex: none;
+  width: 11px;
+  font-weight: 700;
+  text-align: center;
+  color: var(--kv-orange);
+}
+
+.kv-bullets li:nth-child(even) .kv-bullet-mark {
+  color: var(--kv-blue);
+}
+
+.kv-bullets li:nth-child(3n) .kv-bullet-mark {
+  color: var(--kv-purple);
+}
+
+/* --------------------------------------------------------- numbered steps */
+
+.kv-steps li {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* small circled step numbers, not a SaaS stepper */
+.kv-step-num {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  font-size: 9.5px;
+  font-weight: 800;
+  color: var(--kv-purple);
+  border: 1.3px solid rgba(107, 63, 160, 0.6);
+  border-radius: 50%;
+  transform: rotate(-5deg);
+}
+
+.kv-step-text {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ------------------------------------------------------------- relations */
+
+.kv-relation {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.kv-relation-arrow {
+  font-weight: 800;
+  color: var(--kv-red);
+  font-size: 14px;
+}
+
+.kv-chunk-relation {
+  padding-left: 8px;
+  border-left: 2px solid rgba(192, 57, 43, 0.4);
+}
+
+/* ------------------------------------------------------------ comparison */
+
+.kv-comparison {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.kv-comparison-side {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 1px 0 1px 7px;
+  border-left: 2.5px solid rgba(44, 95, 168, 0.65);
+  color: var(--kv-ink);
+}
+
+.kv-comparison-b {
+  border-left-color: rgba(107, 63, 160, 0.65);
+}
+
+.kv-comparison-vs {
+  align-self: center;
+  margin-left: 7px;
+  font-size: 9.5px;
+  font-weight: 800;
   font-style: italic;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--kv-ink-faint);
+}
+
+/* -------------------------------------------------- margin annotations */
+
+.kv-annotation {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 3px 2px 4px 7px;
+  border-left: 2px solid rgba(58, 82, 112, 0.42);
+  font-size: 12.5px;
+  line-height: 1.5;
+  transform: rotate(var(--kv-tilt, 0deg));
+}
+
+.kv-annotation-mark {
+  flex: none;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.kv-annotation-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.kv-annotation-label {
+  display: inline-block;
+  margin-right: 5px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.kv-annotation-line {
+  display: inline;
+  margin: 0;
+  color: var(--kv-ink-soft);
+}
+
+.kv-annotation-line + .kv-annotation-line::before {
+  content: " ";
+}
+
+.kv-annotation-red {
+  border-left-color: rgba(192, 57, 43, 0.6);
+}
+.kv-annotation-red .kv-annotation-mark,
+.kv-annotation-red .kv-annotation-label {
+  color: var(--kv-red);
+}
+
+.kv-annotation-purple {
+  border-left-color: rgba(107, 63, 160, 0.55);
+}
+.kv-annotation-purple .kv-annotation-mark,
+.kv-annotation-purple .kv-annotation-label {
+  color: var(--kv-purple);
+}
+
+.kv-annotation-blue {
+  border-left-color: rgba(44, 95, 168, 0.55);
+}
+.kv-annotation-blue .kv-annotation-mark,
+.kv-annotation-blue .kv-annotation-label {
+  color: var(--kv-blue);
+}
+
+.kv-annotation-green {
+  border-left-color: rgba(46, 125, 91, 0.55);
+}
+.kv-annotation-green .kv-annotation-mark,
+.kv-annotation-green .kv-annotation-label {
+  color: var(--kv-green);
+}
+
+/* --------------------------------------------------------------- sketches */
+
+.kv-sketch {
+  margin: 0;
+  padding: 0;
+}
+
+.kv-sketch-scribble {
+  display: inline-block;
+  margin-bottom: 4px;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--kv-ink-faint);
+  transform: rotate(-1.4deg);
+}
+
+.kv-sketch-flow-chain {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kv-sketch-flow-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* a thin outlined node, rotated a little - a drawn box, not a SaaS chip */
+.kv-sketch-flow-node {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  max-width: 100%;
+  padding: 2px 9px 3px;
+  border: 1.5px solid currentColor;
+  border-radius: 12px 4px 13px 5px / 5px 13px 4px 12px;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--kv-ink);
+  background: rgba(255, 255, 255, 0.28);
+  transform: rotate(-0.35deg);
+}
+
+.kv-sketch-flow-row:nth-child(even) .kv-sketch-flow-node {
+  transform: rotate(0.3deg);
+  margin-left: 9px;
+}
+
+.kv-sketch-flow-num {
+  flex: none;
+  font-size: 9.5px;
+  font-weight: 800;
+  opacity: 0.85;
+}
+
+.kv-sketch-flow-text {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.kv-sketch-arrow-down {
+  display: block;
+  padding: 1px 0 1px 16px;
+  font-size: 13px;
+  line-height: 1;
+  color: var(--kv-ink-faint);
+}
+
+/* the ink colours carry meaning, used sparingly and in rotation */
+.kv-ink-blue { color: var(--kv-blue); }
+.kv-ink-purple { color: var(--kv-purple); }
+.kv-ink-red { color: var(--kv-red); }
+.kv-ink-orange { color: var(--kv-orange); }
+
+.kv-sketch-flow-node.kv-ink-blue,
+.kv-sketch-flow-node.kv-ink-purple,
+.kv-sketch-flow-node.kv-ink-red,
+.kv-sketch-flow-node.kv-ink-orange {
+  color: var(--kv-ink);
+}
+
+.kv-sketch-flow-node.kv-ink-blue { border-color: rgba(44, 95, 168, 0.75); }
+.kv-sketch-flow-node.kv-ink-purple { border-color: rgba(107, 63, 160, 0.72); }
+.kv-sketch-flow-node.kv-ink-red { border-color: rgba(192, 57, 43, 0.72); }
+.kv-sketch-flow-node.kv-ink-orange { border-color: rgba(194, 112, 26, 0.75); }
+
+.kv-sketch-flow-num.kv-ink-blue { color: var(--kv-blue); }
+.kv-sketch-flow-num.kv-ink-purple { color: var(--kv-purple); }
+.kv-sketch-flow-num.kv-ink-red { color: var(--kv-red); }
+.kv-sketch-flow-num.kv-ink-orange { color: var(--kv-orange); }
+
+/* ------------------------------------------------------ structure sketch */
+
+.kv-sketch-frame {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 5px;
+  max-width: 100%;
+  padding: 7px 9px;
+  border: 1.6px solid rgba(30, 42, 56, 0.65);
+  border-radius: 9px 5px 10px 6px / 6px 10px 5px 9px;
+  background: rgba(255, 255, 255, 0.22);
+  transform: rotate(-0.2deg);
+}
+
+.kv-sketch-structure-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-left: 10px;
+  border-left: 1.4px dashed rgba(58, 82, 112, 0.45);
+}
+
+.kv-sketch-structure-row {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+}
+
+/* leader line from the container edge to an inner box */
+.kv-sketch-leader {
+  position: absolute;
+  top: 9px;
+  left: -10px;
+  width: 8px;
+  height: 1.4px;
+  background: rgba(58, 82, 112, 0.55);
+}
+
+.kv-sketch-box {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  max-width: 100%;
+  padding: 2px 8px 3px;
+  border: 1.4px solid rgba(30, 42, 56, 0.5);
+  border-radius: 6px 3px 7px 4px / 4px 7px 3px 6px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.kv-sketch-box.depth-0 {
+  border-width: 1.6px;
+  border-color: rgba(30, 42, 56, 0.7);
+}
+
+.kv-sketch-box-label {
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: var(--kv-ink);
+}
+
+.kv-sketch-box-detail {
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: var(--kv-ink-soft);
+}
+
+.kv-sketch-structure-row.depth-1 .kv-sketch-box-label { color: var(--kv-blue); }
+.kv-sketch-structure-row.depth-2 .kv-sketch-box-label { color: var(--kv-purple); }
+
+/* ---------------------------------------------------------------- cycle */
+
+.kv-sketch-cycle-return {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  padding-left: 4px;
+  font-size: 11.5px;
+  font-style: italic;
+  color: var(--kv-purple);
+}
+
+.kv-sketch-cycle-hook {
+  font-size: 14px;
+  font-style: normal;
+}
+
+/* --------------------------------------------------------------- formula */
+
+.kv-sketch-formula-body {
+  padding: 2px 0 4px;
+}
+
+.kv-sketch-math {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--kv-ink);
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.kv-sketch-formula-colorful .kv-sketch-math {
+  color: var(--kv-blue);
+}
+
+.kv-sketch-formula-notes {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin-top: 5px;
+  padding-left: 4px;
+}
+
+.kv-sketch-formula-note {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--kv-ink-soft);
+}
+
+.kv-sketch-formula-note-arrow {
+  color: var(--kv-orange);
+  font-weight: 700;
+}
+
+/* a hand stroke under the equation, not a card border */
+.kv-sketch-underline {
+  display: block;
+  height: 2px;
+  margin-top: 3px;
+  background: linear-gradient(
+    90deg,
+    rgba(44, 95, 168, 0.6) 0%,
+    rgba(44, 95, 168, 0.35) 70%,
+    rgba(44, 95, 168, 0) 100%
+  );
+  border-radius: 2px;
+  transform: rotate(-0.4deg);
+}
+
+.kv-sketch-formula-simple .kv-sketch-math {
+  color: var(--kv-ink);
+}
+
+.kv-sketch-formula-simple .kv-sketch-formula-notes {
+  opacity: 0.85;
+}
+
+/* --------------------------------------------------- wider sheet tuning */
+
+@media (min-width: 720px) {
+  .kv-sheet-page {
+    min-height: 940px;
+  }
+
+  .kv-fact,
+  .kv-keyword-line,
+  .kv-definition,
+  .kv-relation,
+  .kv-bullets li,
+  .kv-steps li {
+    font-size: 13.5px;
+  }
 }

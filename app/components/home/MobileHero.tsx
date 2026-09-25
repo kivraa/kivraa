@@ -515,6 +515,8 @@ export default function MobileHero() {
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
           style={style ?? "Colorful"}
+          classLevel={classLevel}
+          purpose={purpose}
         />
       )}
 

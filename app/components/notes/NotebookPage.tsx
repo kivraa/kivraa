@@ -4,62 +4,163 @@
  * NOTEBOOK PAGE
  * =============
  *
- * A single ruled-paper notebook sheet holding one composed page of study
- * copy. The sheet itself is owned by the shared shell (StudentNotebook.tsx);
- * this component owns everything that sits ON the page:
+ * One composed sheet of study copy:
  *
- *   - the pinned "core idea" strip (compact, never a giant heading card),
- *   - the asymmetric two-column study spread (one column on mobile),
- *   - the short study chunks and the full-width visual pull-outs.
+ *   - a compact hand-marked page title (highlighter stroke + bracket, never a
+ *     giant heading card),
+ *   - numbered section headings with a hand rule underneath,
+ *   - an asymmetric two-column spread (wider left, narrower right) or a
+ *     single honest column when the material is short,
+ *   - full-width sketches placed where the student would use the whole page.
  *
- * Short study chunks and visual study elements are both rendered through
- * StudySections, so desktop and mobile share the exact same renderer.
+ * The paper itself (ruling, red margin, page edge) belongs to the shell.
  */
 
-import type { ReactNode } from "react";
+import type { ComposedPage, ComposedSection } from "./studyComposer";
+import type { StudyElement, StudyDocument } from "./studyElements";
+import { StudyElementView } from "./StudyElementView";
 import type { NoteStyle } from "./types";
 
-export type NotebookPageProps = {
-  document: {
-    topic: string;
-    coreIdea: string | null;
-  };
-  spread: {
-    left: ReactNode;
-    right: ReactNode;
-    full?: ReactNode;
-  };
+type Placed = { element: StudyElement; index: number; termIndex: number };
+
+/*
+ * The first term a student would underline on THIS page gets the highlighter.
+ * The counter therefore runs across the whole page, not per section, so a page
+ * never ends up with four competing yellow strokes.
+ */
+function placeElements(sections: ComposedSection[], startTerm: number) {
+  let term = startTerm;
+  const placed: Array<{ section: ComposedSection; items: Placed[] }> = [];
+
+  for (const section of sections) {
+    const items: Placed[] = section.elements.map((element, index) => {
+      const isTerm = element.kind === "keyword" || element.kind === "definition";
+      const termIndex = isTerm ? term++ : -1;
+      return { element, index, termIndex };
+    });
+    placed.push({ section, items });
+  }
+
+  return { placed, nextTerm: term };
+}
+
+function SectionBlock({
+  section,
+  items,
+  style,
+}: {
+  section: ComposedSection;
+  items: Placed[];
   style: NoteStyle;
-};
+}) {
+  if (!items.length) return null;
+
+  return (
+    <section className="kv-section">
+      <h3 className="kv-section-heading">
+        <span className="kv-section-number" aria-hidden="true">
+          {section.number}
+        </span>
+        <span className="kv-section-title">{section.heading}</span>
+        <span className="kv-section-rule" aria-hidden="true" />
+      </h3>
+
+      <div className="kv-section-body">
+        {items.map(({ element, index, termIndex }) => (
+          <StudyElementView
+            key={`${element.kind}-${index}`}
+            element={element}
+            style={style}
+            index={index}
+            termIndex={termIndex}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function PageTitle({
+  topic,
+  coreIdea,
+}: {
+  topic: string;
+  coreIdea: string | null;
+}) {
+  return (
+    <header className="kv-page-head">
+      <h2 className="kv-page-title">
+        <span className="kv-page-title-stroke" aria-hidden="true" />
+        <span className="kv-page-title-text">{topic}</span>
+      </h2>
+
+      {coreIdea ? (
+        <p className="kv-page-core">
+          <span className="kv-page-core-label">core idea</span>
+          <span className="kv-page-core-text">{coreIdea}</span>
+        </p>
+      ) : null}
+    </header>
+  );
+}
 
 export default function NotebookPage({
+  page,
   document,
-  spread,
-}: NotebookPageProps) {
+  style,
+}: {
+  page: ComposedPage;
+  document: StudyDocument;
+  style: NoteStyle;
+}) {
+  const hasRight = page.layout === "spread" && page.right.length > 0;
+  const left = placeElements(page.left, 0);
+  const right = hasRight ? placeElements(page.right, left.nextTerm) : null;
+
   return (
-    <div className="kivraa-note-page">
-      <div className="kivraa-note-flow">
-        {document.coreIdea ? (
-          <div className="kivraa-note-core-idea">
-            <span className="kivraa-note-core-kicker">core idea</span>
-            <span className="kivraa-note-core-title">
-              {document.coreIdea}
-            </span>
+    <div className="kv-page" data-layout={page.layout}>
+      {page.showTitle ? (
+        <PageTitle topic={document.topic} coreIdea={document.coreIdea} />
+      ) : null}
+
+      <div className="kv-page-columns">
+        <div className="kv-column kv-column-left">
+          {left.placed.map(({ section, items }) => (
+            <SectionBlock
+              key={`${section.number}-${section.heading}-l`}
+              section={section}
+              items={items}
+              style={style}
+            />
+          ))}
+        </div>
+
+        {right ? (
+          <div className="kv-column kv-column-right">
+            {right.placed.map(({ section, items }) => (
+              <SectionBlock
+                key={`${section.number}-${section.heading}-r`}
+                section={section}
+                items={items}
+                style={style}
+              />
+            ))}
           </div>
         ) : null}
-
-        <div className="kivraa-note-study-columns">
-          <div className="kivraa-note-column kivraa-note-column-left">
-            {spread.left}
-          </div>
-
-          <div className="kivraa-note-column kivraa-note-column-right">
-            {spread.right}
-          </div>
-
-          {spread.full}
-        </div>
       </div>
+
+      {page.full.length ? (
+        <div className="kv-page-sketches">
+          {page.full.map((element, index) => (
+            <StudyElementView
+              key={`${element.kind}-full-${index}`}
+              element={element}
+              style={style}
+              index={index}
+            />
+          ))}
+        </div>
+      ) : null}
     </div>
   );
 }
