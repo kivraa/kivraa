@@ -3277,3 +3277,103 @@ body {
 #generated-notes .kivraa-note-flow .kivraa-note-visual {
   grid-column: 1 / -1;
 }
+
+/* ---------------------------------------------------------
+   STUDY-COPY PENCIL STROKES  (NotePageContent)
+   ---------------------------------------------------------
+   The final layer that makes the spread read like a student
+   who made this study copy themselves, NOT an AI article laid
+   on paper. Geist only — no cursive, no handwriting fonts,
+   no giant rounded cards, no giant yellow headings.
+   --------------------------------------------------------- */
+
+/* 1) Compact lead — short natural study chunks, not an article
+      opening. Ruled-paper tokens only; keep ruled line intact. */
+#generated-notes .kivraa-note-study-columns .kivraa-note-chunk
+  .kivraa-note-paragraph {
+  max-width: 62ch;
+}
+
+/* 2) Keywords get the student's own underlines and highlight
+      strokes — pencil yellow ONLY on selective keywords,
+      never on whole headings or cards. */
+#generated-notes .kivraa-note-flow .kivraa-note-strong,
+#generated-notes .kivraa-note-flow .kivraa-inline-keyword {
+  background: linear-gradient(
+    to top,
+    rgba(245, 183, 0, 0.32) 0%,
+    rgba(245, 183, 0, 0.32) 34%,
+    transparent 34%
+  );
+
+  font-weight: 800;
+
+  color: #17283f;
+}
+
+/* 3) Flowcharts / diagrams / cycles stop being big SaaS boxes:
+      thin ruled-note outlines, arrows, compact uneven shapes. */
+#generated-notes .kivraa-note-flow .kivraa-note-visual
+  .mk-flow,
+#generated-notes .kivraa-note-flow .kivraa-note-visual
+  .kivraa-flow-shape,
+#generated-notes .kivraa-note-flow .kivraa-note-visual
+  .kivraa-cycle-node {
+  box-shadow: none;
+}
+
+#generated-notes .kivraa-note-flow .kivraa-note-visual
+  .kivraa-flow-shape,
+#generated-notes .kivraa-note-flow .kivraa-note-visual
+  .kivraa-cycle-node {
+  border: 1.5px solid rgba(42, 60, 93, 0.55);
+
+  border-radius: 2px 7px 4px 9px;
+
+  background: rgba(255, 255, 255, 0.55 fare);
+
+  font-size: 12.5px;
+}
+
+/* 4) Lists already ruled like notes; keep arrow bullets the
+      student would draw. */
+#generated-notes .kivraa-note-flow .kivraa-note-list-item,
+#generated-notes .kivraa-note-flow
+  .mk-note-list-item {
+  position: relative;
+}
+
+#generated-notes .kivraa-note-flow .kivraa-note-list
+  .kivraa-note-list-item::before {
+  content: "▹";
+
+  position: absolute;
+
+  left: -16px;
+
+  color: rgba(190, 53, 72, 0.85);
+}
+
+/* 5) number the numbered lists the way a student would. */
+#generated-notes .kivraa-note-flow
+  .kivraa-note-numbered-list {
+  counter-reset: kivraa-note-counter;
+}
+
+#generated-notes .kivraa-note-flow
+  .kivraa-note-numbered-list .kivraa-note-list-item {
+  counter-increment: kivraa-note-counter;
+}
+
+#generated-notes .kivraa-note-flow
+  .kivraa-note-numbered-list .kivraa-note-list-item::before {
+  content: counter(kivraa-note-counter) ".";
+
+  position: absolute;
+
+  left: -16px;
+
+  font-weight: 800;
+
+  color: rgba(43, 62, 94, 0.75);
+}
