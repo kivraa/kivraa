@@ -7,16 +7,13 @@ import {
   type Language,
   type Purpose,
   quickTopics,
-  STYLE_OPTIONS,
   LANGUAGE_OPTIONS,
   PURPOSE_OPTIONS,
   cleanGeneratedNotes,
   splitNotesIntoPages,
 } from "../notes/kivraa";
-import MobileGeneratedNotes from "./MobileGeneratedNotes";
+import StudentNotebook from "../notes/StudentNotebook";
 import { KivraaLogoAnimated } from "../KivraaLogo";
-
-const hand = "var(--font-kivraa-hand)";
 
 const loadingMessages = [
   "Finding the core idea",
@@ -194,9 +191,11 @@ export default function MobileHero() {
           .getElementById("generated-notes")
           ?.scrollIntoView({ behavior: "smooth", block: "start" });
       }, 150);
-    } catch (err: any) {
+    } catch (err) {
       setError(
-        err?.message || "Something went wrong. Please try again."
+        err instanceof Error
+          ? err.message
+          : "Something went wrong. Please try again."
       );
     } finally {
       setLoading(false);
@@ -508,9 +507,9 @@ export default function MobileHero() {
         </div>
       )}
 
-      {/* mobile notes */}
+      {/* mobile notes - the SAME shared notebook renderer as desktop */}
       {!loading && pages.length > 0 && (
-        <MobileGeneratedNotes
+        <StudentNotebook
           topic={topic}
           pages={pages}
           currentPage={currentPage}

@@ -1,17 +1,11 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useRef, useState } from "react";
-import ReactMarkdown from "react-markdown";
-import remarkMath from "remark-math";
-import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
-import { CLASS_LEVELS, asStringArray, type ClassLevel, type VisualKind } from "../notes/types";
-import VisualBlock from "../notes/VisualBlock";
+import { CLASS_LEVELS, type ClassLevel } from "../notes/types";
 import MobileHero from "./MobileHero";
-import ComparisonTable from "../notes/visual/ComparisonTable";
-import { prepareNotePage } from "../notes/prepareNotePage";
-import { prepareOnePage } from "../notes/kivraa";
-import { KivraaLogoStatic, KivraaLogoAnimated } from "../KivraaLogo";
+import StudentNotebook from "../notes/StudentNotebook";
+import { KivraaLogoAnimated } from "../KivraaLogo";
 
 type Style = "Colorful" | "Simple" | "One Page";
 type Language = "English" | "Hinglish" | "Hindi";
@@ -37,55 +31,10 @@ function cleanGeneratedNotes(text: string) {
       "$1"
     )
     .replace(
-      /([A-Za-z0-9²³⁴⁵⁶⁷⁸⁹]+)\s+\1\b/gi,
+      /([A-Za-z0-9Â²Â³â´âµâ¶â·â¸â¹]+)\s+\1\b/gi,
       "$1"
     )
     .trim();
-}
-
-function readableVisualText(value: string) {
-  return String(value || "")
-    .replace(/\$\$/g, "")
-    .replace(/\$/g, "")
-    .replace(/\\text\s*\{([^{}]*)\}/g, "$1")
-    .replace(/\\mathrm\s*\{([^{}]*)\}/g, "$1")
-    .replace(/\\frac\s*\{([^{}]*)\}\s*\{([^{}]*)\}/g, "$1 / $2")
-    .replace(/\\times/g, "×")
-    .replace(/\\rightarrow/g, "→")
-    .replace(/\\to/g, "→")
-    .replace(/\\leq/g, "≤")
-    .replace(/\\geq/g, "≥")
-    .replace(/\\Delta/g, "Δ")
-    .replace(/\\cdot/g, "·")
-    .replace(/\\%/g, "%")
-    .replace(/\{([^{}]*)\}/g, "$1")
-    .replace(/_\{([^{}]*)\}/g, "₍$1₎")
-    .replace(/\s{2,}/g, " ")
-    .trim();
-}
-
-function visualItems(kind: string, rawItems: string[]) {
-  const result: string[] = [];
-
-  for (const raw of rawItems) {
-    const line = readableVisualText(raw);
-    if (!line) continue;
-
-    if (kind === "flowchart") {
-      const parts = line
-        .split(/\s*(?:-->|->|=>|→|➜|➝)\s*/g)
-        .map((part) => part.trim())
-        .filter((part) => part && !/^[↓↑←→➜➝]+$/.test(part));
-
-      result.push(...parts);
-    } else {
-      result.push(line);
-    }
-  }
-
-  return result
-    .filter((item, index) => item && result.indexOf(item) === index)
-    .slice(0, 10);
 }
 
 /*
@@ -93,7 +42,7 @@ function visualItems(kind: string, rawItems: string[]) {
 
   Rules:
   - One Page = 1 page
-  - Other styles = topic-sized (small 2–3, medium 3–4, large up to 5–6)
+  - Other styles = topic-sized (small 2â€“3, medium 3â€“4, large up to 5â€“6)
   - Never create empty pages
   - Prefer heading/section boundaries
   - Avoid tiny pages
@@ -368,23 +317,23 @@ function KnowledgeCore() {
         </div>
       </div>
 
-      {/* floating cards — desktop only */}
+      {/* floating cards â€” desktop only */}
       <FloatingCard
         className="left-[0%] top-[20%] -rotate-3"
-        icon="✦"
+        icon="âœ¦"
         title="Hidden idea"
         subtitle="Find the connection"
       />
       <FloatingCard
         className="right-[0%] top-[17%] rotate-2"
-        icon="🧠"
+        icon="ðŸ§ "
         title="Understand"
         subtitle="Not just memorize"
         delay="1s"
       />
       <FloatingCard
         className="bottom-[12%] left-[7%] rotate-2"
-        icon="⚡"
+        icon="âš¡"
         title="Learn faster"
         subtitle="Less effort. More clarity."
         yellow
@@ -392,7 +341,7 @@ function KnowledgeCore() {
       />
       <FloatingCard
         className="bottom-[9%] right-[2%] -rotate-2"
-        icon="◎"
+        icon="â—Ž"
         title="See the pattern"
         subtitle="Make the idea click"
         delay="3s"
@@ -497,395 +446,6 @@ function NotesLoading() {
 /* ------------------------------------------------ */
 /* NOTES                                             */
 /* ------------------------------------------------ */
-
-function GeneratedNotes({
-  topic,
-  pages,
-  currentPage,
-  setCurrentPage,
-  style,
-}: {
-  topic: string;
-  pages: string[];
-  currentPage: number;
-  setCurrentPage: React.Dispatch<
-    React.SetStateAction<number>
-  >;
-  style: Style;
-}) {
-  return (
-    <section
-      id="generated-notes"
-      className="relative border-t border-white/[0.05] bg-[#09090B] px-4 py-12 sm:px-6 lg:px-8"
-    >
-      <div className="mx-auto w-full max-w-[980px]">
-
-        {/* top label */}
-        <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-
-          <div>
-            <div className="text-[10px] font-black uppercase tracking-[0.3em] text-[#F5B700]">
-              Your Kivraa notes
-            </div>
-
-            <h2 className="mt-2 text-2xl font-black tracking-[-0.04em] text-white sm:text-3xl">
-              {topic}
-            </h2>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <span className="rounded-full border border-white/[0.07] px-3 py-1.5 text-[9px] font-black uppercase tracking-[0.18em] text-slate-600">
-              {style}
-            </span>
-
-            {pages.length > 1 && (
-              <span className="rounded-full border border-white/[0.07] px-3 py-1.5 text-[9px] font-black uppercase tracking-[0.18em] text-slate-600">
-                {currentPage + 1} / {pages.length}
-              </span>
-            )}
-          </div>
-        </div>
-
-        {/* notebook */}
-        <div className="relative">
-
-          {/* shadow */}
-          <div className="pointer-events-none absolute inset-x-4 bottom-[-12px] h-10 rounded-full bg-black/70 blur-2xl" />
-
-          <div className="relative overflow-hidden rounded-[24px] border border-[#D8CFAE] bg-[#F8F1DE] shadow-[0_25px_80px_rgba(0,0,0,.45)] max-lg:rounded-[18px]">
-
-            {/* paper top */}
-            <div className="absolute left-0 right-0 top-0 h-2 bg-[#F5B700]" />
-
-            {/* notebook red margin */}
-            <div className="pointer-events-none absolute bottom-0 left-[28px] top-0 w-px bg-red-300/45 sm:left-[44px]" />
-
-            {/* paper lines */}
-            <div
-              className="pointer-events-none absolute inset-0 opacity-[0.38]"
-              style={{
-                backgroundImage:
-                  "repeating-linear-gradient(to bottom, transparent 0px, transparent 37px, rgba(70,90,110,.10) 38px)",
-              }}
-            />
-
-            {/* page */}
-            <div className="kivraa-page-body relative px-12 py-10 sm:px-16 sm:py-12">
-
-              {/* page corner */}
-              <div className="absolute right-5 top-5 flex gap-1.5">
-                <span className="h-2 w-2 rounded-full bg-[#F5B700]/70" />
-                <span className="h-2 w-2 rounded-full bg-blue-300/70" />
-                <span className="h-2 w-2 rounded-full bg-pink-300/70" />
-              </div>
-
-              <div className="mb-8 flex items-start gap-4">
-
-                <KivraaLogoStatic
-                  className="shrink-0 -rotate-2"
-                  size={44}
-                />
-
-                <div>
-                  <div className="text-[9px] font-black uppercase tracking-[0.25em] text-[#9C8C57]">
-                    study note
-                  </div>
-
-                  <div className="kivraa-note-title mt-1 font-[cursive] text-[28px] font-bold leading-none text-[#142C49]">
-                    {topic}
-                  </div>
-
-                  <div className="mt-1 text-[9px] font-bold uppercase tracking-[0.2em] text-[#9B927D]">
-                    learn it · connect it · remember it
-                  </div>
-                </div>
-
-              </div>
-
-              <ReactMarkdown
-                remarkPlugins={[remarkMath]}
-                rehypePlugins={[rehypeKatex]}
-                components={{
-
-                  h1: ({ children }) => (
-                    <div className="mb-7 mt-2 inline-block rotate-[-1deg] rounded-[9px] bg-[#F5D85B] px-4 py-2 shadow-[2px_3px_0_rgba(0,0,0,.08)]">
-                      <h1 className="font-[cursive] text-[25px] font-bold leading-none text-[#172D48] max-lg:font-sans max-lg:font-extrabold max-lg:leading-tight max-lg:text-[23px]">
-                        {children}
-                      </h1>
-                    </div>
-                  ),
-
-                  h2: ({ children }) => (
-                    <div className="mb-4 mt-8 max-lg:mb-3 max-lg:mt-6">
-
-                      <div className="flex items-center gap-3 max-lg:gap-2.5">
-
-                        <span className="flex h-9 w-9 shrink-0 rotate-[-2deg] items-center justify-center rounded-[10px] bg-[#F5D85B]/80 text-[#172D48] shadow-[2px_3px_0_rgba(0,0,0,.07)] max-lg:h-8 max-lg:w-8">
-                          ✦
-                        </span>
-
-                        <h2 className="font-[cursive] text-[25px] font-bold leading-none text-[#142C49] max-lg:font-sans max-lg:font-bold max-lg:leading-tight max-lg:text-[21px]">
-                          {children}
-                        </h2>
-
-                      </div>
-
-                      <div className="ml-12 mt-2 h-[3px] w-20 rounded-full bg-[#F5B700] max-lg:ml-10" />
-
-                    </div>
-                  ),
-
-                  h3: ({ children }) => (
-                    <h3 className="mb-2 mt-5 font-[cursive] text-[19px] font-bold text-[#17314F] max-lg:font-sans max-lg:font-bold max-lg:leading-snug max-lg:text-[18px]">
-                      {children}
-                    </h3>
-                  ),
-
-                  p: ({ children }) => (
-                    <p className="mb-4 font-[cursive] text-[17px] font-medium leading-[1.8] text-[#26384B] max-lg:font-sans max-lg:text-[15.5px] max-lg:leading-[1.7]">
-                      {children}
-                    </p>
-                  ),
-
-                  ul: ({ children }) => (
-                    <ul className="mb-5 ml-6 list-disc space-y-2 font-[cursive] text-[16px] leading-7 text-[#26384B] marker:text-[#E7A900] max-lg:font-sans max-lg:text-[15px] max-lg:leading-[1.75]">
-                      {children}
-                    </ul>
-                  ),
-
-                  ol: ({ children }) => (
-                    <ol className="mb-5 ml-6 list-decimal space-y-2 font-[cursive] text-[16px] leading-7 text-[#26384B] marker:font-bold marker:text-[#E7A900] max-lg:font-sans max-lg:text-[15px] max-lg:leading-[1.75]">
-                      {children}
-                    </ol>
-                  ),
-
-                  li: ({ children }) => (
-                    <li className="pl-1">
-                      {children}
-                    </li>
-                  ),
-
-                  strong: ({ children }) => (
-                    <strong className="rounded-[3px] bg-[#FFE875] px-1 font-[cursive] font-bold text-[#132C4B] max-lg:font-sans max-lg:text-[15.5px]">
-                      {children}
-                    </strong>
-                  ),
-
-                  blockquote: ({ children }) => (
-                    <blockquote className="relative my-6 rounded-[15px] border border-[#E8C84C] bg-[#FFF0A8]/75 px-5 py-4 shadow-[2px_3px_0_rgba(0,0,0,.06)]">
-                      <div className="mb-1 font-[cursive] text-[13px] font-bold text-[#A27600] max-lg:font-sans max-lg:text-[12px]">
-                        💡 Think of it like this
-                      </div>
-
-                      <div className="font-[cursive] text-[16px] font-medium leading-7 text-[#26384B] max-lg:font-sans max-lg:text-[15px] max-lg:leading-[1.7]">
-                        {children}
-                      </div>
-                    </blockquote>
-                  ),
-
-                  code: ({ className, children }) => {
-                    const lang = /language-([a-z0-9-]+)/i.exec(className || "")?.[1]?.toLowerCase();
-                    const text = String(children ?? "").replace(/\n$/, "").trim();
-                    const visualKinds = [
-                      "flowchart",
-                      "diagram",
-                      "cycle",
-                      "formula",
-                      "important",
-                      "remember",
-                      "example",
-                    ];
-
-                    if (lang === "comparison") {
-                      const rows = text
-                        .split("\n")
-                        .map((row) => row.trim())
-                        .filter(Boolean);
-
-                      if (!rows.length) return null;
-
-                      return <ComparisonTable rows={rows} />;
-                    }
-
-                    if (lang && visualKinds.includes(lang)) {
-                      const lines = asStringArray(text.split("\n"));
-                      let title: string | undefined;
-                      const rawItems: string[] = [];
-
-                      for (const line of lines) {
-                        const titleMatch = line.match(/^title\s*:\s*(.+)$/i);
-                        if (titleMatch && !title) {
-                          title = readableVisualText(titleMatch[1].trim());
-                        } else {
-                          rawItems.push(line);
-                        }
-                      }
-
-                      const items = visualItems(lang, rawItems);
-
-                      if (!items.length && !title) return null;
-
-                      return (
-                        <VisualBlock
-                          kind={lang as VisualKind}
-                          title={title}
-                          items={items}
-                          style={style}
-                        />
-                      );
-                    }
-
-                    // Handles AI accidentally wrapping LaTeX-containing text in code formatting.
-                    if (text.includes("$") && /\$[^$]+\$/.test(text)) {
-                      return (
-                        <span className="font-[cursive] text-[16px] font-medium text-[#26384B]">
-                          <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>
-                            {text}
-                          </ReactMarkdown>
-                        </span>
-                      );
-                    }
-
-                    return (
-                      <code
-                        className={[
-                          "rounded-md bg-[#E9E1C8] px-1.5 py-0.5 text-[14px] text-[#17314F] max-lg:text-[13px]",
-                          className ? "font-mono max-lg:font-mono" : "font-[cursive] max-lg:font-sans",
-                        ].join(" ")}
-                      >
-                        {children}
-                      </code>
-                    );
-                  },
-
-                  hr: () => (
-                    <div className="my-8 flex items-center gap-3">
-                      <div className="h-px flex-1 bg-[#D7CEB3]" />
-                      <span className="text-[#D1A900]">
-                        ✦
-                      </span>
-                      <div className="h-px flex-1 bg-[#D7CEB3]" />
-                    </div>
-                  ),
-
-                  table: ({ children }) => (
-                    <div className="my-6 overflow-x-auto rounded-[14px] border border-[#DDD2AE] bg-white/45">
-                      <table className="w-full min-w-[500px] border-collapse font-[cursive] text-[15px] max-lg:min-w-[300px] max-lg:font-sans max-lg:text-[13.5px]">
-                        {children}
-                      </table>
-                    </div>
-                  ),
-
-                  th: ({ children }) => (
-                    <th className="border-b border-[#DDD2AE] bg-[#F5D85B]/50 px-4 py-3 text-left font-bold text-[#172D48]">
-                      {children}
-                    </th>
-                  ),
-
-                  td: ({ children }) => (
-                    <td className="border-b border-[#E6DEC7] px-4 py-3 text-[#26384B]">
-                      {children}
-                    </td>
-                  ),
-
-                  img: ({ src, alt }) => (
-                    <div className="my-6 overflow-hidden rounded-[16px] border border-[#D8CFAE] bg-white/40 p-3">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={src || ""}
-                        alt={alt || "Diagram"}
-                        className="mx-auto max-h-[360px] max-w-full object-contain"
-                      />
-                    </div>
-                  ),
-                }}
-              >
-                {style === "One Page"
-                  ? prepareOnePage(prepareNotePage(pages[currentPage]))
-                  : prepareNotePage(pages[currentPage])}
-              </ReactMarkdown>
-
-              {/* handwritten page footer */}
-              <div className="mt-9 flex items-center justify-between border-t border-[#D7CEB3] pt-4 max-lg:mt-6">
-
-                <span className="font-[cursive] text-[12px] italic text-[#9D947D] max-lg:font-sans">
-                  Kivraa · make the idea click
-                </span>
-
-                <span className="font-[cursive] text-[12px] font-bold text-[#9D947D] max-lg:font-sans">
-                  {currentPage + 1}
-                </span>
-
-              </div>
-
-            </div>
-          </div>
-        </div>
-
-        {/* pagination */}
-        {pages.length > 1 && (
-          <div className="mt-6 flex items-center justify-between">
-
-            <button
-              type="button"
-              onClick={() =>
-                setCurrentPage((p) =>
-                  Math.max(0, p - 1)
-                )
-              }
-              disabled={currentPage === 0}
-              className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-2.5 text-[12px] font-bold text-slate-400 transition hover:bg-white/[0.05] disabled:cursor-not-allowed disabled:opacity-25"
-            >
-              ← Previous
-            </button>
-
-            <div className="flex items-center gap-1.5">
-              {pages.map((_, index) => (
-                <button
-              type="button"
-                  key={index}
-                  onClick={() =>
-                    setCurrentPage(index)
-                  }
-                  aria-label={`Page ${
-                    index + 1
-                  }`}
-                  className={[
-                    "h-2 rounded-full transition-all",
-                    currentPage === index
-                      ? "w-8 bg-[#F5B700]"
-                      : "w-2 bg-white/[0.14] hover:bg-white/[0.3]",
-                  ].join(" ")}
-                />
-              ))}
-            </div>
-
-            <button
-              type="button"
-              onClick={() =>
-                setCurrentPage((p) =>
-                  Math.min(
-                    pages.length - 1,
-                    p + 1
-                  )
-                )
-              }
-              disabled={
-                currentPage ===
-                pages.length - 1
-              }
-              className="rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-2.5 text-[12px] font-bold text-slate-400 transition hover:bg-white/[0.05] disabled:cursor-not-allowed disabled:opacity-25"
-            >
-              Next →
-            </button>
-
-          </div>
-        )}
-      </div>
-
-    </section>
-  );
-}
 
 /* ------------------------------------------------ */
 /* HERO                                             */
@@ -1042,10 +602,11 @@ export default function Hero() {
           });
       }, 150);
 
-    } catch (err: any) {
+    } catch (err) {
       setError(
-        err?.message ||
-          "Something went wrong. Please try again."
+        err instanceof Error
+          ? err.message
+          : "Something went wrong. Please try again."
       );
     } finally {
       setLoading(false);
@@ -1055,7 +616,7 @@ export default function Hero() {
   return (
     <section className="relative z-0 overflow-hidden bg-[#09090B] text-white">
 
-      {/* DESKTOP UI (unchanged) — lg and above */}
+      {/* DESKTOP UI (unchanged) â€” lg and above */}
       <div className="hidden lg:block">
 
       {/* background */}
@@ -1112,7 +673,7 @@ export default function Hero() {
 
             <p className="mt-7 max-w-[570px] text-[16px] leading-7 text-slate-500 sm:text-[17px]">
               Turn difficult topics into visual,
-              memorable notes — so you understand
+              memorable notes â€” so you understand
               the idea instead of just memorizing
               the words.
             </p>
@@ -1128,7 +689,7 @@ export default function Hero() {
                   key={item}
                   className="rounded-full border border-white/[0.07] bg-white/[0.025] px-3.5 py-2 text-[10px] font-bold text-slate-500"
                 >
-                  ✓ {item}
+                  âœ“ {item}
                 </div>
               ))}
 
@@ -1155,7 +716,7 @@ export default function Hero() {
               <div className="flex h-[66px] min-h-[66px] flex-1 items-center rounded-[16px] bg-[#09090D] px-5">
 
                 <span className="mr-4 text-lg text-[#F5B700]">
-                  ✦
+                  âœ¦
                 </span>
 
                 <input
@@ -1189,7 +750,7 @@ export default function Hero() {
               >
                 {loading
                   ? "Creating..."
-                  : "Create Notes →"}
+                  : "Create Notes â†’"}
               </button>
 
             </div>
@@ -1321,8 +882,8 @@ export default function Hero() {
               <div className="grid grid-cols-3 gap-2">
 
                 {[
-                  ["✦", "Simple", "Focused"],
-                  ["▤", "One Page", "Quick"],
+                  ["âœ¦", "Simple", "Focused"],
+                  ["â–¤", "One Page", "Quick"],
                 ].map(
                   ([
                     icon,
@@ -1366,16 +927,16 @@ export default function Hero() {
 
                 <button
                   type="button"
-                  aria-label="Colorful — Premium feature (locked)"
+                  aria-label="Colorful â€” Premium feature (locked)"
                   onClick={notifyPremium}
                   className="mk-premium-chip flex min-h-[82px] cursor-not-allowed touch-manipulation flex-col items-start justify-between rounded-xl border border-dashed border-[#F5B700]/20 bg-[#F5B700]/[0.03] p-3 text-left text-slate-500"
                 >
-                  <span className="text-base opacity-70">🌈</span>
+                  <span className="text-base opacity-70">ðŸŒˆ</span>
                   <span className="text-[10px] font-black text-slate-400">
                     Colorful
                   </span>
                   <span className="mk-premium-badge rounded-full bg-[#F5B700]/15 px-2 py-0.5 text-[7px] font-black uppercase tracking-[0.12em] text-[#F5B700]">
-                    🔒 Premium
+                    ðŸ”’ Premium
                   </span>
                 </button>
 
@@ -1383,8 +944,8 @@ export default function Hero() {
 
               {premiumNotice && (
                 <div className="mk-premium-note mt-2 flex items-center gap-2 rounded-xl border border-[#F5B700]/25 bg-[#F5B700]/[0.07] px-3 py-2 text-[11px] font-bold text-[#F5B700]">
-                  <span>🔒</span>
-                  <span>Colorful is a Premium feature — coming soon.</span>
+                  <span>ðŸ”’</span>
+                  <span>Colorful is a Premium feature â€” coming soon.</span>
                 </div>
               )}
             </div>
@@ -1440,9 +1001,9 @@ export default function Hero() {
               <div className="grid grid-cols-3 gap-2">
 
                 {[
-                  ["🧠", "Understand"],
-                  ["🎯", "Exam Prep"],
-                  ["⚡", "Revision"],
+                  ["ðŸ§ ", "Understand"],
+                  ["ðŸŽ¯", "Exam Prep"],
+                  ["âš¡", "Revision"],
                 ].map(
                   ([icon, name]) => {
                     const active =
@@ -1482,7 +1043,7 @@ export default function Hero() {
           </div>
 
           <div className="mt-3 text-center text-[8px] font-black uppercase tracking-[0.25em] text-slate-700">
-            Choose what feels right · nothing selected by default
+            Choose what feels right Â· nothing selected by default
           </div>
 
         </div>
@@ -1491,7 +1052,7 @@ export default function Hero() {
 
       </div>
 
-      {/* MOBILE — dedicated MobileHero (below lg). Desktop (>= lg) untouched. */}
+      {/* MOBILE â€” dedicated MobileHero (below lg). Desktop (>= lg) untouched. */}
       <div className="relative isolate block overflow-hidden lg:hidden">
         <MobileHero />
       </div>
@@ -1499,15 +1060,18 @@ export default function Hero() {
       {/* LOADING */}
       {loading && <NotesLoading />}
 
-      {/* NOTES */}
+      {/* NOTES - the single shared notebook renderer (desktop).
+          MobileHero renders the SAME StudentNotebook below lg. */}
       {!loading && pages.length > 0 && (
-        <GeneratedNotes
-          topic={topic}
-          pages={pages}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          style={style ?? "Colorful"}
-        />
+        <div className="hidden lg:block">
+          <StudentNotebook
+            topic={topic}
+            pages={pages}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            style={style ?? "Colorful"}
+          />
+        </div>
       )}
 
       <style jsx global>{`

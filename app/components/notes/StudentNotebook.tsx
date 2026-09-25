@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState, type Dispatch, type SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import NotePageContent from "./NotePageContent";
 import { prepareNotePage } from "./prepareNotePage";
 import { prepareOnePage } from "./kivraa";
@@ -50,12 +50,15 @@ export default function StudentNotebook({
   const pageCount = safePages.length;
   const isOnePage = style === "One Page";
 
-  /* One Page renders every generated page merged into a single fixed sheet. */
-  const [current, setCurrent] = useState(currentPage);
+  /* One Page renders every generated page merged into a single fixed sheet.
+     Otherwise the active page comes straight from the shell's state, so
+     prev / next / dots always agree with the surrounding hero. */
   const index = isOnePage
     ? 0
-    : Math.min(Math.max(0, current), pageCount - 1 , 0);
+    : Math.min(Math.max(0, currentPage), pageCount - 1);
   const page = safePages[index];
+  const goTo = (next: number) =>
+    setCurrentPage(Math.min(Math.max(0, next), pageCount - 1));
 
   const content = isOnePage
     ? prepareOnePage(safePages.join("\n\n"))
@@ -150,7 +153,7 @@ export default function StudentNotebook({
           <div className="mt-6 flex items-center justify-between gap-3">
             <button
               type="button"
-              onClick={() => setCurrent((p) => Math.max(0, p - 1))}
+              onClick={() => goTo(index - 1)}
               disabled={index === 0}
               className="min-h-11 rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-2.5 text-[12px] font-bold text-slate-400 transition hover:bg-white/[0.05] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#F5B700] disabled:cursor-not-allowed disabled:opacity-25"
             >
@@ -162,7 +165,7 @@ export default function StudentNotebook({
                 <button
                   key={pageIndex}
                   type="button"
-                  onClick={() => setCurrent(pageIndex)}
+                  onClick={() => goTo(pageIndex)}
                   aria-label={`Page ${pageIndex + 1}`}
                   aria-current={index === pageIndex ? "page" : undefined}
                   className={[
@@ -177,9 +180,7 @@ export default function StudentNotebook({
 
             <button
               type="button"
-              onClick={() =>
-                setCurrent((p) => Math.min(pageCount - 1, p + 1))
-              }
+              onClick={() => goTo(index + 1)}
               disabled={index === pageCount - 1}
               className="min-h-11 rounded-xl border border-white/[0.08] bg-white/[0.02] px-4 py-2.5 text-[12px] font-bold text-slate-400 transition hover:bg-white/[0.05] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#F5B700] disabled:cursor-not-allowed disabled:opacity-25"
             >
